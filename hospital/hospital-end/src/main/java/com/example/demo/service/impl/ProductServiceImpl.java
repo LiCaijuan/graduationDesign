@@ -32,4 +32,15 @@ public class ProductServiceImpl implements ProductService {
         return proList2;
     }
 
+//    @Override
+//    public int updateProduct(Product product) {
+//        int count = 0;
+//        try{
+//            count = productMapper.updateProduct(product);
+//        } catch (Exception err) {
+//            System.out.println(err);
+//        }
+//        return count;
+//    }
+
 }

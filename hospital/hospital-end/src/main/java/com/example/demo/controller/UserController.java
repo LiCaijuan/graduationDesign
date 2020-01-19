@@ -45,7 +45,7 @@ public class UserController {
             List<User> users = service.queryByUsername(username,password);
             if (users != null && users.size() > 0){
                 User user = users.get(0);
-                if (password == user.getPassword()){
+                if (password.equals(user.getPassword())){
                     return new Response(true,"登录成功",1);
                 }else {
                     return new Response(false,"登录失败，密码错误",-1);

@@ -1,6 +1,16 @@
 package com.example.demo.entity;
 
 public class Product {
+    int productId;
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
     String productName;
     double productPrice;
     int productType;

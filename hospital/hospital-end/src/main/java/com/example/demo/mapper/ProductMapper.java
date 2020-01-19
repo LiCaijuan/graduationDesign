@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.Product;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface ProductMapper {
     List<Product> getProductList();
     List<Product> getProductByKey(String productName);
     List<Product> getProductByCondition(String productName,int productType);
+//    int updateProduct(@Param("pro") Product product);
 }

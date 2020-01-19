@@ -29,4 +29,25 @@
             </if>
         </where>
     </select >
+<!--    <update id="updateProduct"  parameterType="com.dingding.entity.Product">-->
+<!--        update product-->
+<!--        <trim prefix="SET" suffixOverrides=",">-->
+<!--            <if test="null != pro.productName and '' != pro.productName">-->
+<!--                product_name=#{pro.productName},-->
+<!--            </if>-->
+<!--            <if test="null != pro.productType and -1!= pro.productType">-->
+<!--                product_type=#{pro.productType},-->
+<!--            </if>-->
+<!--            <if test="null != pro.productPrice and -1!= pro.productPrice">-->
+<!--                product_price=#{pro.productPrice},-->
+<!--            </if>-->
+<!--            <if test="null != pro.productImg and '' != pro.productImg">-->
+<!--                product_img=#{pro.productImg},-->
+<!--            </if>-->
+<!--            <if test="null != pro.productDes and '' != pro.productDes">-->
+<!--                product_des=#{pro.productDes},-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--        where product_id=#{pro.productId}-->
+<!--    </update>-->
 </mapper>
