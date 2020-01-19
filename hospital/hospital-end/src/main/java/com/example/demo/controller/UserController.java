@@ -22,7 +22,7 @@ public class UserController {
         String phone = person.get("phone");
 
         if(username != null && password != null && phone != null){
-            List<User> users = service.queryByUsername(username);
+            List<User> users = service.queryByUsername(username,password);
             if (users != null && users.size()>0){
                 return new Response(true, "注册失败，用户名重复，请更换",-1);
             }else {
@@ -41,9 +41,9 @@ public class UserController {
     public Response login(@RequestBody Map<String, String> person){
         String username = person.get("username");
         String password = person.get("password");
-        if (username!=null && password!=null){
-            List<User> users = service.queryByUsername(username);
-            if (users!=null&&users.size()>0){
+        if (username != null && password != null){
+            List<User> users = service.queryByUsername(username,password);
+            if (users != null && users.size() > 0){
                 User user = users.get(0);
                 if (password == user.getPassword()){
                     return new Response(true,"登录成功",1);

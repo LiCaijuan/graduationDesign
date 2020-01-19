@@ -19,4 +19,17 @@ public class ProductServiceImpl implements ProductService {
         List<Product> proList = productMapper.getProductList();
         return proList;
     }
+
+    @Override
+    public List<Product> getProductByKey(String productName) {
+        List<Product> proList1 = productMapper.getProductByKey(productName);
+        return proList1;
+    }
+
+    @Override
+    public List<Product> getProductByCondition(String productName, int productType) {
+        List<Product> proList2 = productMapper.getProductByCondition(productName,productType);
+        return proList2;
+    }
+
 }

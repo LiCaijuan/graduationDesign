@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ProductController {
@@ -36,6 +37,29 @@ public class ProductController {
     public Response getProductList(){
         Response response = new Response();
         List<Product> productList = productService.getProductList();
+        response.setResponse(true,"查询成功",1,productList);
+        return response;
+    }
+
+    @RequestMapping(value = "/getProductByKey", method = RequestMethod.POST)
+    public Response getProductByKey(@RequestBody Map<String,String> product){
+        String productName = product.get("productName");
+        String productDes = product.get("productDes");
+        if (productDes != null) {
+            productName = productDes;
+        }
+        Response response = new Response();
+        List<Product> productList = productService.getProductByKey(productName);
+        response.setResponse(true,"查询成功",1,productList);
+        return response;
+    }
+
+    @RequestMapping(value = "/getProductByCondition", method = RequestMethod.POST)
+    public Response getProductByCondition(@RequestBody Product product) {
+        String productName = product.getProductName();
+        int productType = product.getProductType();
+        Response response = new Response();
+        List<Product> productList = productService.getProductByCondition(productName, productType);
         response.setResponse(true,"查询成功",1,productList);
         return response;
     }
