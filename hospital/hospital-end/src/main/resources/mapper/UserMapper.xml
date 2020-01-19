@@ -6,10 +6,6 @@
         <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="phone" jdbcType="VARCHAR" property="phone" />
     </resultMap>
-    <insert id="addUser" parameterType="com.example.demo.entity.User">
-        INSERT INTO `user` VALUES(#{username},#{password},#{phone})
-    </insert>
-    <select id="queryByUsername" resultType="com.example.demo.entity.User">
-        SELECT * FROM `user` WHERE username = #{username}
-    </select >
+    <insert id="addUser" parameterType="com.example.demo.entity.User">INSERT INTO `user` VALUES(#{username},#{password},#{phone})</insert>
+    <select id="queryByUsername" resultType="com.example.demo.entity.User">SELECT * FROM `user` WHERE username = #{username}</select >
 </mapper>

@@ -4,6 +4,22 @@ public class Response {
     Boolean isSuc = true;
     String msg;
     int code;
+    Object result;
+
+    public Object getResult() {
+        return result;
+    }
+
+    public void setResult(Object result) {
+        this.result = result;
+    }
+
+    public void setResponse(Boolean isSuc,String msg,int code,Object result){
+        this.isSuc = isSuc;
+        this.msg = msg;
+        this.code = code;
+        this.result = result;
+    }
 
     public Response() {
     }

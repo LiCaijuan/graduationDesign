@@ -17,8 +17,8 @@ public class UserServiceImpl implements UserService{
         int count = userMapper.addUser(user);
         return count;
     }
-    public List<User> queryByUsername(String username){
-        List<User> userList = userMapper.queryByUsername(username);
+    public List <User> queryByUsername(String username){
+        List <User> userList = userMapper.queryByUsername(username);
         return userList;
     }
 }
