@@ -9,5 +9,5 @@ public interface ProductService {
     List<Product> getProductList();
     List<Product> getProductByKey(String productName);
     List<Product> getProductByCondition(String productName,int productType);
-//    int updateProduct(Product product);
+    int updateProduct(Product product);
 }

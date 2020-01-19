@@ -12,5 +12,5 @@ public interface ProductMapper {
     List<Product> getProductList();
     List<Product> getProductByKey(String productName);
     List<Product> getProductByCondition(String productName,int productType);
-//    int updateProduct(@Param("pro") Product product);
+    int updateProduct(@Param("pro") Product product);
 }

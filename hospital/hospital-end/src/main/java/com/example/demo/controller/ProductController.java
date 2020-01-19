@@ -64,21 +64,21 @@ public class ProductController {
         return response;
     }
 
-//    @RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
-//    public Response updateProduct(@RequestBody Product product) {
-//        int productId = product.getProductId();
-//        int count = productService.updateProduct(product);
-//        if (productId != 0) {
-//            if (count > 0) {
-//                Response response = new Response(true,"更新成功",1);
-//                return response;
-//            } else {
-//                Response response = new Response(false,"更新失败",-1);
-//                return response;
-//            }
-//        }else {
-//            Response response = new Response(false, "请传入商品Id",-1);
-//            return response;
-//        }
-//    }
+    @RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
+    public Response updateProduct(@RequestBody Product product) {
+        int productId = product.getProductId();
+        int count = productService.updateProduct(product);
+        if (productId != 0) {
+            if (count > 0) {
+                Response response = new Response(true,"更新成功",1);
+                return response;
+            } else {
+                Response response = new Response(false,"更新失败",-1);
+                return response;
+            }
+        }else {
+            Response response = new Response(false, "请传入商品Id",-1);
+            return response;
+        }
+    }
 }
