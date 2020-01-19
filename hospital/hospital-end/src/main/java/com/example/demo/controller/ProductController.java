@@ -81,4 +81,23 @@ public class ProductController {
             return response;
         }
     }
+
+    @RequestMapping(value = "/deleteProduct", method = RequestMethod.POST)
+    public Response deleteProduct(@RequestBody Product product) {
+        int productId = product.getProductId();
+        if (productId>0) {
+            int count = productService.deleteProduct(productId);
+            if (count>0){
+                Response response = new Response(true, "删除成功",1);
+                return response;
+            } else {
+                Response response = new Response(false,"删除失败，请检查原因",-1);
+                return response;
+            }
+        } else {
+            Response response = new Response(false,"请传入商品Id",-1);
+            return response;
+        }
+
+    }
 }

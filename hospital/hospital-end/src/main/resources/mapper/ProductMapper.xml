@@ -50,4 +50,7 @@
         </trim>
         where product_id=#{pro.productId}
     </update>
+    <delete id="deleteProduct">
+        DELETE FROM product WHERE product_id = #{productId}
+    </delete>
 </mapper>

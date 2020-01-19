@@ -10,4 +10,5 @@ public interface ProductService {
     List<Product> getProductByKey(String productName);
     List<Product> getProductByCondition(String productName,int productType);
     int updateProduct(Product product);
+    int deleteProduct(int productId);
 }
