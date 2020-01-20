@@ -1,0 +1,7 @@
+1. 普通用户与管理员的注册区别
+      普通用户：user
+      管理员：admin
+      注册：
+	user：username  password  phone    移动端
+	admin: username  password  phone  adminId   PC端
+	adminId 是唯一的，指定为2016

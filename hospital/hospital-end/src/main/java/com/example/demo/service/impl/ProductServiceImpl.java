@@ -11,10 +11,13 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductMapper productMapper;
 
+    @Override
     public int addProduct(Product product){
         int count = productMapper.addProduct(product);
         return count;
     }
+
+    @Override
     public List<Product> getProductList(){
         List<Product> proList = productMapper.getProductList();
         return proList;

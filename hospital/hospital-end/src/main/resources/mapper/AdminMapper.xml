@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.AdminMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Admin">
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="adminid" jdbcType="INTEGER" property="adminid" />
+    </resultMap>
+    <insert id="addAdmin" parameterType="com.example.demo.entity.Admin">INSERT INTO `admin` VALUES(#{username},#{password},#{phone},#{adminid})</insert>
+    <select id="queryByUsername" resultType="com.example.demo.entity.Admin">SELECT * FROM `admin` WHERE username = #{username}</select >
+</mapper>
