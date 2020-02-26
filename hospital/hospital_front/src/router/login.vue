@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { Field, Button, Icon } from 'vant'
+import { Field, Button } from 'vant'
 import '@/assets/css/icon.css'
 export default {
   name: 'Login',

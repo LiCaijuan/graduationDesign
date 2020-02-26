@@ -5,7 +5,7 @@
         <van-search shape="round" background="#3BB5B2" v-model="searchText" placeholder="搜索科室/医生" />
       </div>
       <div class="mainList">
-        <div class="order">
+        <div class="order" @click="test()">
           <img class="orderImg" src="../assets/img/order.png" alt="预约">
           <p>预约</p>
         </div>
@@ -18,19 +18,10 @@
           <p>报告</p>
         </div>
       </div>
+      <div>
+
+      </div>
     </div>
-    <!-- <van-swipe :autoplay="3000">
-      <van-swipe-item v-for="(image, index) in swipeImages" :key="index">
-        <img v-lazy="image" />
-      </van-swipe-item>
-    </van-swipe>
-    <div>
-      <van-grid clickable :column-num="3">
-        <van-grid-item icon="home-o" text="我的预约" to="/" />
-        <van-grid-item icon="search" text="我的咨询" url="/vant/mobile.html" />
-        <van-grid-item icon="search" text="我的报告" url="/vant/mobile.html" />
-      </van-grid>
-    </div> -->
     <div>
       <van-tabbar v-model="tabNum" active-color="#07c160" inactive-color="#000">
         <van-tabbar-item icon="home-o">首页</van-tabbar-item>
@@ -99,6 +90,10 @@ export default {
           that.fullHeight = window.fullHeight
         })()
       }
+    },
+
+    test () {
+      window.location.href = 'https://map.baidu.com/@10942437,4806177.73,12z'
     }
   }
 }
