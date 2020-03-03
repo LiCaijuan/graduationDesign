@@ -1,10 +1,10 @@
 <template>
   <div id="register" :style="'height:'+fullHeight+'px;'">
-    <img class="logo" src="../assets/img/logo.png" />
+    <img class="logo" src="../assets/img/logo1.png" />
     <div class="logtext">
-      <van-field class="user" left-icon="contact" v-model="username" label="用户" />
-      <van-field class="pwd" left-icon="browsing-history-o" v-model="password" label="密码" type="password" />
-      <van-field class="phone" left-icon="phone-circle-o" v-model="phone" label="号码" type="tel" />
+      <van-field class="user" placeholder="用户" left-icon="manager" v-model="username" />
+      <van-field class="pwd" placeholder="密码" left-icon="lock" v-model="password" type="password" />
+      <van-field class="phone" placeholder="号码" left-icon="phone" v-model="phone" type="tel" />
     </div>
     <div class="mainbtn">
       <van-button class="logbtn" type="default" @click="register()">注册</van-button><br>
@@ -15,7 +15,7 @@
 
 <script>
 import { Field, Button, Icon } from 'vant'
-import '@/assets/css/icon.css'
+import '@/assets/css/icon/iconfont.css'
 export default {
   name: 'Register',
   data () {
@@ -42,6 +42,7 @@ export default {
   },
   components: {
     [Field.name]: Field,
+    [Icon.name]: Icon,
     [Button.name]: Button
   },
 
@@ -113,8 +114,9 @@ export default {
     width: 100%;
   }
   .van-cell{
-    font-size: 16px;
+    font-size: 18px;
     line-height: 32px;
     background-color: rgba(0,0,0,0);
+    color: #FFFFFF;
   }
 </style>

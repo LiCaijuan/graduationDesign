@@ -1,9 +1,9 @@
 <template>
   <div id="login" :style="'height:'+fullHeight+'px;'">
-    <img class="logo" src="../assets/img/logo.png" />
+    <img class="logo" src="../assets/img/logo1.png" />
     <div class="logtext">
-      <van-field class="user" left-icon="contact" v-model="username" label="用户" />
-      <van-field class="pwd" left-icon="browsing-history-o" v-model="password" label="密码" type="password" />
+      <van-field class="user" left-icon="manager" color="#FFFFFF" v-model="username" placeholder="用户" />
+      <van-field class="pwd" left-icon="lock" v-model="password" placeholder="密码" type="password" />
     </div>
     <div class="mainbtn">
       <van-button class="logbtn" type="default" @click="login()">登录</van-button><br>
@@ -13,16 +13,18 @@
 </template>
 
 <script>
-import { Field, Button } from 'vant'
-import '@/assets/css/icon.css'
+import { Field, Button, Icon } from 'vant'
+import '@/assets/css/icon/iconfont.css'
 export default {
   name: 'Login',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       username: '',
       password: '',
-      fullHeight: document.documentElement.clientHeight
+      fullHeight: document.documentElement.clientHeight,
+      icon: {
+        username: 'gerenzhongxin-xiugaimima'
+      }
     }
   },
   watch: {
@@ -41,7 +43,8 @@ export default {
 
   components: {
     [Field.name]: Field,
-    [Button.name]: Button
+    [Button.name]: Button,
+    [Icon.name]: Icon
   },
 
   mounted () {
@@ -65,7 +68,7 @@ export default {
     },
 
     login () {
-      this.$router.push('/home')
+      this.$router.push('./')
     }
   }
 
@@ -116,8 +119,9 @@ export default {
     width: 100%;
   }
   .van-cell{
-    font-size: 16px;
+    font-size: 18px;
     line-height: 32px;
+    color: #FFFFFF;
     background-color: rgba(0,0,0,0);
   }
 </style>
