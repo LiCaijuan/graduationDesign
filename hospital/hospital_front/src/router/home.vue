@@ -40,10 +40,30 @@
       </div>
     </div>
     <div class="order_content" v-show="active===1">
-      快速预约
+      <van-nav-bar
+        title="快速预约"
+        left-text="返回"
+        left-arrow
+        @click-left="onClickLeft"
+      />
+      <div class="hospital_content">
+        <van-icon class="iconfont"
+          id="hospital_icon"
+          class-prefix='icon'
+          slot="icon"
+          color="#3bb5b2"
+          :name="icon.home_normal">
+        </van-icon>
+        <span>医院</span>
+        <div class="hospital_img" :style="{backgroundImage:`url(${require('../assets/img/hospital.png')})`}">
+          <p>1</p>
+          <div class="add_1">浙江省中医院下沙院区</div>
+          <div class="add_2">中国·杭州经济技术开发区9号大街9号</div>
+        </div>
+      </div>
     </div>
     <div class="personalcenter_content" v-show="active===2">
-      <van-nav-bar title="个人中心" left-text="返回" left-arrow>
+      <van-nav-bar title="个人中心" left-text="返回" left-arrow @click-left="onClickLeft()">
         <van-icon name="setting-o" slot="right" />
       </van-nav-bar>
       <div class="portrait">
@@ -55,6 +75,12 @@
           </div>
         </div>
         <div class="center_content">
+          <van-cell-group class="cell_content">
+            <van-cell title="预约记录" icon="add-square" size="large" is-link />
+            <van-cell title="报告记录" icon="column" size="large" is-link />
+            <van-cell title="修改密码" icon="checked" size="large" is-link />
+            <van-cell title="退出登录" icon="clear" size="large" is-link />
+          </van-cell-group>
         </div>
       </div>
     </div>
@@ -95,7 +121,7 @@
 </template>
 
 <script>
-import { Field, Button, Icon, Search, Swipe, SwipeItem, Lazyload, Tabbar, TabbarItem, Grid, GridItem, NavBar } from 'vant'
+import { Field, Button, Icon, Search, Swipe, SwipeItem, Lazyload, Tabbar, TabbarItem, Grid, GridItem, NavBar, Cell, CellGroup } from 'vant'
 import '@/assets/css/icon/iconfont.css'
 import BMap from 'BMap'
 export default {
@@ -115,9 +141,10 @@ export default {
         home_active: 'shouye1',
         home_normal: 'shouye2',
         order_active: 'yuyue-current',
-        order_normal: 'yuyue2',
+        order_normal: 'yuyue-current-copy',
         center_normal: 'gerenzhongxin2',
-        center_active: 'gerenzhongxin2-copy'
+        center_active: 'gerenzhongxin2-copy',
+        hospital_content: 'yiyuan'
       }
     }
   },
@@ -146,7 +173,9 @@ export default {
     [TabbarItem.name]: TabbarItem,
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
-    [NavBar.name]: NavBar
+    [NavBar.name]: NavBar,
+    [Cell.name]: Cell,
+    [CellGroup.name]: CellGroup
   },
 
   mounted () {
@@ -215,7 +244,7 @@ export default {
       this.active = 0
     },
     onClickRight () {
-      alert("设置")
+      alert('设置')
     }
   }
 }
@@ -317,37 +346,77 @@ export default {
     font-size: 20px;
   }
   .van-nav-bar{
-    background-color: #3BB5B2;
+    background-color: #128784;
   }
   .por_img{
     width: 100px;
     height: 100px;
     border-radius: 50px;
     float: left;
+    position: absolute;
+    z-index: 1;
   }
   .portrait_content{
     background-color: #128784;
-    margin-top: -12%;
   }
   .portrait{
     background-color: #128784;
-    width: 100%;
-    height: 100%;
-    padding: 30% 0 0 10%;
-  }
-  .name_tip{
-    float: left;
-    margin: 13% 0 0 5%;
+    width: 275px;
+    height: 470px;
+    padding: 100px 50px 0 50px;
   }
   .name{
     font-size: 22px;
+    position: absolute;
+    float: left;
+    margin: 11% 0 0 30% !important;
+    z-index: 1;
   }
   .phone{
     line-height: 25px;
+    position: absolute;
+    float: left;
+    margin: 21% 0 0 30% !important;
+    z-index: 1;
   }
-  .center_content{
-    height: 80%;
-    width: 90%;
+  .cell_content{
     margin: 0 auto;
+    padding: 55% 10% 0 10%;
+    width: 100%;
+    float: left;
+    margin-left: -10%;
+    border-radius: 10px 10px 0 0;
+    margin-top: 40px;
+  }
+  .van-cell--large .van-cell__title{
+    font-size: 24px;
+    line-height: 70px;
+  }
+  .van-cell__left-icon, .van-cell__right-icon{
+    font-size: 24px;
+    line-height: 70px;
+    margin: 0 10px;
+    color: #128784;
+  }
+  #hospital_icon{
+    margin-left: 2%;
+  }
+  .add_1{
+    font-size: 22px;
+    color: #fff;
+    margin-top: 65px;
+    margin-left: 10px;
+  }
+  .add_2{
+    color: #ffffff;
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+  .hospital_img{
+    width: 96%;
+    height: 150px;
+    margin: 1% 2%;
+    border-radius: 10px;
+    background-repeat: no-repeat;
   }
 </style>

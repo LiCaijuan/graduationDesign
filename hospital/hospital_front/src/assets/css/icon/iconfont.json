@@ -6,13 +6,6 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "51028893",
-      "name": "2医疗健康",
-      "font_class": "healthy",
-      "unicode": "e6a3",
-      "unicode_decimal": 59043
-    },
-    {
       "icon_id": "50960246",
       "name": "预约-current",
       "font_class": "yuyue-current",
@@ -41,13 +34,6 @@
       "unicode_decimal": 58883
     },
     {
-      "icon_id": "51028895",
-      "name": "全球医疗",
-      "font_class": "global",
-      "unicode": "e625",
-      "unicode_decimal": 58917
-    },
-    {
       "icon_id": "51028896",
       "name": "号码",
       "font_class": "haoma1",
@@ -60,13 +46,6 @@
       "font_class": "gerenzhongxin-xiugaimima",
       "unicode": "e628",
       "unicode_decimal": 58920
-    },
-    {
-      "icon_id": "51041314",
-      "name": "预约",
-      "font_class": "yuyue2",
-      "unicode": "e623",
-      "unicode_decimal": 58915
     },
     {
       "icon_id": "50821650",
@@ -97,25 +76,18 @@
       "unicode_decimal": 59284
     },
     {
-      "icon_id": "51028899",
-      "name": "SAPP-香港医疗-7D7E80",
-      "font_class": "SAPP-xianggangyiliao-DE",
-      "unicode": "e7bd",
-      "unicode_decimal": 59325
-    },
-    {
-      "icon_id": "51028900",
-      "name": "健康医疗",
-      "font_class": "jiankangyiliao",
-      "unicode": "e61f",
-      "unicode_decimal": 58911
-    },
-    {
       "icon_id": "50960254",
       "name": "个人中心",
       "font_class": "gerenzhongxin2",
       "unicode": "e704",
       "unicode_decimal": 59140
+    },
+    {
+      "icon_id": "51484328",
+      "name": "医院",
+      "font_class": "yiyuan",
+      "unicode": "e627",
+      "unicode_decimal": 58919
     },
     {
       "icon_id": "51028901",
@@ -139,18 +111,18 @@
       "unicode_decimal": 58900
     },
     {
-      "icon_id": "51028904",
-      "name": "用户",
-      "font_class": "iconyonghu",
-      "unicode": "e61e",
-      "unicode_decimal": 58910
-    },
-    {
       "icon_id": "50985896",
       "name": "个人中心",
       "font_class": "gerenzhongxin2-copy",
       "unicode": "ea67",
       "unicode_decimal": 60007
+    },
+    {
+      "icon_id": "51486110",
+      "name": "预约-current",
+      "font_class": "yuyue-current-copy",
+      "unicode": "ea68",
+      "unicode_decimal": 60008
     }
   ]
 }
