@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="swipePart">
-        <van-swipe :autoplay="3000">
+        <van-swipe :autoplay="3000" class="swipe_img">
           <van-swipe-item v-for="(image, index) in swipeImages" :key="index">
             <img v-lazy="image" />
           </van-swipe-item>
@@ -52,14 +52,131 @@
           class-prefix='icon'
           slot="icon"
           color="#3bb5b2"
-          :name="icon.home_normal">
+          :name="icon.hospital_content">
         </van-icon>
-        <span>医院</span>
+        <span class="ks_tip">医院</span>
         <div class="hospital_img" :style="{backgroundImage:`url(${require('../assets/img/hospital.png')})`}">
           <p>1</p>
           <div class="add_1">浙江省中医院下沙院区</div>
           <div class="add_2">中国·杭州经济技术开发区9号大街9号</div>
         </div>
+      </div>
+      <div class="department_content">
+        <van-icon class="iconfont"
+          id="hospital_icon"
+          class-prefix='icon'
+          slot="icon"
+          color="#3bb5b2"
+          :name="icon.department_content">
+        </van-icon>
+        <span class="ks_tip">科室</span>
+        <van-dropdown-menu active-color="#3bb5b2" class="drop">
+          <van-dropdown-item v-model="value1" :options="option1" title-class="drop_title"/>
+        </van-dropdown-menu>
+      </div>
+      <div class="info_content">
+        <van-icon class="iconfont"
+          id="hospital_icon"
+          class-prefix='icon'
+          slot="icon"
+          color="#3bb5b2"
+          :name="icon.department_content">
+        </van-icon>
+        <span class="ks_tip">预约者信息</span>
+        <div class="info_arrow" @click="showPopup()">
+          <span class="write">去填写</span>
+          <van-icon class="arrow" name="arrow" color="#3bb5b2"/>
+        </div>
+        <van-popup v-model="isPopup" class="popup_con">
+          <van-form @submit="onSubmit" class="form_con">
+            <van-field
+              class="info_field"
+              v-model="infoList.name"
+              name="姓名"
+              label="姓名"
+              placeholder="姓名"
+              :rules="[{ required: true, message: '请填写姓名' }]"
+            />
+            <van-field
+              class="info_field"
+              v-model="infoList.age"
+              name="年龄"
+              label="年龄"
+              placeholder="年龄"
+              :rules="[{ required: true, message: '请填写年龄' }]"
+            />
+            <van-field
+              class="info_field"
+              v-model="infoList.sex"
+              name="性别"
+              label="性别"
+              placeholder="性别"
+              :rules="[{ required: true, message: '请填写性别' }]"
+            />
+            <van-field
+              class="info_field"
+              v-model="infoList.Idcard"
+              name="身份证号"
+              label="身份证号"
+              placeholder="身份证号"
+              :rules="[{ required: true, message: '请填写身份证号' }]"
+            />
+            <div style="margin: 16px;">
+              <van-button round block type="primary" native-type="submit">
+                提交
+              </van-button>
+            </div>
+          </van-form>
+        </van-popup>
+      </div>
+      <!-- <van-form @submit="onSubmit" class="form_con">
+        <van-field
+          class="info_field"
+          v-model="infoList.name"
+          name="姓名"
+          label="姓名"
+          placeholder="姓名"
+          :rules="[{ required: true, message: '请填写姓名' }]"
+        />
+        <van-field
+          class="info_field"
+          v-model="infoList.age"
+          name="年龄"
+          label="年龄"
+          placeholder="年龄"
+          :rules="[{ required: true, message: '请填写年龄' }]"
+        />
+        <van-field
+          class="info_field"
+          v-model="infoList.sex"
+          name="性别"
+          label="性别"
+          placeholder="性别"
+          :rules="[{ required: true, message: '请填写性别' }]"
+        />
+        <van-field
+          class="info_field"
+          v-model="infoList.Idcard"
+          name="身份证号"
+          label="身份证号"
+          placeholder="身份证号"
+          :rules="[{ required: true, message: '请填写身份证号' }]"
+        />
+        <div style="margin: 16px;">
+          <van-button round block type="primary" native-type="submit">
+            提交
+          </van-button>
+        </div>
+      </van-form> -->
+      <div class="time_content">
+        <van-icon class="iconfont"
+          id="hospital_icon"
+          class-prefix='icon'
+          slot="icon"
+          color="#3bb5b2"
+          :name="icon.department_content">
+        </van-icon>
+        <span class="ks_tip">时间</span>
       </div>
     </div>
     <div class="personalcenter_content" v-show="active===2">
@@ -68,7 +185,9 @@
       </van-nav-bar>
       <div class="portrait">
         <div class="portrait_content">
-          <img class="por_img" src="../assets/img/timg.jpg" alt="">
+          <van-uploader>
+            <img class="por_img" src="../assets/img/timg.jpg" alt="">
+          </van-uploader>
           <div class="name_tip">
             <div class="name">小白</div>
             <div class="phone">19909478033</div>
@@ -78,11 +197,44 @@
           <van-cell-group class="cell_content">
             <van-cell title="预约记录" icon="add-square" size="large" is-link />
             <van-cell title="报告记录" icon="column" size="large" is-link />
-            <van-cell title="修改密码" icon="checked" size="large" is-link />
-            <van-cell title="退出登录" icon="clear" size="large" is-link />
+            <van-cell title="修改密码" icon="checked" size="large" is-link @click="showChangepw()"/>
+            <van-cell title="退出登录" icon="clear" size="large" is-link @click="showDialog()"/>
           </van-cell-group>
         </div>
       </div>
+      <van-dialog v-model="isDialog" title="退出登录" show-cancel-button class="exit_dialog">
+        <div class="exit_text">确定退出当前账号吗？</div>
+      </van-dialog>
+      <van-overlay :show="isChangePw" @click="isChangePw=false">
+        <div class="wrapper" @click.stop>
+          <div class="block" >
+            <van-icon name="cross" class="cancelpw_icon" @click="cancelOverlay()" />
+            <van-form @submit="pwSubmit" class="pw_form">
+              <van-field
+                class="pw_field"
+                v-model="oldPw"
+                name="原密码"
+                label="原密码"
+                placeholder="原密码"
+                :rules="[{ required: true, message: '请填写原密码' }]"
+              />
+              <van-field
+                class="pw_field"
+                v-model="newPw"
+                name="新密码"
+                label="新密码"
+                placeholder="新密码"
+                :rules="[{ required: true, message: '请填写新密码' }]"
+              />
+              <div style="margin: 12px 0;">
+                <van-button block type="primary" class="pwBtn" native-type="submit">
+                  提交
+                </van-button>
+              </div>
+            </van-form>
+          </div>
+        </div>
+      </van-overlay>
     </div>
     <div class="swipImg">
       <van-tabbar
@@ -121,7 +273,8 @@
 </template>
 
 <script>
-import { Field, Button, Icon, Search, Swipe, SwipeItem, Lazyload, Tabbar, TabbarItem, Grid, GridItem, NavBar, Cell, CellGroup } from 'vant'
+import { Field, Button, Icon, Search, Swipe, SwipeItem, Lazyload, Tabbar,
+  TabbarItem, Grid, GridItem, NavBar, Cell, CellGroup, Uploader, DropdownMenu, DropdownItem, Popup, Form, Dialog, Overlay } from 'vant'
 import '@/assets/css/icon/iconfont.css'
 import BMap from 'BMap'
 export default {
@@ -130,6 +283,11 @@ export default {
     return {
       fullHeight: document.documentElement.clientHeight,
       searchText: '',
+      isPopup: false,
+      isDialog: false,
+      isChangePw: false,
+      oldPw: '',
+      newPw: '',
       swipeImages: [
         require('@/assets/img/banner1.png'),
         require('@/assets/img/banner2.png'),
@@ -137,6 +295,27 @@ export default {
       ],
       tabNum: 0,
       active: 0,
+      value1: 0,
+      option1: [
+        { text: '内科', value: 0 },
+        { text: '外科', value: 1 },
+        { text: '儿科', value: 2 },
+        { text: '妇科', value: 3 },
+        { text: '眼科', value: 4 },
+        { text: '耳鼻喉科', value: 5 },
+        { text: '口腔科', value: 6 },
+        { text: '皮肤科', value: 7 },
+        { text: '中医科', value: 8 },
+        { text: '针灸推拿科', value: 9 },
+        { text: '心理咨询室', value: 10 }
+      ],
+      infoList: {
+        name: '',
+        age: '',
+        sex: '',
+        phone: '',
+        IDcard: ''
+      },
       icon: {
         home_active: 'shouye1',
         home_normal: 'shouye2',
@@ -144,7 +323,8 @@ export default {
         order_normal: 'yuyue-current-copy',
         center_normal: 'gerenzhongxin2',
         center_active: 'gerenzhongxin2-copy',
-        hospital_content: 'yiyuan'
+        hospital_content: 'yiyuan1',
+        department_content: 'keshi'
       }
     }
   },
@@ -175,7 +355,14 @@ export default {
     [GridItem.name]: GridItem,
     [NavBar.name]: NavBar,
     [Cell.name]: Cell,
-    [CellGroup.name]: CellGroup
+    [CellGroup.name]: CellGroup,
+    [Uploader.name]: Uploader,
+    [DropdownMenu.name]: DropdownMenu,
+    [DropdownItem.name]: DropdownItem,
+    [Popup.name]: Popup,
+    [Form.name]: Form,
+    [Dialog.Component.name]: Dialog.Component,
+    [Overlay.name]: Overlay
   },
 
   mounted () {
@@ -245,6 +432,26 @@ export default {
     },
     onClickRight () {
       alert('设置')
+    },
+    showPopup () {
+      this.isPopup = true
+    },
+    onSubmit (values) {
+      console.log('submit', values)
+      this.isPopup = false
+    },
+    pwSubmit (values) {
+      console.log('submit', values)
+      this.isChangePw = false
+    },
+    showDialog () {
+      this.isDialog = true
+    },
+    showChangepw () {
+      this.isChangePw = true
+    },
+    cancelOverlay () {
+      this.isChangePw = false
     }
   }
 }
@@ -259,7 +466,7 @@ export default {
   .searchDiv{
     width: 100%;
     margin: 0 auto;
-    margin-top: 5px;
+    /* margin-top: 5px; */
   }
   /* .mainUp{
     background-color: #3BB5B2;
@@ -320,11 +527,16 @@ export default {
     font-size: 10px;
     color: #b2bec3;
   }
-  .swipImg{
+  .swip_img{
     width: 90%;
   }
+  .van-swipe{
+    border-radius: 10px;
+    border: 1px solid #3bb5b2;
+  }
   .swipePart{
-    margin-top: 10px;
+    margin: 3%;
+    width: 94%;
   }
   .iconfont{
     font-size: 25px;
@@ -363,7 +575,7 @@ export default {
     background-color: #128784;
     width: 275px;
     height: 470px;
-    padding: 100px 50px 0 50px;
+    padding: 60px 50px 40px 50px;
   }
   .name{
     font-size: 22px;
@@ -385,7 +597,7 @@ export default {
     width: 100%;
     float: left;
     margin-left: -10%;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px;
     margin-top: 40px;
   }
   .van-cell--large .van-cell__title{
@@ -398,8 +610,11 @@ export default {
     margin: 0 10px;
     color: #128784;
   }
+  .hospital_content{
+    margin: 15px 0;
+  }
   #hospital_icon{
-    margin-left: 2%;
+    margin-left: 5%;
   }
   .add_1{
     font-size: 22px;
@@ -418,5 +633,66 @@ export default {
     margin: 1% 2%;
     border-radius: 10px;
     background-repeat: no-repeat;
+  }
+  .ks_tip{
+    font-size: 20px;
+    color: slategrey;
+  }
+  .van-dropdown-menu{
+    width: 94%;
+    margin: 3%;
+    border: 2px solid #a1b1b0;
+    border-radius: 5px;
+  }
+  .info_arrow{
+    float: right;
+  }
+  .popup_con{
+    width: 65%;
+    padding: 30px;
+    border-radius: 10px;
+  }
+  .info_field{
+    height: 50px;
+  }
+  .time_content{
+    margin-top: 15px;
+  }
+  .exit_dialog{
+    width: 80%;
+  }
+  .exit_text{
+    margin: 10% 23%;
+    color: red;
+  }
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  .block {
+    width: 80%;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  .pw_form{
+    margin: 25% 13% 10% 13%;
+  }
+  .pw_field{
+    height: 50px;
+    font-size: 18px;
+  }
+  .pwBtn{
+    height: 40px;
+    border-radius: 5px;
+    font-size: 18px;
+    line-height: 40px;
+  }
+  .cancelpw_icon{
+    float: right;
+    font-size: 25px;
+    margin: 10px;
+    color: grey;
   }
 </style>

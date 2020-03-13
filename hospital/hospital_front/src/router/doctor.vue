@@ -78,8 +78,8 @@ export default {
   data () {
     return {
       fullHeight: document.documentElement.clientHeight,
-      day: 0,
-      nday: 0,
+      // day: 0,
+      // nday: 0,
       myDate: '',
       nowDate: '',
       value: '',
@@ -144,25 +144,22 @@ export default {
 
   methods: {
     getDate () {
-      var time = (new Date()).getTime()
-      var yesterday = new Date(time)
-      this.nowDate = time
+      this.nowDate = (new Date()).getTime()
+      var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
         (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
     },
     preDay () {
       // this.day += 1
-      var time = this.nowDate - 24 * 60 * 60 * 1000
-      this.nowDate = time
-      var yesterday = new Date(time)
+      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
+      var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
         (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
     },
     nextDay () {
       // this.nday += 1
-      var time = this.nowDate + 24 * 60 * 60 * 1000
-      this.nowDate = time
-      var yesterday = new Date(time)
+      this.nowDate = this.nowDate + 24 * 60 * 60 * 1000
+      var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
         (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
     },

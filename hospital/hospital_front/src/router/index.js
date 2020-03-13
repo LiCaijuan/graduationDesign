@@ -5,6 +5,7 @@ import Register from './register'
 import Home from './home'
 import Order from './order'
 import Doctor from './doctor'
+import Department from './department'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/doctor',
       name: 'doctor',
       component: Doctor
+    },
+    {
+      path: '/department',
+      name: 'department',
+      component: Department
     }
   ]
 })

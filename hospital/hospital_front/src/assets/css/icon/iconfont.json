@@ -27,6 +27,13 @@
       "unicode_decimal": 58880
     },
     {
+      "icon_id": "51536693",
+      "name": "科室",
+      "font_class": "keshi",
+      "unicode": "e6a7",
+      "unicode_decimal": 59047
+    },
+    {
       "icon_id": "51028894",
       "name": "用户",
       "font_class": "yonghu",
@@ -34,11 +41,11 @@
       "unicode_decimal": 58883
     },
     {
-      "icon_id": "51028896",
-      "name": "号码",
-      "font_class": "haoma1",
-      "unicode": "e604",
-      "unicode_decimal": 58884
+      "icon_id": "51536674",
+      "name": "医院",
+      "font_class": "yiyuan1",
+      "unicode": "e615",
+      "unicode_decimal": 58901
     },
     {
       "icon_id": "51029200",
@@ -81,13 +88,6 @@
       "font_class": "gerenzhongxin2",
       "unicode": "e704",
       "unicode_decimal": 59140
-    },
-    {
-      "icon_id": "51484328",
-      "name": "医院",
-      "font_class": "yiyuan",
-      "unicode": "e627",
-      "unicode_decimal": 58919
     },
     {
       "icon_id": "51028901",
