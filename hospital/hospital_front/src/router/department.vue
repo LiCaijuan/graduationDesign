@@ -45,7 +45,7 @@ export default {
           image: '../assets/img/map.png',
           isOrder: '可预约',
           thumb: 'https://img.yzcdn.cn/vant/ipad.jpeg',
-          desc: '中医内科始建于1956年，是我院集医疗、教学、科研为一体的综合性临床科室，年门诊量达十余万人次，是我院门诊量最大的科室。年门诊量达十余万人次，是我院门诊量最大的科室。'
+          desc: '中医内科始建于1956年，是我院集医疗、教学、科研为一体的综合性临床科室，年门诊量达十余万人次，是我院门诊量最大的科室。'
         }, {
           number: 2,
           name: '外科',

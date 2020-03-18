@@ -34,6 +34,13 @@
       "unicode_decimal": 59047
     },
     {
+      "icon_id": "51990899",
+      "name": "报告",
+      "font_class": "baogao",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
       "icon_id": "51028894",
       "name": "用户",
       "font_class": "yonghu",
@@ -41,11 +48,25 @@
       "unicode_decimal": 58883
     },
     {
+      "icon_id": "51991477",
+      "name": "报告审核",
+      "font_class": "report-audit",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
       "icon_id": "51536674",
       "name": "医院",
       "font_class": "yiyuan1",
       "unicode": "e615",
       "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "51990900",
+      "name": "退出登录",
+      "font_class": "tuichudenglu",
+      "unicode": "e612",
+      "unicode_decimal": 58898
     },
     {
       "icon_id": "51029200",
@@ -60,6 +81,13 @@
       "font_class": "ditudaohang-",
       "unicode": "e678",
       "unicode_decimal": 59000
+    },
+    {
+      "icon_id": "51991478",
+      "name": "预约记录",
+      "font_class": "yuyuejilu",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
     },
     {
       "icon_id": "50821267",
@@ -90,11 +118,32 @@
       "unicode_decimal": 59140
     },
     {
+      "icon_id": "51990901",
+      "name": "科室",
+      "font_class": "zu",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "51990902",
+      "name": "修改密码",
+      "font_class": "xiugaimima",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
       "icon_id": "51028901",
       "name": "密码",
       "font_class": "mima1",
       "unicode": "e60c",
       "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "51990903",
+      "name": "医生",
+      "font_class": "yisheng2",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
     },
     {
       "icon_id": "51028902",
@@ -116,6 +165,13 @@
       "font_class": "gerenzhongxin2-copy",
       "unicode": "ea67",
       "unicode_decimal": 60007
+    },
+    {
+      "icon_id": "51990904",
+      "name": "前往",
+      "font_class": "qianwang",
+      "unicode": "e6cd",
+      "unicode_decimal": 59085
     },
     {
       "icon_id": "51486110",

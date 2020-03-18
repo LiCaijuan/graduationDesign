@@ -6,6 +6,9 @@ import Home from './home'
 import Order from './order'
 import Doctor from './doctor'
 import Department from './department'
+import DoctorOrder from './doctorOrder'
+import Record from './record'
+import Report from './report'
 
 Vue.use(Router)
 
@@ -40,6 +43,21 @@ export default new Router({
       path: '/department',
       name: 'department',
       component: Department
+    },
+    {
+      path: '/doctorOrder',
+      name: 'doctorOrder',
+      component: DoctorOrder
+    },
+    {
+      path: '/record',
+      name: 'record',
+      component: Record
+    },
+    {
+      path: '/report',
+      name: 'report',
+      component: Report
     }
   ]
 })

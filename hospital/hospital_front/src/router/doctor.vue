@@ -13,9 +13,10 @@
           :finished="finished"
           finished-text="没有更多了"
         >
-          <van-cell>
+          <van-cell @click="doctorOrder()">
             <van-card
-              v-for="item in list" :key="item.number"
+              v-for="item in list"
+              :key="item.number"
               :thumb="item.thumb"
             >
               <div slot="desc" class="van-card__desc">{{item.desc}}</div>
@@ -90,7 +91,7 @@ export default {
           desc: '主任医师',
           image: '../assets/img/map.png',
           isOrder: '可预约',
-          thumb: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+          thumb: 'http://img1.imgtn.bdimg.com/it/u=561326960,1564995287&fm=11&gp=0.jpg',
           price: 10
         }, {
           number: 2,
@@ -163,6 +164,9 @@ export default {
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
         (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
     },
+    doctorOrder () {
+      this.$router.push('./doctorOrder')
+    },
     // 动态获取浏览器高度
     get_bodyHeight () {
       const that = this
@@ -222,7 +226,7 @@ export default {
   }
   .van-card__footer{
     font-size: 17px;
-    margin: 5px;
+    margin: -25px 5px 5px 0;
   }
   .price{
     color: rgb(111, 123, 134);
@@ -249,5 +253,11 @@ export default {
   .back_icon{
     margin-top: 6px;
     left: -37px;
+  }
+  .van-card__thumb img{
+    border-radius: 0 !important;
+  }
+  .van-card__thumb{
+    margin: 10px;
   }
 </style>

@@ -26,21 +26,48 @@
       </div><br><br><br>
       <div class="mainList">
         <div class="order" @click="doctor()">
-          <img class="orderImg" src="../assets/img/doctor.png" alt="医生">
-          <p>&nbsp;&nbsp;找医生</p>
+          <div class="icon_div">
+            <van-icon
+              id="iconfont_home"
+              class="iconfont"
+              class-prefix='icon'
+              slot="icon"
+              :name="icon.doctor"
+            />
+          </div>
+          <!-- <img class="orderImg" src="../assets/img/doctor.png" alt="医生"> -->
+          <p>找医生</p>
         </div>
         <div class="order" @click="department()">
-          <img class="orderImg" src="../assets/img/department.png" alt="科室">
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;找科室</p>
+          <div class="icon_div">
+            <van-icon
+              id="iconfont_home"
+              class="iconfont"
+              class-prefix='icon'
+              slot="icon"
+              :name="icon.department"
+            />
+          </div>
+          <!-- <img class="orderImg" src="../assets/img/department.png" alt="科室"> -->
+          <p>找科室</p>
         </div>
         <div class="order" @click="report()">
-          <img class="orderImg" src="../assets/img/navigation.png" alt="预约">
-          <p>&nbsp;&nbsp;查报告</p>
+          <div class="icon_div">
+            <van-icon
+              id="iconfont_home"
+              class="iconfont"
+              class-prefix='icon'
+              slot="icon"
+              :name="icon.reportList"
+            />
+          </div>
+          <!-- <img class="orderImg" src="../assets/img/navigation.png" alt="预约"> -->
+          <p>查报告</p>
         </div>
       </div>
     </div>
     <div class="order_content" v-show="active===1">
-      <van-nav-bar
+      <!-- <van-nav-bar
         title="快速预约"
         left-text="返回"
         left-arrow
@@ -129,7 +156,7 @@
           </van-form>
         </van-popup>
       </div>
-      <!-- <van-form @submit="onSubmit" class="form_con">
+      <van-form @submit="onSubmit" class="form_con">
         <van-field
           class="info_field"
           v-model="infoList.name"
@@ -167,7 +194,7 @@
             提交
           </van-button>
         </div>
-      </van-form> -->
+      </van-form>
       <div class="time_content">
         <van-icon class="iconfont"
           id="hospital_icon"
@@ -177,7 +204,34 @@
           :name="icon.department_content">
         </van-icon>
         <span class="ks_tip">时间</span>
-      </div>
+      </div> -->
+      <van-nav-bar
+        title="预约记录"
+        left-text="返回"
+        left-arrow
+        @click-left="onClickLeft"
+      />
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+      >
+        <van-cell>
+          <van-card
+            class="record_cell"
+            v-for="item in list"
+            :key="item.number"
+          >
+            <div slot="bottom" class="van-card__bottom">就诊人： {{item.user}}</div>
+            <div slot="title" class="van-card__title">{{item.hospital}}</div>
+            <div slot="tags" class="card_tag">
+              <van-tag plain type="success" size="large">{{item.type}}</van-tag>
+            </div>
+            <div slot="desc" class="van-card__desc">{{item.doctor}} | {{item.department}}</div>
+            <div slot="footer" class="van-footer">就诊时间： {{item.time}}</div>
+          </van-card>
+        </van-cell>
+      </van-list>
     </div>
     <div class="personalcenter_content" v-show="active===2">
       <van-nav-bar title="个人中心" left-text="返回" left-arrow @click-left="onClickLeft()">
@@ -195,10 +249,42 @@
         </div>
         <div class="center_content">
           <van-cell-group class="cell_content">
-            <van-cell title="预约记录" icon="add-square" size="large" is-link />
-            <van-cell title="报告记录" icon="column" size="large" is-link />
-            <van-cell title="修改密码" icon="checked" size="large" is-link @click="showChangepw()"/>
-            <van-cell title="退出登录" icon="clear" size="large" is-link @click="showDialog()"/>
+            <van-cell title="预约记录" icon="add-square" size="large" is-link @click="record()" >
+              <van-icon
+                id="iconfont_per"
+                class="iconfont"
+                class-prefix='icon'
+                slot="icon"
+                :name="icon.record"
+              />
+            </van-cell>
+            <van-cell title="报告记录" icon="column" size="large" is-link @click="report()" >
+              <van-icon
+                id="iconfont_per"
+                class="iconfont"
+                class-prefix='icon'
+                slot="icon"
+                :name="icon.report"
+              />
+            </van-cell>
+            <van-cell title="修改密码" icon="checked" size="large" is-link @click="showChangepw()">
+              <van-icon
+                id="iconfont_per"
+                class="iconfont"
+                class-prefix='icon'
+                slot="icon"
+                :name="icon.changePw"
+              />
+            </van-cell>
+            <van-cell title="退出登录" icon="clear" size="large" is-link @click="showDialog()">
+              <van-icon
+                id="iconfont_per"
+                class="iconfont"
+                class-prefix='icon'
+                slot="icon"
+                :name="icon.exit"
+              />
+            </van-cell>
           </van-cell-group>
         </div>
       </div>
@@ -256,7 +342,7 @@
             :name="props.active?icon.order_active:icon.order_normal"
           >
           </van-icon>
-          <span>快速预约</span>
+          <span>预约记录</span>
         </van-tabbar-item>
         <van-tabbar-item>
           <van-icon class="iconfont"
@@ -274,7 +360,8 @@
 
 <script>
 import { Field, Button, Icon, Search, Swipe, SwipeItem, Lazyload, Tabbar,
-  TabbarItem, Grid, GridItem, NavBar, Cell, CellGroup, Uploader, DropdownMenu, DropdownItem, Popup, Form, Dialog, Overlay } from 'vant'
+  TabbarItem, Grid, GridItem, NavBar, Cell, CellGroup, Uploader, DropdownMenu,
+  DropdownItem, Popup, Form, Dialog, Overlay, List, Card, Tag } from 'vant'
 import '@/assets/css/icon/iconfont.css'
 import BMap from 'BMap'
 export default {
@@ -283,11 +370,32 @@ export default {
     return {
       fullHeight: document.documentElement.clientHeight,
       searchText: '',
+      loading: false,
+      finished: false,
       isPopup: false,
       isDialog: false,
       isChangePw: false,
       oldPw: '',
       newPw: '',
+      list: [
+        {
+          number: 1,
+          hospital: '浙江省中医院',
+          doctor: '王大锤',
+          department: '内科',
+          user: '李哆啦',
+          time: '2020-03-15',
+          type: '专家号'
+        }, {
+          number: 2,
+          hospital: '浙江省中医院',
+          doctor: '肖恩',
+          department: '外科',
+          user: '李哆啦',
+          time: '2020-03-15 11:00-11:15',
+          type: '普通号'
+        }
+      ],
       swipeImages: [
         require('@/assets/img/banner1.png'),
         require('@/assets/img/banner2.png'),
@@ -324,7 +432,14 @@ export default {
         center_normal: 'gerenzhongxin2',
         center_active: 'gerenzhongxin2-copy',
         hospital_content: 'yiyuan1',
-        department_content: 'keshi'
+        department_content: 'keshi',
+        record: 'yuyuejilu',
+        report: 'report-audit',
+        changePw: 'xiugaimima',
+        exit: 'tuichudenglu',
+        doctor: 'yisheng2',
+        department: 'zu',
+        reportList: 'baogao'
       }
     }
   },
@@ -362,7 +477,10 @@ export default {
     [Popup.name]: Popup,
     [Form.name]: Form,
     [Dialog.Component.name]: Dialog.Component,
-    [Overlay.name]: Overlay
+    [Overlay.name]: Overlay,
+    [List.name]: List,
+    [Card.name]: Card,
+    [Tag.name]: Tag
   },
 
   mounted () {
@@ -452,6 +570,12 @@ export default {
     },
     cancelOverlay () {
       this.isChangePw = false
+    },
+    report () {
+      this.$router.push('./report')
+    },
+    record () {
+      this.$router.push('./record')
     }
   }
 }
@@ -480,7 +604,7 @@ export default {
     width: 70px;
     background-color: #FFFFFF;
     display: inline-block;
-    margin: 6%;
+    margin: 5% 4% 0 8%;
   }
   .orderImg{
     margin: 11px;
@@ -540,6 +664,30 @@ export default {
   }
   .iconfont{
     font-size: 25px;
+  }
+  #iconfont_per{
+    font-size: 30px;
+    margin: 25px 10px 0 10px;
+    color: #128784;
+  }
+  #iconfont_home{
+    /* margin: 30px 0 0 10px; */
+    margin-left: 15px;
+    margin-bottom: 15px;
+    font-size: 40px;
+    color: #fff;
+    line-height: 70px;
+  }
+  p{
+    color: #4e5353;
+    font-size: 20px;
+    line-height: 40px;
+  }
+  .icon_div{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #3bb5b2;
   }
   .van-nav-bar__title{
     max-width: 100%;
@@ -694,5 +842,45 @@ export default {
     font-size: 25px;
     margin: 10px;
     color: grey;
+  }
+  .van-nav-bar__title{
+    max-width: 100%;
+    color: #ffffff;
+  }
+  .van-nav-bar .van-icon{
+    color: #ffffff;
+  }
+  .van-nav-bar__text{
+    color: #ffffff;
+  }
+  .van-nav-bar__arrow{
+    font-size: 20px;
+  }
+  .van-nav-bar{
+    background-color: #128784;
+  }
+  .record_cell{
+    padding: 15px;
+  }
+  .van-card__title{
+    font-size: 20px;
+    line-height: 25px;
+  }
+  .van-card__desc{
+    float: left;
+    font-size: 16px;
+    line-height: 25px;
+  }
+  .van-card__bottom{
+    font-size: 16px;
+  }
+  .van-card__footer{
+    font-size: 16px;
+  }
+  .van-tag--success.van-tag--plain{
+    float: right;
+  }
+  .van-footer{
+    text-align: left;
   }
 </style>
