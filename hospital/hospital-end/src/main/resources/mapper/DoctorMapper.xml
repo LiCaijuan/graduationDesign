@@ -3,19 +3,38 @@
 <mapper namespace="com.example.demo.mapper.DoctorMapper">
     <resultMap id="BaseResultMap" type="com.example.demo.entity.Doctor">
         <result column="doctor_id" jdbcType="VARCHAR" property="doctorId" />
+        <result column="doctor_num" jdbcType="INTEGER" property="doctorNum" />
         <result column="doctor_name" jdbcType="VARCHAR" property="doctorName" />
         <result column="doctor_department" jdbcType="VARCHAR" property="doctorDepartment" />
         <result column="doctor_price" jdbcType="DOUBLE" property="doctorPrice" />
         <result column="doctor_img" jdbcType="VARCHAR" property="doctorImg" />
         <result column="product_type" jdbcType="INTEGER" property="doctorType" />
-        <result column="doctor_order" jdbcType="BOOLEAN" property="doctorIsOrder" />
+        <result column="doctor_order" jdbcType="INTEGER" property="doctorIsOrder" />
         <result column="product_speciality" jdbcType="VARCHAR" property="doctorSpeciality" />
         <result column="product_synopsis" jdbcType="VARCHAR" property="doctorSynopsis" />
     </resultMap>
     <insert id="addDoctor" parameterType="com.example.demo.entity.Doctor">
-        INSERT INTO `doctor` (`doctor_name`,`doctor_department`,`doctor_price`,`doctor_img`,`product_type`,`doctor_order`, `product_speciality`,`product_synopsis`) VALUES(#{doctorName},#{doctorDepartment},#{doctorPrice},#{doctorImg},#{doctorType},#{doctorIsOrder},#{doctorSpeciality},#{doctorSynopsis})
+        INSERT INTO `doctor` (`doctor_num`,`doctor_name`,`doctor_department`,`doctor_price`,`doctor_img`,`doctor_type`,`doctor_order`, `doctor_speciality`,`doctor_synopsis`) VALUES(#{doctorNum},#{doctorName},#{doctorDepartment},#{doctorPrice},#{doctorImg},#{doctorType},#{doctorIsOrder},#{doctorSpeciality},#{doctorSynopsis})
     </insert>
     <select id="getDoctorList" resultMap="BaseResultMap">
         SELECT * FROM `doctor`
     </select >
+    <select id="getDoctorByKey" resultMap="BaseResultMap">
+        SELECT * FROM `doctor` where doctor_name like concat('%',#{doctorName},'%') or doctor_synopsis like  concat('%',#{doctorName},'%')
+    </select >
+    <select id="getDoctorByNum" resultMap="BaseResultMap">
+        SELECT * FROM `doctor` where doctor_num =#{doctorNum}
+    </select >
+    <select id="getDoctorByCondition" resultMap="BaseResultMap">
+        SELECT * FROM `doctor`
+        <where>
+            <if test="doctorName != null and doctorName != ''">
+                and doctor_name like concat('%',#{doctorName},'%')
+            </if>
+            <if test="doctorType != null and doctorType != -1">
+                and doctor_type = #{doctorType}
+            </if>
+        </where>
+    </select >
+
 </mapper>

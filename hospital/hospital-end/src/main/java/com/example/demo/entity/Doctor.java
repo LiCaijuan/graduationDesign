@@ -1,16 +1,18 @@
 package com.example.demo.entity;
 
 public class Doctor {
+    int doctorNum;
     String doctorName;
     String doctorDepartment; // 科室
     double doctorPrice; // 挂号费
     String doctorImg; // 头像
     int doctorType; // 职称
-    Boolean doctorIsOrder; //是否可预约
+    int doctorIsOrder; //是否可预约
     String doctorSpeciality; // 擅长
     String doctorSynopsis; // 简介
 
-    public Doctor(String doctorName, String doctorDepartment, double doctorPrice, String doctorImg, int doctorType, Boolean doctorIsOrder, String doctorSpeciality, String doctorSynopsis) {
+    public Doctor(int doctorNum, String doctorName, String doctorDepartment, double doctorPrice, String doctorImg, int doctorType, int doctorIsOrder, String doctorSpeciality, String doctorSynopsis) {
+        this.doctorNum = doctorNum;
         this.doctorName = doctorName;
         this.doctorDepartment = doctorDepartment;
         this.doctorPrice = doctorPrice;
@@ -19,6 +21,14 @@ public class Doctor {
         this.doctorIsOrder = doctorIsOrder;
         this.doctorSpeciality = doctorSpeciality;
         this.doctorSynopsis = doctorSynopsis;
+    }
+
+    public int getDoctorNum() {
+        return doctorNum;
+    }
+
+    public void setDoctorNum(int doctorNum) {
+        this.doctorNum = doctorNum;
     }
 
     public String getDoctorName() {
@@ -33,7 +43,7 @@ public class Doctor {
         return doctorDepartment;
     }
 
-    public void setDoctorDepartment(String department) {
+    public void setDoctorDepartment(String doctorDepartment) {
         this.doctorDepartment = doctorDepartment;
     }
 
@@ -61,11 +71,11 @@ public class Doctor {
         this.doctorType = doctorType;
     }
 
-    public Boolean getDoctorIsOrder() {
+    public int getDoctorIsOrder() {
         return doctorIsOrder;
     }
 
-    public void setDoctorIsOrder(Boolean doctorIsOrder) {
+    public void setDoctorIsOrder(int doctorIsOrder) {
         this.doctorIsOrder = doctorIsOrder;
     }
 

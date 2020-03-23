@@ -4,9 +4,10 @@ import com.example.demo.entity.Doctor;
 import com.example.demo.mapper.DoctorMapper;
 import com.example.demo.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class DoctorServiceImpl implements DoctorService {
     @Autowired
     DoctorMapper doctorMapper;
@@ -21,5 +22,23 @@ public class DoctorServiceImpl implements DoctorService {
     public List<Doctor> getDoctorList() {
         List <Doctor> doctorList = doctorMapper.getDoctorList();
         return doctorList;
+    }
+
+    @Override
+    public List<Doctor> getDoctorByKey(String doctorName) {
+        List<Doctor> doctorList1 = doctorMapper.getDoctorByKey(doctorName);
+        return doctorList1;
+    }
+
+    @Override
+    public List<Doctor> getDoctorByNum(int doctorNum) {
+        List<Doctor> doctorList2 = doctorMapper.getDoctorByNum(doctorNum);
+        return doctorList2;
+    }
+
+    @Override
+    public List<Doctor> getDoctorByCondition(String doctorName, int doctorType) {
+        List<Doctor> doctorList3 = doctorMapper.getDoctorByCondition(doctorName, doctorType);
+        return doctorList3;
     }
 }

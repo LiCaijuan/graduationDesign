@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+import java.util.Map;
 @RestController
 public class DoctorController {
     @Autowired
@@ -33,4 +33,28 @@ public class DoctorController {
         response.setResponse(true, "查询成功", 1, doctorList);
         return response;
     }
+    //
+    @RequestMapping(value = "/getDoctorByKey", method = RequestMethod.POST)
+    public Response getDoctorByKey(@RequestBody Map<String, String> doctor) {
+        String doctorName = doctor.get("doctorName");
+        String doctorSynopsis = doctor.get("doctorSynopsis");
+        if (doctorSynopsis !=null){
+            doctorName = doctorSynopsis;
+        }
+        Response response = new Response();
+        List<Doctor> doctorList = doctorService.getDoctorByKey(doctorName);
+        response.setResponse(true,"查询成功",1, doctorList);
+        return response;
+    }
+
+    @RequestMapping(value = "/getDoctorByNum", method = RequestMethod.POST)
+    public Response getDoctorByNum(@RequestBody Doctor doctor) {
+        int doctorNum = doctor.getDoctorNum();
+        Response response = new Response();
+        List<Doctor> doctorList = doctorService.getDoctorByNum(doctorNum);
+        response.setResponse(true, "查询成功",1,doctorList);
+        return response;
+    }
+
+
 }
