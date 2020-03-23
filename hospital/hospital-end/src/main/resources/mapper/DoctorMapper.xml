@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DoctorMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Doctor">
+        <result column="doctor_id" jdbcType="VARCHAR" property="doctorId" />
+        <result column="doctor_name" jdbcType="VARCHAR" property="doctorName" />
+        <result column="doctor_department" jdbcType="VARCHAR" property="doctorDepartment" />
+        <result column="doctor_price" jdbcType="DOUBLE" property="doctorPrice" />
+        <result column="doctor_img" jdbcType="VARCHAR" property="doctorImg" />
+        <result column="product_type" jdbcType="INTEGER" property="doctorType" />
+        <result column="doctor_order" jdbcType="BOOLEAN" property="doctorIsOrder" />
+        <result column="product_speciality" jdbcType="VARCHAR" property="doctorSpeciality" />
+        <result column="product_synopsis" jdbcType="VARCHAR" property="doctorSynopsis" />
+    </resultMap>
+    <insert id="addDoctor" parameterType="com.example.demo.entity.Doctor">
+        INSERT INTO `doctor` (`doctor_name`,`doctor_department`,`doctor_price`,`doctor_img`,`product_type`,`doctor_order`, `product_speciality`,`product_synopsis`) VALUES(#{doctorName},#{doctorDepartment},#{doctorPrice},#{doctorImg},#{doctorType},#{doctorIsOrder},#{doctorSpeciality},#{doctorSynopsis})
+    </insert>
+    <select id="getDoctorList" resultMap="BaseResultMap">
+        SELECT * FROM `doctor`
+    </select >
+</mapper>

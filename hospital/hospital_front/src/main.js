@@ -3,14 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { Lazyload } from 'vant'
-Vue.use(Lazyload)
-Vue.config.productionTip = false
+import axios from 'axios'
 
+Vue.prototype.axios = axios
+Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })

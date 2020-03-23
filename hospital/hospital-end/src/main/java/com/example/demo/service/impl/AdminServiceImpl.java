@@ -12,16 +12,17 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
     @Autowired
     AdminMapper adminMapper;
+
     @Override
-    public int addAdmin(String username, String password, String phone,int adminid) {
-        Admin admin = new Admin(username,password,phone,adminid);
+    public int addAdmin(String username, String password, String phone, int adminid) {
+        Admin admin = new Admin(username, password, phone, adminid);
         int count = adminMapper.addAdmin(admin);
         return count;
     }
 
     @Override
     public List<Admin> queryByUsername(String username, String password) {
-        List<Admin> adminList = adminMapper.queryByUsername(username,password);
+        List<Admin> adminList = adminMapper.queryByUsername(username, password);
         return adminList;
     }
 }

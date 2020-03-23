@@ -17,7 +17,8 @@ public class Product {
     String productImg;
     String productDes;
 
-    public Product() {}
+    public Product() {
+    }
 
     public Product(String productName, double productPrice, int productType, String productImg, String productDes) {
         this.productName = productName;

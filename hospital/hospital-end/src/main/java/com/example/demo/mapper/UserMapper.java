@@ -9,5 +9,6 @@ import java.util.List;
 public interface UserMapper {
 
     int addUser(User user);
-    List<User> queryByUsername(String username,String password);
+
+    List<User> queryByUsername(String username, String password);
 }

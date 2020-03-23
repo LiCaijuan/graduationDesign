@@ -9,16 +9,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
-    public int addUser(String username, String password, String phone){
+
+    public int addUser(String username, String password, String phone) {
         User user = new User(username, password, phone);
         int count = userMapper.addUser(user);
         return count;
     }
-    public List <User> queryByUsername(String username,String password){
-        List <User> userList = userMapper.queryByUsername(username, password);
+
+    public List<User> queryByUsername(String username, String password) {
+        List<User> userList = userMapper.queryByUsername(username, password);
         return userList;
     }
 }

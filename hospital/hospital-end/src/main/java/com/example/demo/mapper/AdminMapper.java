@@ -8,5 +8,6 @@ import java.util.List;
 @Repository
 public interface AdminMapper {
     int addAdmin(Admin admin);
+
     List<Admin> queryByUsername(String username, String password);
 }

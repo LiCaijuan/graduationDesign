@@ -14,7 +14,7 @@ public class Response {
         this.result = result;
     }
 
-    public void setResponse(Boolean isSuc,String msg,int code,Object result){
+    public void setResponse(Boolean isSuc, String msg, int code, Object result) {
         this.isSuc = isSuc;
         this.msg = msg;
         this.code = code;
