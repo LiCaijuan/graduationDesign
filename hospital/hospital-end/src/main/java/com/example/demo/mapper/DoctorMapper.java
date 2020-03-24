@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.example.demo.entity.Doctor;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 @Mapper
@@ -11,5 +12,9 @@ public interface DoctorMapper {
     List<Doctor> getDoctorByKey(String doctorName);
     // 通过编号获取医生列表
     List<Doctor> getDoctorByNum(int doctorNum);
-    List<Doctor> getDoctorByCondition(String doctorName, int doctorType);
+    List<Doctor> getDoctorByCondition(@Param("doctorName") String doctorName,@Param("doctorType") int doctorType);
+
+    int updateDoctor(@Param("pro") Doctor doctor);
+
+    int deleteDoctor(int doctorNum);
 }

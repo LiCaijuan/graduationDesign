@@ -15,17 +15,19 @@ import java.util.Map;
 public class DoctorController {
     @Autowired
     DoctorService doctorService;
+
     @RequestMapping(value = "/addDoctor", method = RequestMethod.POST)
     public Response addDoctor(@RequestBody Doctor doctor) {
         int count = doctorService.addDoctor(doctor);
         if (count > 0) {
-            Response response = new Response(true,"添加成功",1);
+            Response response = new Response(true, "添加成功", 1);
             return response;
         } else {
-            Response response = new Response(false,"添加失败", -1);
+            Response response = new Response(false, "添加失败", -1);
             return response;
         }
     }
+
     @RequestMapping(value = "/getDoctorList", method = RequestMethod.POST)
     public Response getDoctorList() {
         Response response = new Response();
@@ -33,17 +35,18 @@ public class DoctorController {
         response.setResponse(true, "查询成功", 1, doctorList);
         return response;
     }
+
     //
     @RequestMapping(value = "/getDoctorByKey", method = RequestMethod.POST)
     public Response getDoctorByKey(@RequestBody Map<String, String> doctor) {
         String doctorName = doctor.get("doctorName");
         String doctorSynopsis = doctor.get("doctorSynopsis");
-        if (doctorSynopsis !=null){
+        if (doctorSynopsis != null) {
             doctorName = doctorSynopsis;
         }
         Response response = new Response();
         List<Doctor> doctorList = doctorService.getDoctorByKey(doctorName);
-        response.setResponse(true,"查询成功",1, doctorList);
+        response.setResponse(true, "查询成功", 1, doctorList);
         return response;
     }
 
@@ -52,9 +55,58 @@ public class DoctorController {
         int doctorNum = doctor.getDoctorNum();
         Response response = new Response();
         List<Doctor> doctorList = doctorService.getDoctorByNum(doctorNum);
-        response.setResponse(true, "查询成功",1,doctorList);
+        response.setResponse(true, "查询成功", 1, doctorList);
         return response;
     }
 
+    // 根据条件查询
+    @RequestMapping(value = "/getDoctorByCondition", method = RequestMethod.POST)
+    public Response getDoctorByCondition(@RequestBody Doctor doctor){
+        String doctorName = doctor.getDoctorName();
+        int doctorType = doctor.getDoctorType();
+        Response response = new Response();
+        List<Doctor> doctorList = doctorService.getDoctorByCondition(doctorName, doctorType);
+        response.setResponse(true, "查询成功", 1, doctorList);
+        return response;
+    }
 
+    // 更新医生  暂时并没有用到这个接口
+    @RequestMapping(value = "/updateDoctor", method = RequestMethod.POST)
+    public Response updateDoctor(@RequestBody Doctor doctor) {
+        int doctorId = doctor.getDoctorNum();
+        int count = doctorService.updateDoctor(doctor);
+        if (doctorId!=0){
+            if (count > 0){
+                Response response = new Response(true, "更新成功",1);
+                return response;
+            } else {
+                Response response = new Response(false, "更新失败", -1);
+                return response;
+            }
+        } else {
+            Response response = new Response(false,"请传入医生Id",-1);
+            return response;
+        }
+    }
+
+    // 删除医生
+    @RequestMapping(value = "/deleteDoctor", method = RequestMethod.POST)
+    public Response deleteDoctor(@RequestBody Doctor doctor) {
+        int doctorNum = doctor.getDoctorNum();
+        if (doctorNum != 0){
+            int count = doctorService.deleteDoctor(doctorNum);
+            if (count > 0) {
+                Response response = new Response(true, "删除成功",1);
+                return response;
+            } else {
+                Response response = new Response(false, "删除失败", -1);
+                return response;
+            }
+        } else {
+            Response response = new Response(false, "删除失败，请传入商品id",-1);
+            return response;
+        }
+    }
 }
+
+

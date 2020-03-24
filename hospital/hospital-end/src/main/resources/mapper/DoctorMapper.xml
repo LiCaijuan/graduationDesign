@@ -28,13 +28,26 @@
     <select id="getDoctorByCondition" resultMap="BaseResultMap">
         SELECT * FROM `doctor`
         <where>
-            <if test="doctorName != null and doctorName != ''">
-                and doctor_name like concat('%',#{doctorName},'%')
-            </if>
-            <if test="doctorType != null and doctorType != -1">
-                and doctor_type = #{doctorType}
-            </if>
+            <if test="doctorName != null and doctorName != ''">and doctor_name like concat('%',#{doctorName},'%')</if>
+            <if test="doctorType != null and doctorType != -1">and doctor_type = #{doctorType}</if>
         </where>
     </select >
-
+    <update id="updateDoctor" parameterType="cpm.example.demo.entity.Doctor">
+        update doctor
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="null != doc.doctorNum and -1 != doc.doctorNum">doctor_num=#{doc.doctorNum}</if>
+            <if test="null != doc.doctorName and '' != pro.doctorName">doctor_name=#{doc.doctorName},</if>
+            <if test="null != doc.doctorDepartment and '' != doc.doctorDepartment">doctor_department=#{doc.doctorDepartment},</if>
+            <if test="null != doc.doctorPrice and -1 != pro.doctorPrice">doctor_price=#{doc.doctorPrice},</if>
+            <if test="null != doc.doctorImg and '' != doc.doctorImg">doctor_img=#{doc.doctorImg},</if>
+            <if test="null != doc.doctorType and -1 != doc.doctorType">doctor_type=#{doc.doctorType},</if>
+            <if test="null != doc.doctorIsOrder and -1 != pro.doctorIsOrder">doctor_order=#{doc.doctorIsOrder},</if>
+            <if test="null != doc.doctorSpeciality and '' != doc.doctorSpeciality">doctor_speciality=#{doc.doctorSpeciality},</if>
+            <if test="null != doc.doctorSynopsis and ''  != doc.doctorSynopsis">doctor_synopsis=#{doc.doctorSynopsis},</if>
+        </trim>
+        where doctor_id = #{doc.doctorId}
+    </update>
+    <delete id="deleteDoctor">
+        DELETE FROM doctor WHERE doctor_num = #{doctorNum}
+    </delete>
 </mapper>

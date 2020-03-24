@@ -41,4 +41,27 @@ public class DoctorServiceImpl implements DoctorService {
         List<Doctor> doctorList3 = doctorMapper.getDoctorByCondition(doctorName, doctorType);
         return doctorList3;
     }
+
+    @Override
+    public int updateDoctor(Doctor doctor) {
+        int count = 0;
+        try {
+            count = doctorMapper.updateDoctor(doctor);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
+        return count;
+    }
+
+    @Override
+    public int deleteDoctor(int doctorNum) {
+        int count = 0;
+        try {
+            count = doctorMapper.deleteDoctor(doctorNum);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
+        return count;
+    }
+
 }

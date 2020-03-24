@@ -12,4 +12,9 @@ public interface DoctorService {
     List <Doctor> getDoctorByNum(int doctorNum);
 
     List <Doctor> getDoctorByCondition(String doctorName, int doctorType);
+
+    int updateDoctor(Doctor doctor);
+
+    //删除医生接口
+    int deleteDoctor(int doctorNum);
 }
