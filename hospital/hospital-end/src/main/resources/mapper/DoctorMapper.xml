@@ -32,7 +32,7 @@
             <if test="doctorType != null and doctorType != -1">and doctor_type = #{doctorType}</if>
         </where>
     </select >
-    <update id="updateDoctor" parameterType="cpm.example.demo.entity.Doctor">
+    <update id="updateDoctor" parameterType="com.example.demo.entity.Doctor">
         update doctor
         <trim prefix="SET" prefixOverrides=",">
             <if test="null != doc.doctorNum and -1 != doc.doctorNum">doctor_num=#{doc.doctorNum}</if>

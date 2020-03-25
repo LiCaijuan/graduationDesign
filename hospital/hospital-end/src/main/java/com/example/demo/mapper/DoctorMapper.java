@@ -2,8 +2,10 @@ package com.example.demo.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.example.demo.entity.Doctor;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+@Repository
 @Mapper
 public interface DoctorMapper {
     int addDoctor(Doctor doctor);

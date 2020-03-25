@@ -3,10 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="58c37518-f5c4-4497-b430-32d51b2ce4f6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/controller/DoctorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/controller/DoctorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/entity/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/entity/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/mapper/AdminMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/mapper/AdminMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/mapper/DoctorMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/mapper/DoctorMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/service/DoctorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/service/DoctorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/service/impl/DoctorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital-end/src/main/java/com/example/demo/service/impl/DoctorServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hospital-end/src/main/resources/mapper/DoctorMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hospital-end/src/main/resources/mapper/DoctorMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,12 +126,26 @@
       <workItem from="1584841920840" duration="21380000" />
       <workItem from="1584922808540" duration="3732000" />
       <workItem from="1584929757579" duration="26138000" />
-      <workItem from="1585014591108" duration="11018000" />
+      <workItem from="1585014591108" duration="19326000" />
+      <workItem from="1585103528100" duration="445000" />
+      <workItem from="1585112061215" duration="1988000" />
     </task>
+    <task id="LOCAL-00001" summary="add 更新医生接口、删除医生接口">
+      <created>1585043425699</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1585043425821</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add 更新医生接口、删除医生接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="add 更新医生接口、删除医生接口" />
   </component>
   <component name="WindowStateProjectService">
     <state x="529" y="219" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584931726997">
@@ -143,35 +156,35 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="530" y="210" key="#com.intellij.ide.scriptingContext.ui.PerFileMappingsDialogWrapper/0.0.1600.860@0.0.1600.860" timestamp="1584516891684" />
-    <state x="242" y="146" key="#com.intellij.ide.util.MemberChooser" timestamp="1585036886784">
+    <state x="242" y="146" key="#com.intellij.ide.util.MemberChooser" timestamp="1585059962549">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="242" y="146" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1585036886784" />
-    <state x="398" y="0" key="CommitChangelistDialog2" timestamp="1585043266469">
+    <state x="242" y="146" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1585059962549" />
+    <state x="398" y="0" key="CommitChangelistDialog2" timestamp="1585114893313">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="398" y="0" key="CommitChangelistDialog2/0.0.1600.860@0.0.1600.860" timestamp="1585043266469" />
+    <state x="398" y="0" key="CommitChangelistDialog2/0.0.1600.860@0.0.1600.860" timestamp="1585114893313" />
     <state x="616" y="216" key="FileChooserDialogImpl" timestamp="1584691123229">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="616" y="216" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1584691123229" />
     <state x="739" y="261" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1579239853435" />
-    <state width="1557" height="190" key="GridCell.Tab.0.bottom" timestamp="1584971189441">
+    <state width="770" height="227" key="GridCell.Tab.0.bottom" timestamp="1585115012030">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="190" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1584971189441" />
-    <state width="1557" height="190" key="GridCell.Tab.0.center" timestamp="1584971189441">
+    <state width="770" height="227" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1585115012030" />
+    <state width="770" height="227" key="GridCell.Tab.0.center" timestamp="1585115012029">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="190" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1584971189441" />
-    <state width="1557" height="190" key="GridCell.Tab.0.left" timestamp="1584971189441">
+    <state width="770" height="227" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1585115012029" />
+    <state width="770" height="227" key="GridCell.Tab.0.left" timestamp="1585115012029">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="190" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1584971189441" />
-    <state width="1557" height="190" key="GridCell.Tab.0.right" timestamp="1584971189441">
+    <state width="770" height="227" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1585115012029" />
+    <state width="770" height="227" key="GridCell.Tab.0.right" timestamp="1585115012030">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="1557" height="190" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1584971189441" />
+    <state width="770" height="227" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1585115012030" />
     <state x="330" y="85" key="Maven.ArtifactSearchDialog" timestamp="1584692341297">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -180,10 +193,14 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="301" y="9" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1584783517398" />
-    <state x="533" y="284" key="com.intellij.ide.util.TipDialog" timestamp="1585014727963">
+    <state x="392" y="159" key="Vcs.Push.Dialog.v2" timestamp="1585043444380">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="533" y="284" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1585014727963" />
+    <state x="392" y="159" key="Vcs.Push.Dialog.v2/0.0.1600.860@0.0.1600.860" timestamp="1585043444380" />
+    <state x="533" y="284" key="com.intellij.ide.util.TipDialog" timestamp="1585112101400">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="533" y="284" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1585112101400" />
     <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1579239825608" />
     <state x="334" y="222" key="new project wizard" timestamp="1579239865503">
       <screen x="0" y="0" width="1920" height="1040" />

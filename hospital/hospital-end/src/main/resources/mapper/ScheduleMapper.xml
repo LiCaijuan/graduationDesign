@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ScheduleMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.User">
+        <result column="doctor_id" jdbcType="INTEGER" property="doctorId"/>
+        <result column="department_id" jdbcType="INTEGER" property="departmentId"/>
+        <result column="schedule_date" jdbcType="VARCHAR" property="scheduleDate"/>
+        <result column="interval" jdbcType="VARCHAR" property="interval"/>
+    </resultMap>
+    <insert id="addSchedule" parameterType="com.example.demo.entity.Schedule">
+        INSERT INTO `schedule` VALUES(#{doctor_id},#{department_id},#{date},#{interval })
+    </insert>
+    <select id="getScheduleByDate" resultType="com.example.demo.entity.Schedule">
+        SELECT * FROM `schedule` WHERE schedule_date = #{scheduleDate}
+    </select>
+</mapper>
