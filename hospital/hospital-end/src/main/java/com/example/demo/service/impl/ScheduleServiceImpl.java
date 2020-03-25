@@ -22,4 +22,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         List<Schedule> scheduleList = scheduleMapper.getScheduleByDate(scheduleDate);
         return scheduleList;
     }
+
+    @Override
+    public List<Schedule> getScheduleByDepartmentId(int departmentId) {
+        List<Schedule> scheduleList1 = scheduleMapper.getScheduleByDepartmentId(departmentId);
+        return scheduleList1;
+    }
+
+    @Override
+    public int deleteSchedule(int scheduleId) {
+        int count = scheduleMapper.deleteSchedule(scheduleId);
+        return count;
+    }
 }

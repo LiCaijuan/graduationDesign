@@ -92,9 +92,9 @@ public class DoctorController {
     // 删除医生
     @RequestMapping(value = "/deleteDoctor", method = RequestMethod.POST)
     public Response deleteDoctor(@RequestBody Doctor doctor) {
-        int doctorNum = doctor.getDoctorNum();
-        if (doctorNum != 0){
-            int count = doctorService.deleteDoctor(doctorNum);
+        int doctorId = doctor.getDoctorId();
+        if (doctorId != 0){
+            int count = doctorService.deleteDoctor(doctorId);
             if (count > 0) {
                 Response response = new Response(true, "删除成功",1);
                 return response;

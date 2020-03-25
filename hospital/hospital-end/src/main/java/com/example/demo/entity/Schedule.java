@@ -1,16 +1,26 @@
 package com.example.demo.entity;
 
 public class Schedule {
+    int scheduleId;
     int doctorId;
     int departmentId;
     String scheduleDate;
     String interval;
 
-    public Schedule(int doctorId, int departmentId, String scheduleDate, String interval) {
+    public Schedule(int scheduleId, int doctorId, int departmentId, String scheduleDate, String interval) {
+        this.scheduleId = scheduleId;
         this.doctorId = doctorId;
         this.departmentId = departmentId;
         this.scheduleDate = scheduleDate;
         this.interval = interval;
+    }
+
+    public int getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(int scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     public int getDoctorId() {

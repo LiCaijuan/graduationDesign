@@ -18,5 +18,5 @@ public interface DoctorMapper {
 
     int updateDoctor(@Param("pro") Doctor doctor);
 
-    int deleteDoctor(int doctorNum);
+    int deleteDoctor(int doctorId);
 }

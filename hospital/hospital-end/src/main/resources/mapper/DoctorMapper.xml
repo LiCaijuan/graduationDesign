@@ -35,7 +35,7 @@
     <update id="updateDoctor" parameterType="com.example.demo.entity.Doctor">
         update doctor
         <trim prefix="SET" prefixOverrides=",">
-            <if test="null != doc.doctorNum and -1 != doc.doctorNum">doctor_num=#{doc.doctorNum}</if>
+            <if test="null != doc.doctorId and -1 != doc.doctorId">doctor_id=#{doc.doctorId}</if>
             <if test="null != doc.doctorName and '' != pro.doctorName">doctor_name=#{doc.doctorName},</if>
             <if test="null != doc.doctorDepartment and '' != doc.doctorDepartment">doctor_department=#{doc.doctorDepartment},</if>
             <if test="null != doc.doctorPrice and -1 != pro.doctorPrice">doctor_price=#{doc.doctorPrice},</if>
@@ -48,6 +48,6 @@
         where doctor_id = #{doc.doctorId}
     </update>
     <delete id="deleteDoctor">
-        DELETE FROM doctor WHERE doctor_num = #{doctorNum}
+        DELETE FROM doctor WHERE doctor_id = #{doctorId}
     </delete>
 </mapper>

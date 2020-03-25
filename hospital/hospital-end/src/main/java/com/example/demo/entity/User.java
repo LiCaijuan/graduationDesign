@@ -1,32 +1,33 @@
 package com.example.demo.entity;
 
 public class User {
-    public String username;
-    public String password;
-    public String phone;
+    int userId;
+    String username;
+    String password;
+    String phone;
 
-    public User() {
-    }
+    public User() { }
 
-    public User(String username, String password, String phone) {
+    public User(int userId, String username, String password, String phone) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.phone = phone;
     }
 
-    public String getPhone() {
-        return phone;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
-    public void setName(String name) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -38,4 +39,11 @@ public class User {
         this.password = password;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

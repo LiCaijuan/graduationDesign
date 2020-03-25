@@ -12,4 +12,6 @@ import java.util.List;
 public interface ScheduleMapper {
     int addSchadule(Schedule schedule);
     List<Schedule> getScheduleByDate(String scheduleDate);
+    List<Schedule> getScheduleByDepartmentId(int departmentId);
+    int deleteSchedule(int scheduleId);
 }
