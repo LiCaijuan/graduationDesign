@@ -11,7 +11,7 @@
       :finished="finished"
       finished-text="没有更多了"
     >
-      <van-cell>
+      <van-swipe-cell>
         <van-card
           class="record_cell"
           v-for="item in list"
@@ -23,92 +23,100 @@
             <van-tag plain type="success" size="large">{{item.type}}</van-tag>
           </div>
           <div slot="desc" class="van-card__desc">{{item.doctor}} | {{item.department}}</div>
-          <div slot="footer" class="van-footer">就诊时间： {{item.time}}</div>
-        </van-card>
-      </van-cell>
+            <div slot="footer" class="van-footer">就诊时间： {{item.time}}</div>
+          </van-card>
+        <van-button
+          slot="right"
+          square
+          text="删除"
+          type="danger"
+          class="delete-button"
+        />
+      </van-swipe-cell>
     </van-list>
   </div>
 </template>
 
 <script>
-  import {Icon, NavBar, List, Cell, Card, Tag} from 'vant'
-  import '@/assets/css/icon/iconfont.css'
+import { Icon, NavBar, List, Cell, Card, Tag, SwipeCell } from 'vant'
+import '@/assets/css/icon/iconfont.css'
 
-  export default {
-    name: 'record',
-    data() {
-      return {
-        fullHeight: document.documentElement.clientHeight,
-        loading: false,
-        finished: false,
-        icon: {
-          username: 'gerenzhongxin-xiugaimima'
-        },
-        list: [
-          {
-            number: 1,
-            hospital: '浙江省中医院',
-            doctor: '王大锤',
-            department: '内科',
-            user: '李哆啦',
-            time: '2020-03-15',
-            type: '专家号'
-          }, {
-            number: 2,
-            hospital: '浙江省中医院',
-            doctor: '肖恩',
-            department: '外科',
-            user: '李哆啦',
-            time: '2020-03-15 11:00-11:15',
-            type: '普通号'
-          }
-        ]
-      }
-    },
-    watch: {
-      // 监控浏览器高度变化
-      fullHeight(val) {
-        if (!this.timer) {
-          this.fullHeight = val
-          this.timer = true
-          let that = this
-          setTimeout(function () {
-            that.timer = false
-          }, 400)
-        }
-      }
-    },
-
-    components: {
-      [Icon.name]: Icon,
-      [NavBar.name]: NavBar,
-      [List.name]: List,
-      [Cell.name]: Cell,
-      [Card.name]: Card,
-      [Tag.name]: Tag
-    },
-
-    mounted() {
-      this.get_bodyHeight()
-    },
-
-    methods: {
-      // 动态获取浏览器高度
-      get_bodyHeight() {
-        const that = this
-        window.onresize = () => {
-          return (() => {
-            window.fullHeight = document.documentElement.clientHeight
-            that.fullHeight = window.fullHeight
-          })()
-        }
+export default {
+  name: 'record',
+  data () {
+    return {
+      fullHeight: document.documentElement.clientHeight,
+      loading: false,
+      finished: false,
+      icon: {
+        username: 'gerenzhongxin-xiugaimima'
       },
-      onClickLeft() {
-        this.$router.go(-1)
+      list: [
+        {
+          number: 1,
+          hospital: '浙江省中医院',
+          doctor: '王大锤',
+          department: '内科',
+          user: '李哆啦',
+          time: '2020-03-15',
+          type: '专家号'
+        }, {
+          number: 2,
+          hospital: '浙江省中医院',
+          doctor: '肖恩',
+          department: '外科',
+          user: '李哆啦',
+          time: '2020-03-15 11:00-11:15',
+          type: '普通号'
+        }
+      ]
+    }
+  },
+  watch: {
+    // 监控浏览器高度变化
+    fullHeight (val) {
+      if (!this.timer) {
+        this.fullHeight = val
+        this.timer = true
+        let that = this
+        setTimeout(function () {
+          that.timer = false
+        }, 400)
       }
     }
+  },
 
+  components: {
+    [Icon.name]: Icon,
+    [NavBar.name]: NavBar,
+    [List.name]: List,
+    [Cell.name]: Cell,
+    [Card.name]: Card,
+    [Tag.name]: Tag,
+    [SwipeCell.name]: SwipeCell
+  },
+
+  mounted () {
+    this.get_bodyHeight()
+  },
+
+  methods: {
+    // 动态获取浏览器高度
+    get_bodyHeight () {
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          window.fullHeight = document.documentElement.clientHeight
+          that.fullHeight = window.fullHeight
+        })()
+      }
+    },
+    onClickLeft () {
+      this.$router.go(-1)
+    }
   }
+
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

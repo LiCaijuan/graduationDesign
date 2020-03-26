@@ -217,7 +217,6 @@
         :finished="finished"
         finished-text="没有更多了"
       >
-        <van-cell>
           <van-card
             class="record_cell"
             v-for="item in list"
@@ -231,7 +230,6 @@
             <div slot="desc" class="van-card__desc">{{item.doctor}} | {{item.department}}</div>
             <div slot="footer" class="van-footer">就诊时间： {{item.time}}</div>
           </van-card>
-        </van-cell>
       </van-list>
     </div>
     <div class="personalcenter_content" v-show="active===2">
@@ -360,229 +358,231 @@
 </template>
 
 <script>
-  import {
-    Field, Button, Icon, Search, Swipe, SwipeItem, Lazyload, Tabbar,
-    TabbarItem, Grid, GridItem, NavBar, Cell, CellGroup, Uploader, DropdownMenu,
-    DropdownItem, Popup, Form, Dialog, Overlay, List, Card, Tag
-  } from 'vant'
-  import '@/assets/css/icon/iconfont.css'
-  import BMap from 'BMap'
+import {
+  Field, Button, Icon, Search, Swipe, SwipeItem, Lazyload, Tabbar,
+  TabbarItem, Grid, GridItem, NavBar, Cell, CellGroup, Uploader, DropdownMenu,
+  DropdownItem, Popup, Form, Dialog, Overlay, List, Card, Tag, SwipeCell
+} from 'vant'
+import '@/assets/css/icon/iconfont.css'
+import BMap from 'BMap'
 
-  export default {
-    name: 'Home',
-    data() {
-      return {
-        fullHeight: document.documentElement.clientHeight,
-        searchText: '',
-        loading: false,
-        finished: false,
-        isPopup: false,
-        isDialog: false,
-        isChangePw: false,
-        oldPw: '',
-        newPw: '',
-        list: [
-          {
-            number: 1,
-            hospital: '浙江省中医院',
-            doctor: '王大锤',
-            department: '内科',
-            user: '李哆啦',
-            time: '2020-03-15',
-            type: '专家号'
-          }, {
-            number: 2,
-            hospital: '浙江省中医院',
-            doctor: '肖恩',
-            department: '外科',
-            user: '李哆啦',
-            time: '2020-03-15 11:00-11:15',
-            type: '普通号'
-          }
-        ],
-        swipeImages: [
-          require('@/assets/img/banner1.png'),
-          require('@/assets/img/banner2.png'),
-          require('@/assets/img/banner3.png')
-        ],
-        tabNum: 0,
-        active: 0,
-        value1: 0,
-        option1: [
-          {text: '内科', value: 0},
-          {text: '外科', value: 1},
-          {text: '儿科', value: 2},
-          {text: '妇科', value: 3},
-          {text: '眼科', value: 4},
-          {text: '耳鼻喉科', value: 5},
-          {text: '口腔科', value: 6},
-          {text: '皮肤科', value: 7},
-          {text: '中医科', value: 8},
-          {text: '针灸推拿科', value: 9},
-          {text: '心理咨询室', value: 10}
-        ],
-        infoList: {
-          name: '',
-          age: '',
-          sex: '',
-          phone: '',
-          IDcard: ''
-        },
-        icon: {
-          home_active: 'shouye1',
-          home_normal: 'shouye2',
-          order_active: 'yuyue-current',
-          order_normal: 'yuyue-current-copy',
-          center_normal: 'gerenzhongxin2',
-          center_active: 'gerenzhongxin2-copy',
-          hospital_content: 'yiyuan1',
-          department_content: 'keshi',
-          record: 'yuyuejilu',
-          report: 'report-audit',
-          changePw: 'xiugaimima',
-          exit: 'tuichudenglu',
-          doctor: 'yisheng2',
-          department: 'zu',
-          reportList: 'baogao'
+export default {
+  name: 'Home',
+  data () {
+    return {
+      fullHeight: document.documentElement.clientHeight,
+      searchText: '',
+      loading: false,
+      finished: false,
+      isPopup: false,
+      isDialog: false,
+      isChangePw: false,
+      oldPw: '',
+      newPw: '',
+      list: [
+        {
+          number: 1,
+          hospital: '浙江省中医院',
+          doctor: '王大锤',
+          department: '内科',
+          user: '李哆啦',
+          time: '2020-03-15',
+          type: '专家号'
+        }, {
+          number: 2,
+          hospital: '浙江省中医院',
+          doctor: '肖恩',
+          department: '外科',
+          user: '李哆啦',
+          time: '2020-03-15 11:00-11:15',
+          type: '普通号'
         }
-      }
-    },
-    watch: {
-      // 监控浏览器高度变化
-      fullHeight(val) {
-        if (!this.timer) {
-          this.fullHeight = val
-          this.timer = true
-          let that = this
-          setTimeout(function () {
-            that.timer = false
-          }, 400)
-        }
-      }
-    },
-    components: {
-      [Field.name]: Field,
-      [Button.name]: Button,
-      [Icon.name]: Icon,
-      [Search.name]: Search,
-      [Swipe.name]: Swipe,
-      [SwipeItem.name]: SwipeItem,
-      [Lazyload.name]: Lazyload,
-      [Tabbar.name]: Tabbar,
-      [TabbarItem.name]: TabbarItem,
-      [Grid.name]: Grid,
-      [GridItem.name]: GridItem,
-      [NavBar.name]: NavBar,
-      [Cell.name]: Cell,
-      [CellGroup.name]: CellGroup,
-      [Uploader.name]: Uploader,
-      [DropdownMenu.name]: DropdownMenu,
-      [DropdownItem.name]: DropdownItem,
-      [Popup.name]: Popup,
-      [Form.name]: Form,
-      [Dialog.Component.name]: Dialog.Component,
-      [Overlay.name]: Overlay,
-      [List.name]: List,
-      [Card.name]: Card,
-      [Tag.name]: Tag
-    },
-
-    mounted() {
-      this.get_bodyHeight()
-    },
-
-    methods: {
-      // 动态获取浏览器高度
-      get_bodyHeight() {
-        const that = this
-        window.onresize = () => {
-          return (() => {
-            window.fullHeight = document.documentElement.clientHeight
-            that.fullHeight = window.fullHeight
-          })()
-        }
+      ],
+      swipeImages: [
+        require('@/assets/img/banner1.png'),
+        require('@/assets/img/banner2.png'),
+        require('@/assets/img/banner3.png')
+      ],
+      tabNum: 0,
+      active: 0,
+      value1: 0,
+      option1: [
+        {text: '内科', value: 0},
+        {text: '外科', value: 1},
+        {text: '儿科', value: 2},
+        {text: '妇科', value: 3},
+        {text: '眼科', value: 4},
+        {text: '耳鼻喉科', value: 5},
+        {text: '口腔科', value: 6},
+        {text: '皮肤科', value: 7},
+        {text: '中医科', value: 8},
+        {text: '针灸推拿科', value: 9},
+        {text: '心理咨询室', value: 10}
+      ],
+      infoList: {
+        name: '',
+        age: '',
+        sex: '',
+        phone: '',
+        IDcard: ''
       },
-      toMap() {
-        var map = new BMap.Map('allmap')
-        var point = new BMap.Point(116.709684, 39.89778)
-        map.centerAndZoom(point, 16)
-        map.enableScrollWheelZoom()
-        var myIcon = new BMap.Icon('myicon.png', new BMap.Size(30, 30), {
-          anchor: new BMap.Size(10, 10)
-        })
-        var marker = new BMap.Marker(point, {icon: myIcon})
-        map.addOverlay(marker)
-        var geolocation = new BMap.Geolocation()
-        geolocation.getCurrentPosition(function (r) {
-          if (this.getStatus() === BMAP_STATUS_SUCCESS) {
-            var mk = new BMap.Marker(r.point)
-            map.addOverlay(mk)
-            // map.panTo(r.point); // 地图中心点移到当前位置
-            var latCurrent = r.point.lat
-            var lngCurrent = r.point.lng
-            // alert('我的位置：'+ latCurrent + ',' + lngCurrent)
-            location.href = 'http://api.map.baidu.com/direction?origin=' + latCurrent + ',' + lngCurrent + '&destination=39.89778,116.709684&mode=driving&region=北京&output=html'
-          } else {
-            alert('failed' + this.getStatus())
-          }
-        }, {enableHighAccuracy: true})
-        map.addOverlay(marker)
-        var licontent = '<b>浙江省中医院</b><br>'
-        licontent += '<span><strong>地址：</strong>北京市通州区滨河中路108号</span><br>'
-        licontent += '<span><strong>电话：</strong>(010)81556565 / 6969</span><br>'
-        var opts = {
-          width: 200,
-          height: 80
-        }
-        var infoWindow = new BMap.InfoWindow(licontent, opts)
-        marker.openInfoWindow(infoWindow)
-        marker.addEventListener('click', function () {
-          marker.openInfoWindow(infoWindow)
-        })
-      },
-      doctor() {
-        this.$router.push('./doctor')
-      },
-      department() {
-        this.$router.push('./department')
-      },
-      order() {
-        this.active = 1
-      },
-      onClickLeft() {
-        this.active = 0
-      },
-      onClickRight() {
-        alert('设置')
-      },
-      showPopup() {
-        this.isPopup = true
-      },
-      onSubmit(values) {
-        console.log('submit', values)
-        this.isPopup = false
-      },
-      pwSubmit(values) {
-        console.log('submit', values)
-        this.isChangePw = false
-      },
-      showDialog() {
-        this.isDialog = true
-      },
-      showChangepw() {
-        this.isChangePw = true
-      },
-      cancelOverlay() {
-        this.isChangePw = false
-      },
-      report() {
-        this.$router.push('./report')
-      },
-      record() {
-        this.active = 1
+      icon: {
+        home_active: 'shouye1',
+        home_normal: 'shouye2',
+        order_active: 'yuyue-current',
+        order_normal: 'yuyue-current-copy',
+        center_normal: 'gerenzhongxin2',
+        center_active: 'gerenzhongxin2-copy',
+        hospital_content: 'yiyuan1',
+        department_content: 'keshi',
+        record: 'yuyuejilu',
+        report: 'report-audit',
+        changePw: 'xiugaimima',
+        exit: 'tuichudenglu',
+        doctor: 'yisheng2',
+        department: 'zu',
+        reportList: 'baogao'
       }
     }
+  },
+  watch: {
+    // 监控浏览器高度变化
+    fullHeight (val) {
+      if (!this.timer) {
+        this.fullHeight = val
+        this.timer = true
+        let that = this
+        setTimeout(function () {
+          that.timer = false
+        }, 400)
+      }
+    }
+  },
+  components: {
+    [Field.name]: Field,
+    [Button.name]: Button,
+    [Icon.name]: Icon,
+    [Search.name]: Search,
+    [Swipe.name]: Swipe,
+    [SwipeItem.name]: SwipeItem,
+    [Lazyload.name]: Lazyload,
+    [Tabbar.name]: Tabbar,
+    [TabbarItem.name]: TabbarItem,
+    [Grid.name]: Grid,
+    [GridItem.name]: GridItem,
+    [NavBar.name]: NavBar,
+    [Cell.name]: Cell,
+    [CellGroup.name]: CellGroup,
+    [Uploader.name]: Uploader,
+    [DropdownMenu.name]: DropdownMenu,
+    [DropdownItem.name]: DropdownItem,
+    [Popup.name]: Popup,
+    [Form.name]: Form,
+    [Dialog.Component.name]: Dialog.Component,
+    [Overlay.name]: Overlay,
+    [List.name]: List,
+    [Card.name]: Card,
+    [Tag.name]: Tag,
+    [Lazyload.name]: Lazyload,
+    [SwipeCell.name]: SwipeCell
+  },
+
+  mounted () {
+    this.get_bodyHeight()
+  },
+
+  methods: {
+    // 动态获取浏览器高度
+    get_bodyHeight () {
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          window.fullHeight = document.documentElement.clientHeight
+          that.fullHeight = window.fullHeight
+        })()
+      }
+    },
+    toMap () {
+      var map = new BMap.Map('allmap')
+      var point = new BMap.Point(116.709684, 39.89778)
+      map.centerAndZoom(point, 16)
+      map.enableScrollWheelZoom()
+      var myIcon = new BMap.Icon('myicon.png', new BMap.Size(30, 30), {
+        anchor: new BMap.Size(10, 10)
+      })
+      var marker = new BMap.Marker(point, {icon: myIcon})
+      map.addOverlay(marker)
+      var geolocation = new BMap.Geolocation()
+      geolocation.getCurrentPosition(function (r) {
+        if (this.getStatus() === BMAP_STATUS_SUCCESS) {
+          var mk = new BMap.Marker(r.point)
+          map.addOverlay(mk)
+          // map.panTo(r.point); // 地图中心点移到当前位置
+          var latCurrent = r.point.lat
+          var lngCurrent = r.point.lng
+          // alert('我的位置：'+ latCurrent + ',' + lngCurrent)
+          location.href = 'http://api.map.baidu.com/direction?origin=' + latCurrent + ',' + lngCurrent + '&destination=39.89778,116.709684&mode=driving&region=北京&output=html'
+        } else {
+          alert('failed' + this.getStatus())
+        }
+      }, {enableHighAccuracy: true})
+      map.addOverlay(marker)
+      var licontent = '<b>浙江省中医院</b><br>'
+      licontent += '<span><strong>地址：</strong>北京市通州区滨河中路108号</span><br>'
+      licontent += '<span><strong>电话：</strong>(010)81556565 / 6969</span><br>'
+      var opts = {
+        width: 200,
+        height: 80
+      }
+      var infoWindow = new BMap.InfoWindow(licontent, opts)
+      marker.openInfoWindow(infoWindow)
+      marker.addEventListener('click', function () {
+        marker.openInfoWindow(infoWindow)
+      })
+    },
+    doctor () {
+      this.$router.push('./doctor')
+    },
+    department () {
+      this.$router.push('./department')
+    },
+    order () {
+      this.active = 1
+    },
+    onClickLeft () {
+      this.active = 0
+    },
+    onClickRight () {
+      alert('设置')
+    },
+    showPopup () {
+      this.isPopup = true
+    },
+    onSubmit (values) {
+      console.log('submit', values)
+      this.isPopup = false
+    },
+    pwSubmit (values) {
+      console.log('submit', values)
+      this.isChangePw = false
+    },
+    showDialog () {
+      this.isDialog = true
+    },
+    showChangepw () {
+      this.isChangePw = true
+    },
+    cancelOverlay () {
+      this.isChangePw = false
+    },
+    report () {
+      this.$router.push('./report')
+    },
+    record () {
+      this.active = 1
+    }
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

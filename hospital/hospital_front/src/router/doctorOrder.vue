@@ -46,103 +46,152 @@
         <div class="doct_speciality">擅长：</div>
         <div class="doct_synopsis">简介：</div>
       </div>
-      <van-dialog v-model="isDialog" show-cancel-button class="exit_dialog">
-        <div class="exit_text">确定预约当前时段吗？</div>
-      </van-dialog>
+      <van-action-sheet v-model="showActionsheet" title="请输入预约者信息">
+        <div class="content">
+          <van-form>
+            <van-field
+              v-model="userName"
+              name="用户名"
+              label="用户名"
+              placeholder="用户名"
+              :rules="[{ required: true, message: '请填写用户名' }]"
+            />
+            <van-field
+              v-model="userPhone"
+              name="电话号码"
+              label="电话号码"
+              placeholder="电话号码"
+              :rules="[{ required: true, message: '请填写电话号码' }]"
+            />
+            <van-field
+              v-model="userCard"
+              name="身份证号"
+              label="身份证号"
+              placeholder="身份证号"
+              :rules="[{ required: true, message: '请填写身份证号' }]"
+            />
+            <van-button class="user_btn" round block type="info" @click="order()">提交</van-button>
+          </van-form>
+        </div>
+      </van-action-sheet>
     </div>
   </div>
 </template>
 
 <script>
-  import {Icon, Image, NavBar, Panel, Grid, GridItem, Dialog} from 'vant'
-  import '@/assets/css/icon/iconfont.css'
+import { Icon, Image, NavBar, Panel, Grid, GridItem, Dialog, ActionSheet, Form, Field, Button } from 'vant'
+import '@/assets/css/icon/iconfont.css'
 
-  export default {
-    name: 'doctorOrder',
-    data() {
-      return {
-        fullHeight: document.documentElement.clientHeight,
-        isDialog: false,
-        doctorImgUrl: 'http://img2.imgtn.bdimg.com/it/u=23084897,262291329&fm=11&gp=0.jpg',
-        list: {
-          number: 1,
-          name: '王大锤',
-          title: '主任医师',
-          department: '内科',
-          hospital: '浙江省中医院下沙院区',
-          date: '2020-03-15',
-          interval: [
-            '10:00-10:15',
-            '10:20-10:35',
-            '10:40-10:55',
-            '11:00-11:15',
-            '11:20-11:35',
-            '11:40-11:55',
-            '15:00-15:15',
-            '15:20-15:35',
-            '15:40-15:55',
-            '16:00-16:15',
-            '16:20-16:35',
-            '16:40-16:55'
-          ]
-        }
-      }
-    },
-
-    watch: {
-      // 监控浏览器高度变化
-      fullHeight (val) {
-        if (!this.timer) {
-          this.fullHeight = val
-          this.timer = true
-          let that = this
-          setTimeout(function () {
-            that.timer = false
-          }, 400)
-        }
-      }
-    },
-    components: {
-      [Icon.name]: Icon,
-      [Image.name]: Image,
-      [NavBar.name]: NavBar,
-      [Panel.name]: Panel,
-      [Grid.name]: Grid,
-      [GridItem.name]: GridItem,
-      [Dialog.Component.name]: Dialog.Component
-    },
-
-    mounted() {
-      this.get_bodyHeight()
-      this.getDate()
-    },
-
-    methods: {
-      onClickLeft() {
-        this.$router.go(-1)
-      },
-      showDialog() {
-        this.isDialog = true
-      },
-      getDate() {
-        this.nowDate = (new Date()).getTime()
-        var yesterday = new Date(this.nowDate)
-        this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
-          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-      },
-      // 动态获取浏览器高度
-      get_bodyHeight() {
-        const that = this
-        window.onresize = () => {
-          return (() => {
-            window.fullHeight = document.documentElement.clientHeight
-            that.fullHeight = window.fullHeight
-          })()
-        }
+export default {
+  name: 'doctorOrder',
+  data () {
+    return {
+      fullHeight: document.documentElement.clientHeight,
+      userName: '',
+      userPhone: '',
+      userCard: '',
+      isDialog: false,
+      showActionsheet: false,
+      doctorImgUrl: 'http://img2.imgtn.bdimg.com/it/u=23084897,262291329&fm=11&gp=0.jpg',
+      list: {
+        number: 1,
+        name: '王大锤',
+        title: '主任医师',
+        department: '内科',
+        hospital: '浙江省中医院下沙院区',
+        date: '2020-03-15',
+        interval: [
+          '10:00-10:15',
+          '10:20-10:35',
+          '10:40-10:55',
+          '11:00-11:15',
+          '11:20-11:35',
+          '11:40-11:55',
+          '15:00-15:15',
+          '15:20-15:35',
+          '15:40-15:55',
+          '16:00-16:15',
+          '16:20-16:35',
+          '16:40-16:55'
+        ]
       }
     }
+  },
 
+  watch: {
+    // 监控浏览器高度变化
+    fullHeight (val) {
+      if (!this.timer) {
+        this.fullHeight = val
+        this.timer = true
+        let that = this
+        setTimeout(function () {
+          that.timer = false
+        }, 400)
+      }
+    }
+  },
+  components: {
+    [Icon.name]: Icon,
+    [Image.name]: Image,
+    [NavBar.name]: NavBar,
+    [Panel.name]: Panel,
+    [Grid.name]: Grid,
+    [GridItem.name]: GridItem,
+    [ActionSheet.name]: ActionSheet,
+    [Form.name]: Form,
+    [Field.name]: Field,
+    [Button.name]: Button,
+    [Dialog.Component.name]: Dialog.Component
+  },
+
+  mounted () {
+    this.get_bodyHeight()
+    this.getDate()
+  },
+
+  methods: {
+    onClickLeft () {
+      this.$router.go(-1)
+    },
+    order () {
+      // 调用接口，如果预约成功使得showActionsheet=false
+      this.showActionsheet = false
+      console.log('submit')
+    },
+    showDialog () {
+      // this.isDialog = true
+      this.$dialog.confirm({
+        // title: "hello",
+        message: '确认预约当前时段吗？',
+        confirmButtonText: '预约',
+        cancelButtonText: '取消'
+      }).then(() => {
+        this.showActionsheet = true
+        // console.log("点击了确认按钮噢")
+      }).catch(() => {
+        // console.log("点击了取消按钮噢")
+      })
+    },
+    getDate () {
+      this.nowDate = (new Date()).getTime()
+      var yesterday = new Date(this.nowDate)
+      this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
+          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+    },
+    // 动态获取浏览器高度
+    get_bodyHeight () {
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          window.fullHeight = document.documentElement.clientHeight
+          that.fullHeight = window.fullHeight
+        })()
+      }
+    }
   }
+
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -268,5 +317,30 @@
 
   .van-grid-item__text {
     color: #ffffff;
+  }
+  .van-dialog__message{
+    font-size: 17px !important;
+    padding: 40px 24px !important;
+  }
+  .van-cell{
+    width: 70%;
+    margin: 5% 15%;
+    font-size: 16px;
+  }
+  .user_btn{
+    width: 70%;
+    margin: 2% 15%;
+    font-size: 17px;
+    background-color: #128784;
+    border: 1px solid #FFF;
+  }
+  .content{
+    padding: 10px 0px;
+  }
+  .van-action-sheet__header{
+    font-size: 18px;
+  }
+  .van-action-sheet__close{
+    right: 10px;
   }
 </style>
