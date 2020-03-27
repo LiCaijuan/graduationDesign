@@ -15,79 +15,79 @@
 </template>
 
 <script>
-  import {Field, Button, Icon} from 'vant'
-  import '@/assets/css/icon/iconfont.css'
-  // import { register } from '@/api'
+import {Field, Button, Icon} from 'vant'
+import '@/assets/css/icon/iconfont.css'
+// import { register } from '@/api'
 
-  export default {
-    name: 'Register',
-    data () {
-      return {
-        paramsData: {
-          username: '',
-          password: '',
-          phone: ''
-        },
-
-        fullHeight: document.documentElement.clientHeight
-      }
-    },
-
-    watch: {
-      // 监控浏览器高度变化
-      fullHeight (val) {
-        if (!this.timer) {
-          this.fullHeight = val
-          this.timer = true
-          let that = this
-          setTimeout(function () {
-            that.timer = false
-          }, 400)
-        }
-      }
-    },
-    components: {
-      [Field.name]: Field,
-      [Icon.name]: Icon,
-      [Button.name]: Button
-    },
-    mounted () {
-      this.get_bodyHeight()
-    },
-
-    methods: {
-      // 动态获取浏览器高度
-      get_bodyHeight () {
-        const that = this
-        window.onresize = () => {
-          return (() => {
-            window.fullHeight = document.documentElement.clientHeight
-            that.fullHeight = window.fullHeight
-          })()
-        }
+export default {
+  name: 'Register',
+  data () {
+    return {
+      paramsData: {
+        username: '',
+        password: '',
+        phone: ''
       },
 
-      toLogin () {
-        this.$router.push('/login')
-      },
+      fullHeight: document.documentElement.clientHeight
+    }
+  },
 
-      toRegister () {
-        this.axios.post('/api/register', {
-          // data: JSON.stringify(this.paramsData)
-          params: {
-            username: this.paramsData.username,
-            password: this.paramsData.password,
-            phone: this.paramsData.phone
-          }
-        }).then((res) => {
-          console.log(res)
-          this.$router.push('/login')
-        }).catch((err) => {
-          console.log(err)
-        })
+  watch: {
+    // 监控浏览器高度变化
+    fullHeight (val) {
+      if (!this.timer) {
+        this.fullHeight = val
+        this.timer = true
+        let that = this
+        setTimeout(function () {
+          that.timer = false
+        }, 400)
       }
     }
+  },
+  components: {
+    [Field.name]: Field,
+    [Icon.name]: Icon,
+    [Button.name]: Button
+  },
+  mounted () {
+    this.get_bodyHeight()
+  },
+
+  methods: {
+    // 动态获取浏览器高度
+    get_bodyHeight () {
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          window.fullHeight = document.documentElement.clientHeight
+          that.fullHeight = window.fullHeight
+        })()
+      }
+    },
+
+    toLogin () {
+      this.$router.push('/login')
+    },
+
+    toRegister () {
+      this.axios.post('/api/register', {
+        // data: JSON.stringify(this.paramsData)
+        params: {
+          username: this.paramsData.username,
+          password: this.paramsData.password,
+          phone: this.paramsData.phone
+        }
+      }).then((res) => {
+        console.log(res)
+        this.$router.push('/login')
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

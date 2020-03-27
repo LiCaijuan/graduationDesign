@@ -20,7 +20,7 @@
           <div class="locaText">
             医院：浙江省中医院<br>
             地址：浙江省杭州市<br>
-            详址：江干区123号啥的
+            详址：经济技术开发区9号大街9号
           </div>
         </div>
       </div>
@@ -504,7 +504,7 @@ export default {
     },
     toMap () {
       var map = new BMap.Map('allmap')
-      var point = new BMap.Point(116.709684, 39.89778)
+      var point = new BMap.Point(120.1658210000, 30.2522100000)
       map.centerAndZoom(point, 16)
       map.enableScrollWheelZoom()
       var myIcon = new BMap.Icon('myicon.png', new BMap.Size(30, 30), {
@@ -521,15 +521,15 @@ export default {
           var latCurrent = r.point.lat
           var lngCurrent = r.point.lng
           // alert('我的位置：'+ latCurrent + ',' + lngCurrent)
-          location.href = 'http://api.map.baidu.com/direction?origin=' + latCurrent + ',' + lngCurrent + '&destination=39.89778,116.709684&mode=driving&region=北京&output=html'
+          location.href = 'http://api.map.baidu.com/direction?origin=' + latCurrent + ',' + lngCurrent + '&destination=30.2522100000,120.1658210000&mode=driving&region=北京&output=html'
         } else {
           alert('failed' + this.getStatus())
         }
       }, {enableHighAccuracy: true})
       map.addOverlay(marker)
       var licontent = '<b>浙江省中医院</b><br>'
-      licontent += '<span><strong>地址：</strong>北京市通州区滨河中路108号</span><br>'
-      licontent += '<span><strong>电话：</strong>(010)81556565 / 6969</span><br>'
+      licontent += '<span><strong>地址：</strong>杭州经济技术开发区9号大街9号</span><br>'
+      licontent += '<span><strong>电话：</strong>(0571)86918600</span><br>'
       var opts = {
         width: 200,
         height: 80

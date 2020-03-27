@@ -1,7 +1,7 @@
 <template>
   <div id="departmentOrder" :style="'height:'+fullHeight+'px;'">
     <van-nav-bar
-      title="医生详情"
+      title="科室详情"
       left-text="返回"
       left-arrow
       @click-left="onClickLeft()"
@@ -11,14 +11,13 @@
         class="doct_img"
         width="100"
         height="100"
-        round
         fit="cover"
         :src="doctorImgUrl"
       />
       <div class="doct_info">
         <van-panel
           :title="list.name"
-          :desc="list.department"
+          :desc="list.address"
           :status="list.title"
         >
           <div>{{list.hospital}}</div>
@@ -42,7 +41,7 @@
       </div>
       <div class="doctor">
         <van-icon class="doct_icon" name="manager-o" color="#3bb5b2" size="30"/>
-        <div class="doct_text">医生简介</div>
+        <div class="doct_text">科室简介</div>
         <div class="doct_speciality">擅长：</div>
         <div class="doct_synopsis">简介：</div>
       </div>
@@ -95,9 +94,9 @@ export default {
       doctorImgUrl: 'http://img2.imgtn.bdimg.com/it/u=23084897,262291329&fm=11&gp=0.jpg',
       list: {
         number: 1,
-        name: '王大锤',
+        name: '内科',
         title: '主任医师',
-        department: '内科',
+        address: 'A楼4层',
         hospital: '浙江省中医院下沙院区',
         date: '2020-03-15',
         interval: [
@@ -205,7 +204,6 @@ export default {
     max-width: 100%;
     color: #ffffff;
   }
-
   .van-nav-bar .van-icon {
     color: #ffffff;
   }
@@ -324,8 +322,12 @@ export default {
   }
   .van-cell{
     width: 70%;
-    margin: 5% 15%;
+    margin: 0 0 5% 0%;
     font-size: 16px;
+  }
+  .van-cell__label{
+    font-size: 16px;
+    margin-top: 2px;
   }
   .user_btn{
     width: 70%;
@@ -342,5 +344,8 @@ export default {
   }
   .van-action-sheet__close{
     right: 10px;
+  }
+  .van-panel__title{
+    font-size: 20px;
   }
 </style>
