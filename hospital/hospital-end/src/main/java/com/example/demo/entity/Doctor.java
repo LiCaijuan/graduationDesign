@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 public class Doctor {
-    int doctorNum;
     int doctorId;
     String doctorName;
     String doctorDepartment; // 科室
@@ -15,8 +14,8 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(int doctorNum, int doctorId, String doctorName, String doctorDepartment, double doctorPrice, String doctorImg, int doctorType, int doctorIsOrder, String doctorSpeciality, String doctorSynopsis) {
-        this.doctorNum = doctorNum;
+    public Doctor(int doctorId, String doctorName, String doctorDepartment, double doctorPrice, String doctorImg, int doctorType, int doctorIsOrder, String doctorSpeciality, String doctorSynopsis) {
+
         this.doctorId = doctorId;
         this.doctorName = doctorName;
         this.doctorDepartment = doctorDepartment;
@@ -26,14 +25,6 @@ public class Doctor {
         this.doctorIsOrder = doctorIsOrder;
         this.doctorSpeciality = doctorSpeciality;
         this.doctorSynopsis = doctorSynopsis;
-    }
-
-    public int getDoctorNum() {
-        return doctorNum;
-    }
-
-    public void setDoctorNum(int doctorNum) {
-        this.doctorNum = doctorNum;
     }
 
     public int getDoctorId() {

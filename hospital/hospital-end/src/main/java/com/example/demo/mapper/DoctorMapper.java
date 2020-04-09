@@ -13,7 +13,7 @@ public interface DoctorMapper {
     // 首页通过医生name查询医生
     List<Doctor> getDoctorByKey(String doctorName);
     // 通过编号获取医生列表
-    List<Doctor> getDoctorByNum(int doctorNum);
+    List<Doctor> getDoctorById(int doctorId);
     List<Doctor> getDoctorByCondition(@Param("doctorName") String doctorName,@Param("doctorType") int doctorType);
 
     int updateDoctor(@Param("pro") Doctor doctor);

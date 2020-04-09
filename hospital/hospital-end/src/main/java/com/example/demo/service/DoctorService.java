@@ -9,12 +9,12 @@ public interface DoctorService {
     List <Doctor> getDoctorList();
     // 关键字模糊查询
     List <Doctor> getDoctorByKey(String doctorName);
-    List <Doctor> getDoctorByNum(int doctorNum);
+    List <Doctor> getDoctorById(int doctorId);
 
     List <Doctor> getDoctorByCondition(String doctorName, int doctorType);
 
     int updateDoctor(Doctor doctor);
 
     //删除医生接口
-    int deleteDoctor(int doctorNum);
+    int deleteDoctor(int doctorId);
 }

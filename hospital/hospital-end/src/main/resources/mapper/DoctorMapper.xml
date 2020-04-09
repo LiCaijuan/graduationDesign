@@ -3,7 +3,6 @@
 <mapper namespace="com.example.demo.mapper.DoctorMapper">
     <resultMap id="BaseResultMap" type="com.example.demo.entity.Doctor">
         <result column="doctor_id" jdbcType="VARCHAR" property="doctorId" />
-        <result column="doctor_num" jdbcType="INTEGER" property="doctorNum" />
         <result column="doctor_name" jdbcType="VARCHAR" property="doctorName" />
         <result column="doctor_department" jdbcType="VARCHAR" property="doctorDepartment" />
         <result column="doctor_price" jdbcType="DOUBLE" property="doctorPrice" />
@@ -14,7 +13,7 @@
         <result column="product_synopsis" jdbcType="VARCHAR" property="doctorSynopsis" />
     </resultMap>
     <insert id="addDoctor" parameterType="com.example.demo.entity.Doctor">
-        INSERT INTO `doctor` (`doctor_num`,`doctor_name`,`doctor_department`,`doctor_price`,`doctor_img`,`doctor_type`,`doctor_order`, `doctor_speciality`,`doctor_synopsis`) VALUES(#{doctorNum},#{doctorName},#{doctorDepartment},#{doctorPrice},#{doctorImg},#{doctorType},#{doctorIsOrder},#{doctorSpeciality},#{doctorSynopsis})
+        INSERT INTO `doctor` (`doctor_name`,`doctor_department`,`doctor_price`,`doctor_img`,`doctor_type`,`doctor_order`, `doctor_speciality`,`doctor_synopsis`) VALUES(#{doctorName},#{doctorDepartment},#{doctorPrice},#{doctorImg},#{doctorType},#{doctorIsOrder},#{doctorSpeciality},#{doctorSynopsis})
     </insert>
     <select id="getDoctorList" resultMap="BaseResultMap">
         SELECT * FROM `doctor`
@@ -22,8 +21,8 @@
     <select id="getDoctorByKey" resultMap="BaseResultMap">
         SELECT * FROM `doctor` where doctor_name like concat('%',#{doctorName},'%') or doctor_synopsis like  concat('%',#{doctorName},'%')
     </select >
-    <select id="getDoctorByNum" resultMap="BaseResultMap">
-        SELECT * FROM `doctor` where doctor_num =#{doctorNum}
+    <select id="getDoctorById" resultMap="BaseResultMap">
+        SELECT * FROM `doctor` where doctor_id =#{doctorId}
     </select >
     <select id="getDoctorByCondition" resultMap="BaseResultMap">
         SELECT * FROM `doctor`
@@ -35,7 +34,6 @@
     <update id="updateDoctor" parameterType="com.example.demo.entity.Doctor">
         update doctor
         <trim prefix="SET" prefixOverrides=",">
-            <if test="null != doc.doctorId and -1 != doc.doctorId">doctor_id=#{doc.doctorId}</if>
             <if test="null != doc.doctorName and '' != pro.doctorName">doctor_name=#{doc.doctorName},</if>
             <if test="null != doc.doctorDepartment and '' != doc.doctorDepartment">doctor_department=#{doc.doctorDepartment},</if>
             <if test="null != doc.doctorPrice and -1 != pro.doctorPrice">doctor_price=#{doc.doctorPrice},</if>

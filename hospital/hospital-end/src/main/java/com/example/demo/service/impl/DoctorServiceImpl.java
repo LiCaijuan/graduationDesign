@@ -31,8 +31,8 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Doctor> getDoctorByNum(int doctorNum) {
-        List<Doctor> doctorList2 = doctorMapper.getDoctorByNum(doctorNum);
+    public List<Doctor> getDoctorById(int doctorId) {
+        List<Doctor> doctorList2 = doctorMapper.getDoctorById(doctorId);
         return doctorList2;
     }
 
@@ -54,10 +54,10 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public int deleteDoctor(int doctorNum) {
+    public int deleteDoctor(int doctorId) {
         int count = 0;
         try {
-            count = doctorMapper.deleteDoctor(doctorNum);
+            count = doctorMapper.deleteDoctor(doctorId);
         } catch (Exception err) {
             System.out.println(err);
         }

@@ -50,11 +50,11 @@ public class DoctorController {
         return response;
     }
 
-    @RequestMapping(value = "/getDoctorByNum", method = RequestMethod.POST)
-    public Response getDoctorByNum(@RequestBody Doctor doctor) {
-        int doctorNum = doctor.getDoctorNum();
+    @RequestMapping(value = "/getDoctorById", method = RequestMethod.POST)
+    public Response getDoctorById(@RequestBody Doctor doctor) {
+        int doctorId = doctor.getDoctorId();
         Response response = new Response();
-        List<Doctor> doctorList = doctorService.getDoctorByNum(doctorNum);
+        List<Doctor> doctorList = doctorService.getDoctorById(doctorId);
         response.setResponse(true, "查询成功", 1, doctorList);
         return response;
     }
@@ -73,7 +73,7 @@ public class DoctorController {
     // 更新医生  暂时并没有用到这个接口
     @RequestMapping(value = "/updateDoctor", method = RequestMethod.POST)
     public Response updateDoctor(@RequestBody Doctor doctor) {
-        int doctorId = doctor.getDoctorNum();
+        int doctorId = doctor.getDoctorId();
         int count = doctorService.updateDoctor(doctor);
         if (doctorId!=0){
             if (count > 0){

@@ -13,8 +13,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
-    public int addUser(String username, String password, String phone) {
-        User user = new User(username, password, phone);
+
+    @Override
+    public int addUser(int userId, String username, String password, String phone) {
+        User user = new User(userId, username, password, phone);
         int count = userMapper.addUser(user);
         return count;
     }

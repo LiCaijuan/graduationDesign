@@ -14,8 +14,8 @@
         <result column="address" jdbcType="VARCHAR" property="address"/>
     </resultMap>
     <insert id="addOrder" parameterType="com.example.demo.entity.Order">
-        INSERT INTO `order` (`order_id`,`doctor_type`,`doctor_name`,`department_name`,`order_date`,`interval`,`user_name`,`user_phone`,`user_card`,`address`)
-                    VALUES(#{orderId},#{doctorType},#{doctorName},#{departmentName},#{orderDate},#{interval},#{userName},#{userPhone},#{userCard},#{address})
+        INSERT INTO `order` (`doctor_type`,`doctor_name`,`department_name`,`order_date`,`interval`,`user_name`,`user_phone`,`user_card`,`address`)
+                    VALUES(#{doctorType},#{doctorName},#{departmentName},#{orderDate},#{interval},#{userName},#{userPhone},#{userCard},#{address})
     </insert>
     <select id="getOrderList" resultMap="BaseResultMap">
         SELECT * FROM `order`

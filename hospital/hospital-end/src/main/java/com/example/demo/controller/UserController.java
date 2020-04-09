@@ -19,6 +19,7 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Response register(@RequestBody Map<String, String> person) {
+        int userId = Integer.parseInt(person.get("userId"));
         String username = person.get("username");
         String password = person.get("password");
         String phone = person.get("phone");
@@ -28,7 +29,7 @@ public class UserController {
             if (users != null && users.size() > 0) {
                 return new Response(false, "注册失败，用户名重复，请更换", -1);
             } else {
-                int count = service.addUser(username, password, phone);
+                int count = service.addUser(userId, username, password, phone);
                 if (count > 0) {
                     return new Response(true, "注册成功", 1);
                 } else {
