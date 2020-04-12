@@ -15,8 +15,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public int addUser(int userId, String username, String password, String phone) {
-        User user = new User(userId, username, password, phone);
+    public int addUser(User user) {
         int count = userMapper.addUser(user);
         return count;
     }

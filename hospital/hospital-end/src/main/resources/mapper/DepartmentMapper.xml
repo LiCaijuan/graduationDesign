@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DepartmentMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Department">
+        <result column="department_id" jdbcType="INTEGER" property="departmentId"/>
+        <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
+        <result column="department_address" jdbcType="VARCHAR" property="departmentAddress"/>
+        <result column="department_desc" jdbcType="VARCHAR" property="departmentDesc"/>
+        <result column="department_speciality" jdbcType="VARCHAR" property="departmentSpeciality" />
+    </resultMap>
+    <insert id="addDepartment" parameterType="com.example.demo.entity.Department">
+        INSERT INTO `department` (`department_name`,`department_address`,`department_desc`,`department_speciality`) VALUES(#{departmentName},#{departmentAddress},#{departmentAddress},#{departmentSpeciality})
+    </insert>
+    <select id="getDepartmentList" resultMap="BaseResultMap">
+        SELECT * FROM `department`
+    </select >
+<!--    <select id="queryByUsername" resultType="com.example.demo.entity.User">-->
+<!--        SELECT * FROM `user` WHERE username = #{username}-->
+<!--    </select>-->
+</mapper>

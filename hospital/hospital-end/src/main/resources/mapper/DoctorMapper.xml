@@ -7,10 +7,10 @@
         <result column="doctor_department" jdbcType="VARCHAR" property="doctorDepartment" />
         <result column="doctor_price" jdbcType="DOUBLE" property="doctorPrice" />
         <result column="doctor_img" jdbcType="VARCHAR" property="doctorImg" />
-        <result column="product_type" jdbcType="INTEGER" property="doctorType" />
+        <result column="doctor_type" jdbcType="INTEGER" property="doctorType" />
         <result column="doctor_order" jdbcType="INTEGER" property="doctorIsOrder" />
-        <result column="product_speciality" jdbcType="VARCHAR" property="doctorSpeciality" />
-        <result column="product_synopsis" jdbcType="VARCHAR" property="doctorSynopsis" />
+        <result column="doctor_speciality" jdbcType="VARCHAR" property="doctorSpeciality" />
+        <result column="doctor_synopsis" jdbcType="VARCHAR" property="doctorSynopsis" />
     </resultMap>
     <insert id="addDoctor" parameterType="com.example.demo.entity.Doctor">
         INSERT INTO `doctor` (`doctor_name`,`doctor_department`,`doctor_price`,`doctor_img`,`doctor_type`,`doctor_order`, `doctor_speciality`,`doctor_synopsis`) VALUES(#{doctorName},#{doctorDepartment},#{doctorPrice},#{doctorImg},#{doctorType},#{doctorIsOrder},#{doctorSpeciality},#{doctorSynopsis})

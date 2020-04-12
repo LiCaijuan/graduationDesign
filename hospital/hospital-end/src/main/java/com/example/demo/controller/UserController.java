@@ -15,30 +15,29 @@ import java.util.Map;
 @RestController
 public class UserController {
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Response register(@RequestBody Map<String, String> person) {
-        int userId = Integer.parseInt(person.get("userId"));
-        String username = person.get("username");
-        String password = person.get("password");
-        String phone = person.get("phone");
+    public Response register(@RequestBody User user) {
+        Response result;
+        String username = user.getUsername();
+        String password = user.getPassword();
 
-        if (username != null && password != null && phone != null) {
-            List<User> users = service.queryByUsername(username, password);
-            if (users != null && users.size() > 0) {
-                return new Response(false, "注册失败，用户名重复，请更换", -1);
-            } else {
-                int count = service.addUser(userId, username, password, phone);
-                if (count > 0) {
-                    return new Response(true, "注册成功", 1);
-                } else {
-                    return new Response(false, "注册失败", -1);
-                }
-            }
+        List<User> userList = userService.queryByUsername(username, password);
+        if (userList != null && userList.size() > 0) {
+            Response response = new Response(false, "用户已存在", -1);
+            result = response;
         } else {
-            return new Response(false, "注册失败，请检查用户名、密码、手机号是否为空", -1);
+            int count = userService.addUser(user);
+            if (count > 0) {
+                Response response = new Response(true, "添加成功", 1);
+                result = response;
+            } else {
+                Response response = new Response(false, "添加失败", -1);
+                result = response;
+            }
         }
+        return result;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -46,7 +45,7 @@ public class UserController {
         String username = person.get("username");
         String password = person.get("password");
         if (username != null && password != null) {
-            List<User> users = service.queryByUsername(username, password);
+            List<User> users = userService.queryByUsername(username, password);
             if (users != null && users.size() > 0) {
                 User user = users.get(0);
                 if (password.equals(user.getPassword())) {
