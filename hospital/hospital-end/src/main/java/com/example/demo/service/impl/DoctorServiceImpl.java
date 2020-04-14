@@ -19,6 +19,12 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public List<Doctor> getDoctorByName(String doctorName) {
+        List<Doctor> doctorList = doctorMapper.getDoctorByName(doctorName);
+        return doctorList;
+    }
+
+    @Override
     public List<Doctor> getDoctorList() {
         List <Doctor> doctorList = doctorMapper.getDoctorList();
         return doctorList;

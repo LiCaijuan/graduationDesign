@@ -19,8 +19,42 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<Department> getDepartmentByName(String departmentName) {
+        List<Department> departmentList = departmentMapper.getDepartmentByName(departmentName);
+        return departmentList;
+    }
+
+    @Override
     public List<Department> getDepartmentList() {
         List<Department> departmentList = departmentMapper.getDepartmentList();
         return departmentList;
+    }
+
+    @Override
+    public List<Department> getDepartmentByKey(String departmentName) {
+        List<Department> departmentList = departmentMapper.getDepartmentByKey(departmentName);
+        return departmentList;
+    }
+
+    @Override
+    public int updateDepartment(Department department) {
+        int count = 0;
+        try {
+            count = departmentMapper.updateDepartment(department);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
+        return count;
+    }
+
+    @Override
+    public int deleteDepartment(int departmentId) {
+        int count = 0;
+        try {
+            count = departmentMapper.deleteDepartment(departmentId);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
+        return count;
     }
 }

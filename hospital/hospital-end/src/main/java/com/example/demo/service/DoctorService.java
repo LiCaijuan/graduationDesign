@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface DoctorService {
     int addDoctor( Doctor doctor);
+    List <Doctor> getDoctorByName(String doctorName);
     List <Doctor> getDoctorList();
     // 关键字模糊查询
     List <Doctor> getDoctorByKey(String doctorName);

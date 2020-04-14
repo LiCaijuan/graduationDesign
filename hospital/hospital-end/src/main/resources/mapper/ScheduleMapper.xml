@@ -8,12 +8,12 @@
         <result column="interval" jdbcType="VARCHAR" property="interval"/>
     </resultMap>
     <insert id="addSchedule" parameterType="com.example.demo.entity.Schedule">
-        INSERT INTO `schedule` VALUES(#{doctor_id},#{department_id},#{date},#{interval })
+        INSERT INTO `schedule` (`doctor_id`, `department_id`,`schedule_date`,`interval`) VALUES(#{doctorId},#{departmentId},#{scheduleDate},#{interval })
     </insert>
-    <select id="getScheduleByDate" resultType="com.example.demo.entity.Schedule">
+    <select id="getScheduleByDate" resultMap="BaseResultMap">
         SELECT * FROM `schedule` WHERE schedule_date = #{scheduleDate}
     </select>
-    <select id="getScheduleByDepartmentId" resultType="com.example.demo.entity.Schedule">
+    <select id="getScheduleByDepartmentId" resultMap="BaseResultMap">
         SELECT * FROM  `schedule` WHERE department_id = #{departmentId}
     </select>
     <delete id="deleteSchedule">

@@ -18,13 +18,20 @@ public class DoctorController {
 
     @RequestMapping(value = "/addDoctor", method = RequestMethod.POST)
     public Response addDoctor(@RequestBody Doctor doctor) {
-        int count = doctorService.addDoctor(doctor);
-        if (count > 0) {
-            Response response = new Response(true, "添加成功", 1);
+        String doctorName = doctor.getDoctorName();
+        List<Doctor> doctorList = doctorService.getDoctorByName(doctorName);
+        if (doctorList != null && doctorList.size() > 0) {
+            Response response = new Response(false, "添加失败，医生已存在", -1);
             return response;
         } else {
-            Response response = new Response(false, "添加失败", -1);
-            return response;
+            int count = doctorService.addDoctor(doctor);
+            if (count > 0) {
+                Response response = new Response(true, "添加成功", 1);
+                return response;
+            } else {
+                Response response = new Response(false, "添加失败", -1);
+                return response;
+            }
         }
     }
 

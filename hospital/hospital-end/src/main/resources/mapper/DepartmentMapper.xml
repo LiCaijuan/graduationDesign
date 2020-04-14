@@ -11,10 +11,34 @@
     <insert id="addDepartment" parameterType="com.example.demo.entity.Department">
         INSERT INTO `department` (`department_name`,`department_address`,`department_desc`,`department_speciality`) VALUES(#{departmentName},#{departmentAddress},#{departmentAddress},#{departmentSpeciality})
     </insert>
+    <select id="getDepartmentByName" resultMap="BaseResultMap">
+        SELECT * FROM `department` WHERE department_name = #{departmentName}
+    </select >
     <select id="getDepartmentList" resultMap="BaseResultMap">
         SELECT * FROM `department`
     </select >
-<!--    <select id="queryByUsername" resultType="com.example.demo.entity.User">-->
-<!--        SELECT * FROM `user` WHERE username = #{username}-->
-<!--    </select>-->
+    <select id="getDepartmentByKey" resultMap="BaseResultMap">
+        SELECT * FROM `department` where department_name like concat('%',#{departmentName},'%') or department_speciality like  concat('%',#{departmentName},'%')
+    </select >
+    <update id="updateDepartment" parameterType="com.example.demo.entity.Department">
+        update department
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="null != dep.departmentName and '' != dep.departmentName">
+                department_name=#{dep.departmentName},
+            </if>
+            <if test="null != dep.departmentAddress and '' != dep.departmentAddress">
+                department_address=#{dep.departmentAddress},
+            </if>
+            <if test="null != dep.departmentDesc and '' != dep.departmentDesc">
+                department_desc=#{dep.departmentDesc},
+            </if>
+            <if test="null != dep.departmentSpeciality and '' != dep.departmentSpeciality">
+                department_speciality=#{dep.departmentSpeciality},
+            </if>
+        </trim>
+        where department_id=#{dep.departmentId}
+    </update>
+    <delete id="deleteDepartment">
+        DELETE FROM department WHERE department_id = #{departmentId}
+    </delete>
 </mapper>

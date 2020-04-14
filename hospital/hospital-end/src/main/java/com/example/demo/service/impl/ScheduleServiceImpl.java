@@ -3,17 +3,18 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.Schedule;
 import com.example.demo.mapper.ScheduleMapper;
 import com.example.demo.service.ScheduleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
-
+    @Autowired
     ScheduleMapper scheduleMapper;
     @Override
     public int addSchedule(Schedule schedule) {
-        int count = scheduleMapper.addSchadule(schedule);
+        int count = scheduleMapper.addSchedule(schedule);
         return count;
     }
 

@@ -15,6 +15,9 @@
     <insert id="addDoctor" parameterType="com.example.demo.entity.Doctor">
         INSERT INTO `doctor` (`doctor_name`,`doctor_department`,`doctor_price`,`doctor_img`,`doctor_type`,`doctor_order`, `doctor_speciality`,`doctor_synopsis`) VALUES(#{doctorName},#{doctorDepartment},#{doctorPrice},#{doctorImg},#{doctorType},#{doctorIsOrder},#{doctorSpeciality},#{doctorSynopsis})
     </insert>
+    <select id="getDoctorByName" resultMap="BaseResultMap">
+        SELECT * FROM `doctor` WHERE doctor_name = #{doctorName}
+    </select>
     <select id="getDoctorList" resultMap="BaseResultMap">
         SELECT * FROM `doctor`
     </select >

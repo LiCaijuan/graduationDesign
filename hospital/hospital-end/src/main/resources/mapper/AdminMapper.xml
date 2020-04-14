@@ -7,10 +7,10 @@
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="adminid" jdbcType="INTEGER" property="adminid"/>
     </resultMap>
-    <insert id="addAdmin" parameterType="com.example.demo.entity.Admin">INSERT INTO `admin`
-        VALUES(#{username},#{password},#{phone},#{adminid})
+    <insert id="addAdmin" parameterType="com.example.demo.entity.Admin">
+        INSERT INTO `admin` (`username`, `password`, `phone`, `adminid`) VALUES(#{username},#{password},#{phone},#{adminid})
     </insert>
-    <select id="queryByUsername" resultType="com.example.demo.entity.Admin">SELECT * FROM `admin` WHERE username =
-        #{username}
+    <select id="queryByUsername" resultMap="BaseResultMap">
+        SELECT * FROM `admin` WHERE username = #{username}
     </select>
 </mapper>

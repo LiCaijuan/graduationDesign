@@ -15,10 +15,10 @@ import java.util.Map;
 @RestController
 public class AdminController {
     @Autowired
-    private AdminService adminService;
+    AdminService adminService;
 
-    @RequestMapping(value = "/adminRegister", method = RequestMethod.POST)
-    public Response adminRegister(@RequestBody Map<String, String> person) {
+    @RequestMapping(value = "/addAdmin", method = RequestMethod.POST)
+    public Response addAdmin(@RequestBody Map<String, String> person) {
         String username = person.get("username");
         String password = person.get("password");
         String phone = person.get("phone");
@@ -43,8 +43,8 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
-    public Response adminLogin(@RequestBody Map<String, String> person) {
+    @RequestMapping(value = "/queryByUsername", method = RequestMethod.POST)
+    public Response queryByUsername(@RequestBody Map<String, String> person) {
         String username = person.get("username");
         String password = person.get("password");
         if (username != null && password != null) {

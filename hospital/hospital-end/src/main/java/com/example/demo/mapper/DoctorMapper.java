@@ -9,6 +9,7 @@ import java.util.List;
 @Mapper
 public interface DoctorMapper {
     int addDoctor(Doctor doctor);
+    List<Doctor> getDoctorByName(String doctorName);
     List<Doctor> getDoctorList();
     // 首页通过医生name查询医生
     List<Doctor> getDoctorByKey(String doctorName);
