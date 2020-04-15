@@ -34,20 +34,38 @@
             <if test="doctorType != null and doctorType != -1">and doctor_type = #{doctorType}</if>
         </where>
     </select >
+
     <update id="updateDoctor" parameterType="com.example.demo.entity.Doctor">
         update doctor
-        <trim prefix="SET" prefixOverrides=",">
-            <if test="null != doc.doctorName and '' != pro.doctorName">doctor_name=#{doc.doctorName},</if>
-            <if test="null != doc.doctorDepartment and '' != doc.doctorDepartment">doctor_department=#{doc.doctorDepartment},</if>
-            <if test="null != doc.doctorPrice and -1 != pro.doctorPrice">doctor_price=#{doc.doctorPrice},</if>
-            <if test="null != doc.doctorImg and '' != doc.doctorImg">doctor_img=#{doc.doctorImg},</if>
-            <if test="null != doc.doctorType and -1 != doc.doctorType">doctor_type=#{doc.doctorType},</if>
-            <if test="null != doc.doctorIsOrder and -1 != pro.doctorIsOrder">doctor_order=#{doc.doctorIsOrder},</if>
-            <if test="null != doc.doctorSpeciality and '' != doc.doctorSpeciality">doctor_speciality=#{doc.doctorSpeciality},</if>
-            <if test="null != doc.doctorSynopsis and ''  != doc.doctorSynopsis">doctor_synopsis=#{doc.doctorSynopsis},</if>
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="null != doc.doctorName and '' != doc.doctorName">
+                doctor_name=#{doc.doctorName},
+            </if>
+            <if test="null != doc.doctorDepartment and '' != doc.doctorDepartment">
+                doctor_department=#{doc.doctorDepartment},
+            </if>
+            <if test="null != doc.doctorPrice and -1 != doc.doctorPrice">
+                doctor_price=#{doc.doctorPrice},
+            </if>
+            <if test="null != doc.doctorImg and '' != doc.doctorImg">
+                doctor_img=#{doc.doctorImg},
+            </if>
+            <if test="null != doc.doctorType and -1 != doc.doctorType">
+                doctor_type=#{doc.doctorType},
+            </if>
+            <if test="null != doc.doctorIsOrder and -1 != doc.doctorIsOrder">
+                doctor_order=#{doc.doctorIsOrder},
+            </if>
+            <if test="null != doc.doctorSpeciality and '' != doc.doctorSpeciality">
+                doctor_speciality=#{doc.doctorSpeciality},
+            </if>
+            <if test="null != doc.doctorSynopsis and '' != doc.doctorSynopsis">
+                doctor_synopsis=#{doc.doctorSynopsis},
+            </if>
         </trim>
-        where doctor_id = #{doc.doctorId}
+        where doctor_id=#{doc.doctorId}
     </update>
+
     <delete id="deleteDoctor">
         DELETE FROM doctor WHERE doctor_id = #{doctorId}
     </delete>

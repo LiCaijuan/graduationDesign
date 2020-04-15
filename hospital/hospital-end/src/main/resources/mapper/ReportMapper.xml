@@ -16,6 +16,9 @@
     <select id="getReportList" resultMap="BaseResultMap">
         SELECT * FROM `report`
     </select>
+    <select id="getReportByReportUrl" resultMap="BaseResultMap">
+        SELECT * FROM `report` WHERE report_url = #{reportUrl}
+    </select>
     <select id="getReportById" resultMap="BaseResultMap">
         SELECT * FROM `report` WHERE report_id = #{reportId}
     </select>
@@ -35,7 +38,7 @@
                 `interval` = #{rep.interval},
             </if>
             <if test="null != rep.reportUrl and '' != rep.reportUrl">
-                reportUrl = #{rep.report_url},
+                report_url = #{rep.reportUrl},
             </if>
         </trim>
         where report_id=#{rep.reportId}

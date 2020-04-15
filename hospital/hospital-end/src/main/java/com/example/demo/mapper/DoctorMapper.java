@@ -17,7 +17,7 @@ public interface DoctorMapper {
     List<Doctor> getDoctorById(int doctorId);
     List<Doctor> getDoctorByCondition(@Param("doctorName") String doctorName,@Param("doctorType") int doctorType);
 
-    int updateDoctor(@Param("pro") Doctor doctor);
+    int updateDoctor(@Param("doc") Doctor doctor);
 
     int deleteDoctor(int doctorId);
 }

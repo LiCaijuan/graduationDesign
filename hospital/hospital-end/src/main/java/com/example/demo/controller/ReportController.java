@@ -18,13 +18,20 @@ public class ReportController {
 
     @RequestMapping(value = "/addReport", method = RequestMethod.POST)
     public Response addReport(@RequestBody Report report) {
-        int count = reportService.addReport(report);
-        if (count > 0) {
-            Response response = new Response(true, "添加成功", 1);
+        String reportUrl = report.getReportUrl();
+        List<Report> reportList = reportService.getReportByReportUrl(reportUrl);
+        if (reportList != null && reportList.size() > 0) {
+            Response response = new Response(false, "添加失败，该报告已存在", -1);
             return response;
         } else {
-            Response response = new Response(false, "添加失败", -1);
-            return response;
+            int count = reportService.addReport(report);
+            if (count > 0) {
+                Response response = new Response(true, "添加成功", 1);
+                return response;
+            } else {
+                Response response = new Response(false, "添加失败", -1);
+                return response;
+            }
         }
     }
 

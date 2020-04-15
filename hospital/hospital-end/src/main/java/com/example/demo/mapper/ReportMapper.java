@@ -14,6 +14,7 @@ public interface ReportMapper {
     int addReport(Report report);
     List<Report> getReportList();
     List<Report> getReportById(int reportId);
+    List<Report> getReportByReportUrl(String reportUrl);
     int updateReport(@Param("rep") Report report);
     int deleteReport(int reportId);
 }

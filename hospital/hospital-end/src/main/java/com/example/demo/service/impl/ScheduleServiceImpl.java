@@ -19,6 +19,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public List<Schedule> getScheduleList() {
+        List<Schedule> scheduleList = scheduleMapper.getScheduleList();
+        return scheduleList;
+    }
+
+    @Override
     public List<Schedule> getScheduleByDate(String scheduleDate) {
         List<Schedule> scheduleList = scheduleMapper.getScheduleByDate(scheduleDate);
         return scheduleList;
@@ -26,13 +32,41 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> getScheduleByDepartmentId(int departmentId) {
-        List<Schedule> scheduleList1 = scheduleMapper.getScheduleByDepartmentId(departmentId);
-        return scheduleList1;
+        List<Schedule> scheduleList = scheduleMapper.getScheduleByDepartmentId(departmentId);
+        return scheduleList;
+    }
+
+    @Override
+    public List<Schedule> getScheduleByDoctorId(int doctorId) {
+        List<Schedule> scheduleList = scheduleMapper.getScheduleByDoctorId(doctorId);
+        return scheduleList;
+    }
+
+    @Override
+    public List<Schedule> getScheduleByCondition(int doctorId, int departmentId, String scheduleDate, String interval) {
+        List<Schedule> scheduleList = scheduleMapper.getScheduleByCondition(doctorId, departmentId, scheduleDate, interval);
+        return scheduleList;
+    }
+
+    @Override
+    public int updateSchedule(Schedule schedule) {
+        int count = 0;
+        try {
+            count = scheduleMapper.updateSchedule(schedule);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
+        return count;
     }
 
     @Override
     public int deleteSchedule(int scheduleId) {
-        int count = scheduleMapper.deleteSchedule(scheduleId);
+        int count = 0;
+        try {
+            count = scheduleMapper.deleteSchedule(scheduleId);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
         return count;
     }
 }

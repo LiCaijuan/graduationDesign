@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ReportService {
     int addReport(Report report);
-
+    List<Report> getReportByReportUrl(String reportUrl);
     List<Report> getReportList();
     List<Report> getReportById(int reportId);
     int updateReport(Report report);

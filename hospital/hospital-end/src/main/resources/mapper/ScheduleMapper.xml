@@ -2,20 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.ScheduleMapper">
     <resultMap id="BaseResultMap" type="com.example.demo.entity.Schedule">
+        <result column="schedule_id" jdbcType="INTEGER" property="scheduleId"/>
         <result column="doctor_id" jdbcType="INTEGER" property="doctorId"/>
         <result column="department_id" jdbcType="INTEGER" property="departmentId"/>
         <result column="schedule_date" jdbcType="VARCHAR" property="scheduleDate"/>
         <result column="interval" jdbcType="VARCHAR" property="interval"/>
     </resultMap>
     <insert id="addSchedule" parameterType="com.example.demo.entity.Schedule">
-        INSERT INTO `schedule` (`doctor_id`, `department_id`,`schedule_date`,`interval`) VALUES(#{doctorId},#{departmentId},#{scheduleDate},#{interval })
+        INSERT INTO `schedule` (`doctor_id`, `department_id`,`schedule_date`,`interval`) VALUES(#{doctorId},#{departmentId},#{scheduleDate},#{interval})
     </insert>
+    <select id="getScheduleList" resultMap="BaseResultMap">
+        SELECT * FROM `schedule`
+    </select>
     <select id="getScheduleByDate" resultMap="BaseResultMap">
         SELECT * FROM `schedule` WHERE schedule_date = #{scheduleDate}
     </select>
     <select id="getScheduleByDepartmentId" resultMap="BaseResultMap">
         SELECT * FROM  `schedule` WHERE department_id = #{departmentId}
     </select>
+    <select id="getScheduleByDoctorId" resultMap="BaseResultMap">
+        SELECT * FROM  `schedule` WHERE doctor_id = #{doctorId}
+    </select>
+    <select id="getScheduleByCondition" resultMap="BaseResultMap">
+        SELECT * FROM  `schedule`
+        <where>
+            <if test="doctorId != null and doctorId != -1">
+                and doctor_id = #{doctorId}
+            </if>
+            <if test="departmentId != null and departmentId != -1">
+                and department_id = #{departmentId}
+            </if>
+            <if test="scheduleDate != null and scheduleDate != '' ">
+                and schedule_date like concat ('%', #{scheduleDate}, '%')
+            </if>
+            <if test="interval != null and interval != '' ">
+                and `interval` like concat('%', #{interval}, '%')
+            </if>
+        </where>
+    </select>
+    <update id="updateSchedule" parameterType="com.example.demo.entity.Schedule">
+        update schedule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="null != sch.doctorId and -1 != sch.doctorId">
+                doctor_id=#{sch.doctorId},
+            </if>
+            <if test="null != sch.departmentId and -1!= sch.departmentId">
+                department_id=#{sch.departmentId},
+            </if>
+            <if test="null != sch.scheduleDate and ''!= sch.scheduleDate">
+                schedule_date=#{sch.scheduleDate},
+            </if>
+            <if test="null != sch.interval and '' != sch.interval">
+                `interval`=#{sch.interval},
+            </if>
+        </trim>
+        where schedule_id=#{sch.scheduleId}
+    </update>
     <delete id="deleteSchedule">
         DELETE FROM schedule WHERE schedule_id = #{scheduleId}
     </delete>

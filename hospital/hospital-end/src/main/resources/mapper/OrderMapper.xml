@@ -24,17 +24,20 @@
 <!--        SELECT * FROM `product` where product_name like concat('%',#{productName},'%') or product_des like-->
 <!--        concat('%',#{productName},'%')-->
 <!--    </select>-->
-<!--    <select id="getProductByCondition" resultMap="BaseResultMap">-->
-<!--        SELECT * FROM `product`-->
-<!--        <where>-->
-<!--            <if test="productName != null and productName != ''">-->
-<!--                and product_name like concat('%',#{productName},'%')-->
-<!--            </if>-->
-<!--            <if test="productType != null and productType != -1">-->
-<!--                and product_type = #{productType}-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
+    <select id="getOrderByCondition" resultMap="BaseResultMap">
+        SELECT * FROM `order`
+        <where>
+            <if test="userCard != null and userCard != '' ">
+                and user_card like concat('%',#{userCard},'%')
+            </if>
+            <if test="orderDate != null and orderDate != '' ">
+                and order_date like concat('%',#{orderDate},'%')
+            </if>
+            <if test="interval != null and interval != '' ">
+                and `interval` like concat ('%',#{interval},'%')
+            </if>
+        </where>
+    </select>
 <!--    <update id="updateProduct" parameterType="com.example.demo.entity.Product">-->
 <!--        update product-->
 <!--        <trim prefix="SET" suffixOverrides=",">-->

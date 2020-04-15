@@ -8,8 +8,7 @@ public class Report {
     String interval;
     String reportUrl;
 
-    public Report() {
-    }
+    public Report() {}
 
     public Report(int reportId, String username, String department, String date, String interval, String reportUrl) {
         this.reportId = reportId;

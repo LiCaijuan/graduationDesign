@@ -20,6 +20,12 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    public List<Report> getReportByReportUrl(String reportUrl) {
+        List<Report> reportList = reportMapper.getReportByReportUrl(reportUrl);
+        return reportList;
+    }
+
+    @Override
     public List<Report> getReportList() {
         List<Report> reportList = reportMapper.getReportList();
         return reportList;
