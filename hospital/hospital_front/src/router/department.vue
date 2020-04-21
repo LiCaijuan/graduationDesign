@@ -11,17 +11,17 @@
     >
       <van-cell>
         <van-card
-          v-for="item in list"
-          :key="item.number"
-          :thumb="item.thumb"
-          @click="departmentOrder()"
+          v-for="item in departmentList"
+          :key="item.departmentId"
+          :thumb="`https://img.yzcdn.cn/vant/ipad.jpeg`"
+          @click="departmentOrder(item.departmentId)"
         >
-          <div slot="desc" class="van-card__desc">{{item.address}}</div>
-          <div slot="title" class="van-card__title">{{item.name}}</div>
+          <div slot="desc" class="van-card__desc">{{item.departmentAddress}}</div>
+          <div slot="title" class="van-card__title">{{item.departmentName}}</div>
           <div slot="tags" class="card_tag">
-            <van-tag plain type="success" size="large">{{item.isOrder}}</van-tag>
+            <van-tag plain type="success" size="large">wu</van-tag>
           </div>
-          <div slot="bottom" class="van-card__bottom">{{item.desc}}</div>
+          <div slot="bottom" class="van-card__bottom">{{item.departmentDesc}}</div>
         </van-card>
       </van-cell>
     </van-list>
@@ -40,6 +40,7 @@ export default {
       value: '',
       loading: false,
       finished: false,
+      departmentList: [],
       list: [
         {
           number: 1,
@@ -86,6 +87,7 @@ export default {
 
   mounted () {
     this.get_bodyHeight()
+    this.getDepartmentList()
   },
 
   methods: {
@@ -102,7 +104,17 @@ export default {
     back () {
       this.$router.push('./')
     },
-    departmentOrder () {
+    getDepartmentList () {
+      this.axios.post('/api/getDepartmentList', {}).then((res) => {
+        this.departmentList = res.data.result
+        console.log(this.departmentList)
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    departmentOrder (departmentId) {
+      this.bus.$emit('departmentId', departmentId)
+      console.log(departmentId)
       this.$router.push('./departmentOrder')
     }
   }

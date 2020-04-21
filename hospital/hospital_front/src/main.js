@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import { Lazyload, Field } from 'vant'
+Vue.prototype.bus = new Vue()
 Vue.prototype.axios = axios
 Vue.config.productionTip = false
 Vue.use(Lazyload)

@@ -68,144 +68,6 @@
       </div>
     </div>
     <div class="order_content" v-show="active===1">
-      <!-- <van-nav-bar
-        title="快速预约"
-        left-text="返回"
-        left-arrow
-        @click-left="onClickLeft"
-      />
-      <div class="hospital_content">
-        <van-icon class="iconfont"
-          id="hospital_icon"
-          class-prefix='icon'
-          slot="icon"
-          color="#3bb5b2"
-          :name="icon.hospital_content">
-        </van-icon>
-        <span class="ks_tip">医院</span>
-        <div class="hospital_img" :style="{backgroundImage:`url(${require('../assets/img/hospital.png')})`}">
-          <p>1</p>
-          <div class="add_1">浙江省中医院下沙院区</div>
-          <div class="add_2">中国·杭州经济技术开发区9号大街9号</div>
-        </div>
-      </div>
-      <div class="department_content">
-        <van-icon class="iconfont"
-          id="hospital_icon"
-          class-prefix='icon'
-          slot="icon"
-          color="#3bb5b2"
-          :name="icon.department_content">
-        </van-icon>
-        <span class="ks_tip">科室</span>
-        <van-dropdown-menu active-color="#3bb5b2" class="drop">
-          <van-dropdown-item v-model="value1" :options="option1" title-class="drop_title"/>
-        </van-dropdown-menu>
-      </div>
-      <div class="info_content">
-        <van-icon class="iconfont"
-          id="hospital_icon"
-          class-prefix='icon'
-          slot="icon"
-          color="#3bb5b2"
-          :name="icon.department_content">
-        </van-icon>
-        <span class="ks_tip">预约者信息</span>
-        <div class="info_arrow" @click="showPopup()">
-          <span class="write">去填写</span>
-          <van-icon class="arrow" name="arrow" color="#3bb5b2"/>
-        </div>
-        <van-popup v-model="isPopup" class="popup_con">
-          <van-form @submit="onSubmit" class="form_con">
-            <van-field
-              class="info_field"
-              v-model="infoList.name"
-              name="姓名"
-              label="姓名"
-              placeholder="姓名"
-              :rules="[{ required: true, message: '请填写姓名' }]"
-            />
-            <van-field
-              class="info_field"
-              v-model="infoList.age"
-              name="年龄"
-              label="年龄"
-              placeholder="年龄"
-              :rules="[{ required: true, message: '请填写年龄' }]"
-            />
-            <van-field
-              class="info_field"
-              v-model="infoList.sex"
-              name="性别"
-              label="性别"
-              placeholder="性别"
-              :rules="[{ required: true, message: '请填写性别' }]"
-            />
-            <van-field
-              class="info_field"
-              v-model="infoList.Idcard"
-              name="身份证号"
-              label="身份证号"
-              placeholder="身份证号"
-              :rules="[{ required: true, message: '请填写身份证号' }]"
-            />
-            <div style="margin: 16px;">
-              <van-button round block type="primary" native-type="submit">
-                提交
-              </van-button>
-            </div>
-          </van-form>
-        </van-popup>
-      </div>
-      <van-form @submit="onSubmit" class="form_con">
-        <van-field
-          class="info_field"
-          v-model="infoList.name"
-          name="姓名"
-          label="姓名"
-          placeholder="姓名"
-          :rules="[{ required: true, message: '请填写姓名' }]"
-        />
-        <van-field
-          class="info_field"
-          v-model="infoList.age"
-          name="年龄"
-          label="年龄"
-          placeholder="年龄"
-          :rules="[{ required: true, message: '请填写年龄' }]"
-        />
-        <van-field
-          class="info_field"
-          v-model="infoList.sex"
-          name="性别"
-          label="性别"
-          placeholder="性别"
-          :rules="[{ required: true, message: '请填写性别' }]"
-        />
-        <van-field
-          class="info_field"
-          v-model="infoList.Idcard"
-          name="身份证号"
-          label="身份证号"
-          placeholder="身份证号"
-          :rules="[{ required: true, message: '请填写身份证号' }]"
-        />
-        <div style="margin: 16px;">
-          <van-button round block type="primary" native-type="submit">
-            提交
-          </van-button>
-        </div>
-      </van-form>
-      <div class="time_content">
-        <van-icon class="iconfont"
-          id="hospital_icon"
-          class-prefix='icon'
-          slot="icon"
-          color="#3bb5b2"
-          :name="icon.department_content">
-        </van-icon>
-        <span class="ks_tip">时间</span>
-      </div> -->
       <van-nav-bar
         title="预约记录"
         left-text="返回"
@@ -219,16 +81,16 @@
       >
           <van-card
             class="record_cell"
-            v-for="item in list"
-            :key="item.number"
+            v-for="item in orderList"
+            :key="item.orderId"
           >
-            <div slot="bottom" class="van-card__bottom">就诊人： {{item.user}}</div>
-            <div slot="title" class="van-card__title">{{item.hospital}}</div>
+            <div slot="bottom" class="van-card__bottom">就诊人： {{item.userName}}</div>
+            <div slot="title" class="van-card__title">浙江省中医院</div>
             <div slot="tags" class="card_tag">
-              <van-tag plain type="success" size="large">{{item.type}}</van-tag>
+              <van-tag plain type="success" size="large">{{item.doctorType===1?'主任医师':item.doctorType===2?'副主任医师':item.doctorType===3?'主治医师':'住院医师'}}</van-tag>
             </div>
-            <div slot="desc" class="van-card__desc">{{item.doctor}} | {{item.department}}</div>
-            <div slot="footer" class="van-footer">就诊时间： {{item.time}}</div>
+            <div slot="desc" class="van-card__desc">{{item.doctorName}} | {{item.departmentName}}</div>
+            <div slot="footer" class="van-footer">就诊时间： {{item.orderDate}} | {{item.interval}}</div>
           </van-card>
       </van-list>
     </div>
@@ -379,25 +241,7 @@ export default {
       isChangePw: false,
       oldPw: '',
       newPw: '',
-      list: [
-        {
-          number: 1,
-          hospital: '浙江省中医院',
-          doctor: '王大锤',
-          department: '内科',
-          user: '李哆啦',
-          time: '2020-03-15',
-          type: '专家号'
-        }, {
-          number: 2,
-          hospital: '浙江省中医院',
-          doctor: '肖恩',
-          department: '外科',
-          user: '李哆啦',
-          time: '2020-03-15 11:00-11:15',
-          type: '普通号'
-        }
-      ],
+      orderList: [],
       swipeImages: [
         require('@/assets/img/banner1.png'),
         require('@/assets/img/banner2.png'),
@@ -548,6 +392,12 @@ export default {
     },
     order () {
       this.active = 1
+      this.axios.post('/api/getOrderList', {}).then((res) => {
+        console.log(res)
+        this.orderList = res.data.result
+      }).catch((err) => {
+        console.log(err)
+      })
     },
     onClickLeft () {
       this.active = 0

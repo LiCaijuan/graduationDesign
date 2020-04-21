@@ -73,6 +73,26 @@ public class ScheduleController {
         return response;
     }
 
+    @RequestMapping (value = "/getScheduleByDoctorCondition", method = RequestMethod.POST)
+    public Response getScheduleByDoctorCondition(@RequestBody Schedule schedule) {
+        Response response = new Response();
+        int doctorId = schedule.getDoctorId();
+        String scheduleDate = schedule.getScheduleDate();
+        List<Schedule> scheduleList = scheduleService.getScheduleByDoctorCondition(doctorId, scheduleDate);
+        response.setResponse(true, "查询成功", 1, scheduleList);
+        return response;
+    }
+
+    @RequestMapping(value = "/getScheduleByDepartmentCondition", method = RequestMethod.POST)
+    public Response getScheduleByDepartmentCondition(@RequestBody Schedule schedule) {
+        Response response = new Response();
+        int departmentId = schedule.getDepartmentId();
+        String scheduleDate = schedule.getScheduleDate();
+        List<Schedule> scheduleList = scheduleService.getScheduleByDepartmentCondition(departmentId, scheduleDate);
+        response.setResponse(true, "查询成功", 1, scheduleList);
+        return response;
+    }
+
     @RequestMapping(value = "/updateSchedule", method = RequestMethod.POST)
     public Response updateSchedule(@RequestBody Schedule schedule) {
         int scheduleId = schedule.getScheduleId();

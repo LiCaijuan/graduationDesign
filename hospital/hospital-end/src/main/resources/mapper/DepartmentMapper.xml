@@ -3,14 +3,18 @@
 <mapper namespace="com.example.demo.mapper.DepartmentMapper">
     <resultMap id="BaseResultMap" type="com.example.demo.entity.Department">
         <result column="department_id" jdbcType="INTEGER" property="departmentId"/>
+        <result column="department_img" jdbcType="VARCHAR" property="departmentImg"/>
         <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
         <result column="department_address" jdbcType="VARCHAR" property="departmentAddress"/>
         <result column="department_desc" jdbcType="VARCHAR" property="departmentDesc"/>
         <result column="department_speciality" jdbcType="VARCHAR" property="departmentSpeciality" />
     </resultMap>
     <insert id="addDepartment" parameterType="com.example.demo.entity.Department">
-        INSERT INTO `department` (`department_name`,`department_address`,`department_desc`,`department_speciality`) VALUES(#{departmentName},#{departmentAddress},#{departmentAddress},#{departmentSpeciality})
+        INSERT INTO `department` (`department_img`,`department_name`,`department_address`,`department_desc`,`department_speciality`) VALUES(#{departmentImg},#{departmentName},#{departmentAddress},#{departmentAddress},#{departmentSpeciality})
     </insert>
+    <select id="getDepartmentById" resultMap="BaseResultMap">
+        SELECT * FROM `department` WHERE department_id = #{departmentId}
+    </select>
     <select id="getDepartmentByName" resultMap="BaseResultMap">
         SELECT * FROM `department` WHERE department_name = #{departmentName}
     </select >
@@ -23,6 +27,9 @@
     <update id="updateDepartment" parameterType="com.example.demo.entity.Department">
         update department
         <trim prefix="SET" suffixOverrides=",">
+            <if test="null !=dep.departmentImg and '' != dep.departmentImg">
+                department_img=#{dep.departmentImg}
+            </if>
             <if test="null != dep.departmentName and '' != dep.departmentName">
                 department_name=#{dep.departmentName},
             </if>

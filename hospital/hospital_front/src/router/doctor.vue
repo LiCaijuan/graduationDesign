@@ -133,6 +133,7 @@ export default {
       myDate: '',
       nowDate: '',
       value: '',
+      scheduleList: [],
       list: [
         {
           number: 1,
@@ -190,6 +191,7 @@ export default {
   mounted () {
     this.get_bodyHeight()
     this.getDate()
+    this.getDoctorList()
   },
 
   methods: {
@@ -198,6 +200,7 @@ export default {
       var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+      console.log(this.myDate)
     },
     preDay () {
       // this.day += 1
@@ -205,6 +208,8 @@ export default {
       var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+      console.log(this.myDate)
+      this.getDoctorList()
     },
     nextDay () {
       // this.nday += 1
@@ -212,9 +217,33 @@ export default {
       var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+      console.log(this.myDate)
+      this.getDoctorList()
     },
     doctorOrder () {
       this.$router.push('./doctorOrder')
+    },
+    getDoctorList () {
+      this.axios.post('/api/getScheduleByDate', {
+        scheduleDate: this.myDate
+      }).then((res) => {
+        this.scheduleList = res.data.result.map(item => {
+          return item.doctorId;
+        })
+        console.log(this.scheduleList, 'scheduleList')
+      }).catch((err) => {
+        console.log(err)
+      })
+      this.scheduleList.map(item => {
+        console.log('test')
+        this.axios.post('/api/getDoctorById', {
+          doctorId: item
+        }).then((res) => {
+          console.log(res, '医生列表')
+        }).catch((err) => {
+          console.log(err)
+        })
+      })
     },
     // 动态获取浏览器高度
     get_bodyHeight () {

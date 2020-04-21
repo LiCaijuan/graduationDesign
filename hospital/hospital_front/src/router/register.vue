@@ -73,12 +73,9 @@ export default {
 
     toRegister () {
       this.axios.post('/api/register', {
-        // data: JSON.stringify(this.paramsData)
-        params: {
-          username: this.paramsData.username,
-          password: this.paramsData.password,
-          phone: this.paramsData.phone
-        }
+        username: this.paramsData.username,
+        password: this.paramsData.password,
+        phone: this.paramsData.phone
       }).then((res) => {
         console.log(res)
         this.$router.push('/login')

@@ -71,14 +71,12 @@ export default {
 
     login () {
       this.axios.post('/api/login', {
-        // data: JSON.stringify(this.paramsData)
-        params: {
-          username: this.username,
-          password: this.password
-        }
+        
+        username: this.username,
+        password: this.password
       }).then((res) => {
         console.log(res)
-        this.$router.push('/home')
+        this.$router.push('/')
       }).catch((err) => {
         console.log(err)
       })

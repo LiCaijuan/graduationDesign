@@ -37,6 +37,15 @@ public class DepartmentController {
         }
     }
 
+    @RequestMapping(value = "/getDepartmentById", method = RequestMethod.POST)
+    public Response getDepartmentById(@RequestBody Department department) {
+        int departmentId = department.getDepartmentId();
+        Response response = new Response();
+        List<Department> departmentList = departmentService.getDepartmentById(departmentId);
+        response.setResponse(true, "查询成功",1, departmentList);
+        return response;
+    }
+
     @RequestMapping(value = "/getDepartmentByName", method = RequestMethod.POST)
     public Response getDepartmentByName(@RequestBody Department department) {
         String departmentName = department.getDepartmentName();

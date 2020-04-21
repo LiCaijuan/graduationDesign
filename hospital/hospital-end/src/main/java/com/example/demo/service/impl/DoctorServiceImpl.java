@@ -42,6 +42,7 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorList2;
     }
 
+
     @Override
     public List<Doctor> getDoctorByCondition(String doctorName, int doctorType) {
         List<Doctor> doctorList3 = doctorMapper.getDoctorByCondition(doctorName, doctorType);

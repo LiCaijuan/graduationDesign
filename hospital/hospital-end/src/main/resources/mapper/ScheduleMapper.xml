@@ -23,23 +23,30 @@
     <select id="getScheduleByDoctorId" resultMap="BaseResultMap">
         SELECT * FROM  `schedule` WHERE doctor_id = #{doctorId}
     </select>
-    <select id="getScheduleByCondition" resultMap="BaseResultMap">
-        SELECT * FROM  `schedule`
+    <select id="getScheduleByDepartmentCondition" resultMap="BaseResultMap">
+        SELECT * FROM `schedule`
         <where>
-            <if test="doctorId != null and doctorId != -1">
-                and doctor_id = #{doctorId}
-            </if>
-            <if test="departmentId != null and departmentId != -1">
-                and department_id = #{departmentId}
-            </if>
-            <if test="scheduleDate != null and scheduleDate != '' ">
-                and schedule_date like concat ('%', #{scheduleDate}, '%')
-            </if>
-            <if test="interval != null and interval != '' ">
-                and `interval` like concat('%', #{interval}, '%')
-            </if>
+            <if test="departmentId != null and departmentId != -1">and department_id = #{departmentId}</if>
+            <if test="scheduleDate != null and scheduleDate != '' ">and schedule_date = #{scheduleDate}</if>
         </where>
-    </select>
+    </select >
+    <select id="getScheduleByDoctorCondition" resultMap="BaseResultMap">
+        SELECT * FROM `schedule`
+        <where>
+            <if test="doctorId != null and doctorId != -1 ">and doctor_id =#{doctorId}</if>
+            <if test="scheduleDate != null and scheduleDate != '' ">and schedule_date = #{scheduleDate}</if>
+        </where>
+    </select >
+    <select id="getScheduleByCondition" resultMap="BaseResultMap">
+        SELECT * FROM `schedule`
+        <where>
+            <if test="doctorId != null and doctorId != -1 ">and doctor_id =#{doctorId}</if>
+            <if test="departmentId != null and departmentId != -1">and department_id = #{departmentId}</if>
+            <if test="scheduleDate != null and scheduleDate != '' ">and schedule_date = #{scheduleDate}</if>
+            <if test="interval != null and interval != '' ">and `interval` =#{interval}</if>
+
+        </where>
+    </select >
     <update id="updateSchedule" parameterType="com.example.demo.entity.Schedule">
         update schedule
         <trim prefix="SET" suffixOverrides=",">

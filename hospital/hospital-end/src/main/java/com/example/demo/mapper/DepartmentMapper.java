@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper
 public interface DepartmentMapper {
     int addDepartment(Department department);
+    List<Department> getDepartmentById(int departmentId);
     List<Department> getDepartmentByName(String departmentName);
     List<Department> getDepartmentList();
     List<Department> getDepartmentByKey(String departmentName);

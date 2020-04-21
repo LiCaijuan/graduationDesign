@@ -19,6 +19,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<Department> getDepartmentById(int departmentId) {
+        List<Department> departmentList = departmentMapper.getDepartmentById(departmentId);
+        return departmentList;
+    }
+
+    @Override
     public List<Department> getDepartmentByName(String departmentName) {
         List<Department> departmentList = departmentMapper.getDepartmentByName(departmentName);
         return departmentList;

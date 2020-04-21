@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 public class Department {
     int departmentId;
+    String departmentImg;
     String departmentName;
     String departmentAddress;
     String departmentDesc;
@@ -10,8 +11,9 @@ public class Department {
     public Department() {
     }
 
-    public Department(int departmentId, String departmentName, String departmentAddress, String departmentDesc, String departmentSpeciality) {
+    public Department(int departmentId, String departmentImg, String departmentName, String departmentAddress, String departmentDesc, String departmentSpeciality) {
         this.departmentId = departmentId;
+        this.departmentImg = departmentImg;
         this.departmentName = departmentName;
         this.departmentAddress = departmentAddress;
         this.departmentDesc = departmentDesc;
@@ -24,6 +26,14 @@ public class Department {
 
     public void setDepartmentId(int departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public String getDepartmentImg() {
+        return departmentImg;
+    }
+
+    public void setDepartmentImg(String departmentImg) {
+        this.departmentImg = departmentImg;
     }
 
     public String getDepartmentName() {

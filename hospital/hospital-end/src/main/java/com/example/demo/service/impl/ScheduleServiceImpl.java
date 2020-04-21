@@ -37,6 +37,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public List<Schedule> getScheduleByDoctorCondition(int doctorId, String scheduleDate) {
+        List<Schedule> scheduleList = scheduleMapper.getScheduleByDoctorCondition(doctorId, scheduleDate);
+        return scheduleList;
+    }
+
+    @Override
+    public List<Schedule> getScheduleByDepartmentCondition(int departmentId, String scheduleDate) {
+        List<Schedule> scheduleList = scheduleMapper.getScheduleByDepartmentCondition(departmentId, scheduleDate);
+        return scheduleList;
+    }
+
+    @Override
     public List<Schedule> getScheduleByDoctorId(int doctorId) {
         List<Schedule> scheduleList = scheduleMapper.getScheduleByDoctorId(doctorId);
         return scheduleList;

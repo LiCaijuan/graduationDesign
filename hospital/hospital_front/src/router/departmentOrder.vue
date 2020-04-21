@@ -83,6 +83,7 @@ import '@/assets/css/icon/iconfont.css'
 
 export default {
   name: 'departmentOrder',
+  departmentId: 0,
   data () {
     return {
       fullHeight: document.documentElement.clientHeight,
@@ -147,11 +148,24 @@ export default {
   mounted () {
     this.get_bodyHeight()
     this.getDate()
+    this.getDepartmentById()
   },
 
   methods: {
     onClickLeft () {
       this.$router.go(-1)
+    },
+    getDepartmentById () {
+      this.bus.$on('departmentId', msg => {
+        this.departmentId = msg
+        console.log(msg, 'msg')
+        this.axios.post('/api/getDepartmentById', {departmentId: msg}).then((res) => {
+          console.log(res)
+        }).catch((err) => {
+          console.log(err)
+        })
+      })
+      console.log(this.departmentId)
     },
     order () {
       // 调用接口，如果预约成功使得showActionsheet=false
