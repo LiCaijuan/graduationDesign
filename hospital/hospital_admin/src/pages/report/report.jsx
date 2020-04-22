@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios'
+import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import { Layout, Table, Button, Modal, Input, message, DatePicker, Form } from 'antd';
 import './index.css'
@@ -22,17 +23,34 @@ const tailLayout = {
     span: 16,
   },
 };
+const { RangePicker } = DatePicker;
+
+function range(start, end) {
+  const result = [];
+  for (let i = start; i < end; i++) {
+    result.push(i);
+  }
+  return result;
+}
+
+function disabledDate(current) {
+  // Can not select days before today and today
+  return current && current < moment().endOf('day');
+}
 
 export default class Report extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
+      editVisible: false,
       reportList: [],
+      reportId: 0,
       username: '',
       department: '',
       date: '',
       reportUrl: '',
+      report: [],
       columns: [
         {
           title: '报告编号',
@@ -73,7 +91,7 @@ export default class Report extends Component {
           align: 'center',
           render: (text, record) => (
             <span>
-              <a style={{ marginRight: 16 }}>编辑</a>
+              <a style={{ marginRight: 16 }} onClick={()=>{this.showEditModal(record.reportId)}}>编辑</a>
               <a onClick={() => this.showDeleteConfirm(record.reportId)}>删除</a>
             </span>
           ),
@@ -168,6 +186,60 @@ export default class Report extends Component {
       console.log(err)
     })
   }
+  updateReport = () => {
+    console.log('update')
+    if (this.state.username !== '' && this.state.department !== '' &&this.state.date !== '' &&this.state.reportUrl !== '') {
+      axios.post('/updateReport',{
+        reportId: this.state.reportId,
+        username: this.state.username,
+        department: this.state.department,
+        date: this.state.date,
+        reportUrl: this.state.reportUrl
+      }).then((res) => {
+        if(res.code === 1){
+          this.success(res.msg)
+        }else{
+          this.error(res.msg)
+        }
+        this.getReportList()
+      }).catch((err) => {
+        console.log(err)
+      })
+      this.hideEditModal()
+    } else {
+      this.error('请完善输入信息')
+    }
+    this.setState({
+      reportId: 0,
+      username: '',
+      department: '',
+      date: '',
+      reportUrl: ''
+    })
+  }
+  showEditModal = (reportId) => {
+    axios.post('/api/getReportById', {
+      reportId: reportId
+    }).then((res) => {
+      console.log(res)
+      this.setState({
+        reportId: res.result[0].reportId,
+        username: res.result[0].username,
+        department: res.result[0].department,
+        date: res.result[0].date,
+        reportUrl: res.result[0].reportUrl,
+        editVisible: true
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+  hideEditModal = () => {
+    this.setState({
+      editVisible: false
+    })
+  }
   showModal = () => {
     this.setState({
       visible: true,
@@ -177,6 +249,11 @@ export default class Report extends Component {
   hideModal = () => {
     this.setState({
       visible: false,
+      reportId: 0,
+      username: '',
+      department: '',
+      date: '',
+      reportUrl: ''
     });
   };
   
@@ -220,7 +297,7 @@ export default class Report extends Component {
                     },
                   ]}
                 >
-                  <Input style={{width: '180px'}} onChange={e => this.setState({username: e.target.value})} />
+                  <Input value={this.state.username} style={{width: '180px'}} onChange={e => this.setState({username: e.target.value})} />
                 </Form.Item>
                 <Form.Item
                   label="科室"
@@ -247,6 +324,7 @@ export default class Report extends Component {
                   <DatePicker
                     locale={locale}
                     style={{width: '180px'}}
+                    disabledDate={disabledDate}
                     onChange={value => this.setState({date: value._d.getFullYear() + '-' + this.p((value._d.getMonth() + 1)) + '-' + this.p(value._d.getDate())})} />
                 </Form.Item>
                 <Form.Item
@@ -270,6 +348,37 @@ export default class Report extends Component {
                   </Button>
                 </Form.Item>
               </Form>
+            </Modal>
+            <Modal
+              title="更新报告"
+              destroyOnClose={true}
+              visible={this.state.editVisible}
+              onCancel={this.hideEditModal}
+              onOk={this.updateReport}
+              okText="确认"
+              cancelText="取消"
+            >
+              <Input
+                defaultValue={this.state.username}
+                style={{width: '180px'}}
+                onChange={e => this.setState({username: e.target.value})}
+              />
+              <Input
+                defaultValue={this.state.department}
+                style={{width: '180px'}}
+                onChange={e => this.setState({department: e.target.value})}
+              />
+              <DatePicker
+                locale={locale}
+                disabledDate={disabledDate}
+                style={{width: '180px'}}
+                // defaultValue={this.state.date}
+                onChange={value => this.setState({date: value._d.getFullYear() + '-' + this.p((value._d.getMonth() + 1)) + '-' + this.p(value._d.getDate())})}
+              />
+              <TextArea
+                onChange={e => this.setState({reportUrl: e.target.value})}
+                defaultValue={this.state.reportUrl}
+              />
             </Modal>
           </div>
         </Content>

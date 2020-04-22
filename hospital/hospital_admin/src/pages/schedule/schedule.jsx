@@ -25,6 +25,7 @@ export default class Schedule extends Component {
     super(props);
     this.state = {
       visible: false,
+      editVisible: false,
       scheduleList: [],
       doctorId: 0,
       depertmentId: 0,
@@ -70,7 +71,7 @@ export default class Schedule extends Component {
           align: 'center',
           render: (text, record) => (
             <span>
-              <a style={{ marginRight: 16 }}>编辑</a>
+              <a style={{ marginRight: 16 }} onClick={()=>this.showEditModal(record.scheduleId)}>编辑</a>
               <a onClick = {() => this.showDeleteConfirm(record.scheduleId)}>删除</a>
             </span>
           ),
@@ -153,6 +154,31 @@ export default class Schedule extends Component {
       this.error('请完善输入信息')
     }
   }
+  updateSchedule = () => {
+    console.log('update')
+  }
+  showEditModal = (scheduleId) => {
+    axios.post('getScheduleByScheduleId', {
+      scheduleId: scheduleId
+    }).then((res) => {
+      if(res.code === 1){
+        this.success(res.msg)
+        console.log(res)
+      }else{
+        this.error(res.msg)
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
+    this.setState({
+      editVisible: true
+    })
+  }
+  hideEditModal = () => {
+    this.setState ({
+      editVisible: false
+    })
+  }
   showModal = () => {
     this.setState({
       visible: true,
@@ -181,9 +207,6 @@ export default class Schedule extends Component {
               style={{margin: 20 }}/>
           </div>
           <div>
-            {/* <Button type="primary" onClick={this.showModal}>
-              Modal
-            </Button> */}
             <Modal
               title="添加排班"
               visible={this.state.visible}
@@ -257,6 +280,86 @@ export default class Schedule extends Component {
                     确认
                   </Button>
                   <Button htmlType="button" style={{marginLeft: '20px'}} onClick={this.hideModal}>
+                    取消
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Modal>
+          </div>
+          <div>
+            <Modal
+              title="编辑排班"
+              visible={this.state.editVisible}
+              destroyOnClose={true}
+              footer={null}
+              onCancel={this.hideEditModal}
+            >
+              <Form
+                {...layout}
+                name="basic"
+                initialValues={{
+                  remember: true,
+                }}
+                onFinish={this.onFinish}
+                onFinishFailed={this.onFinishFailed}
+              >
+                <Form.Item
+                  label="医生编号"
+                  name="doctorId"
+                  rules={[
+                    {
+                      required: true,
+                      message: '医生编号不能为空!',
+                    },
+                  ]}
+                >
+                  <Input style={{ width: 180 }} onChange={e => this.setState({doctorId: e.target.value})} />
+                </Form.Item>
+                <Form.Item
+                  label="科室编号"
+                  name="departmentId"
+                  rules={[
+                    {
+                      required: true,
+                      message: '科室编号不能为空!',
+                    },
+                  ]}
+                >
+                  <Input  style={{ width: 180 }} onChange={e => this.setState({departmentId: e.target.value})} />
+                </Form.Item>
+                <Form.Item
+                  label="日期"
+                  name="date"
+                  rules={[
+                    {
+                      required: true,
+                      message: '日期不能为空!',
+                    },
+                  ]}
+                >
+                  <DatePicker
+                    style={{ width: 180 }}
+                    locale={locale}
+                    onChange={value => this.setState({scheduleDate: value._d.getFullYear()+'-'+this.p((value._d.getMonth()+1))+'-'+this.p(value._d.getDate())})} 
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="时段"
+                  name="interval"
+                  rules={[
+                    {
+                      required: true,
+                      message: '时段不能为空!',
+                    },
+                  ]}
+                >
+                  <Input style={{width:180}} onChange={e => this.setState({interval: e.target.value})} />
+                </Form.Item>
+                <Form.Item {...tailLayout}>
+                  <Button type="primary" htmlType="submit" style={{marginRight: '20px'}} onClick={this.updateSchedule}>
+                    确认
+                  </Button>
+                  <Button htmlType="button" style={{marginLeft: '20px'}} onClick={this.hideEditModal}>
                     取消
                   </Button>
                 </Form.Item>

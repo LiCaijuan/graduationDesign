@@ -28,8 +28,10 @@ export default class Doctor extends Component {
     super(props);
     this.state = {
       visible: false,
+      editVisible: false,
       doctorList: [],
       // 新增数据
+      doctorId: 0,
       doctorName: '',
       doctorDepartment: '',
       doctorPrice: 0,
@@ -104,7 +106,7 @@ export default class Doctor extends Component {
           align: 'center',
           render: (text, record) => (
             <span>
-              <a style = {{marginRight: 16 }}>编辑</a>
+              <a style = {{marginRight: 16 }} onClick={()=>this.showEditModal(record)}>编辑</a>
               <a onClick={() => this.showDeleteConfirm(record.doctorId)}>删除</a>
             </span>
           ),
@@ -193,6 +195,32 @@ export default class Doctor extends Component {
       console.log(err)
     })
   }
+  updateDoctor = () => {
+    if (this.state.doctorName !=='' && this.state.doctorDepartment !=='' && this.state.doctorImg !=='' && this.state.doctorSpeciality !=='' && this.state.doctorSynopsis !=='') {
+      axios.post('/api/update', {
+        doctorName: this.state.doctorName,
+        doctorDepartment: this.state.doctorDepartment,
+        doctorPrice: this.state.doctorPrice,
+        doctorImg: this.state.doctorImg,
+        doctorType: this.state.doctorType,
+        doctorIsOrder: this.state.doctorIsOrder,
+        doctorSpeciality: this.state.doctorSpeciality,
+        doctorSynopsis: this.state.doctorSynopsis
+      }).then((res) => {
+        if(res.code === 1){
+          this.success(res.msg)
+        }else{
+          this.error(res.msg)
+        }
+        this.getDoctorList()
+      }).catch((err) => {
+        console.log(err)
+      })
+      this.hideEditModal()
+    } else {
+      this.error('请完善输入信息')
+    }
+  }
   getDoctorList = () => {
     axios.post('/api/getDoctorList')
     .then((res) => {
@@ -206,6 +234,35 @@ export default class Doctor extends Component {
     })
   }
 
+  showEditModal = (record) => {
+    this.setState({
+      doctorId: record.doctorId,
+      doctorName: record.doctorName,
+      doctorDepartment: record.doctorDepartment,
+      doctorPrice: record.doctorPrice,
+      doctorImg: record.doctorImg,
+      doctorType: record.doctorType,
+      doctorIsOrder: record.doctorIsOrder,
+      doctorSpeciality: record.doctorSpeciality,
+      doctorSynopsis: record.doctorSynopsis,
+      editVisible: true
+    })
+    // console.log(record, 'record')
+  }
+  hideEditModal = () => {
+    this.setState({
+      editVisible: false,
+      doctorId: 0,
+      doctorName: '',
+      doctorDepartment: '',
+      doctorPrice: 0,
+      doctorImg: '',
+      doctorType: 0,
+      doctorIsOrder: 0,
+      doctorSpeciality: '',
+      doctorSynopsis: ''
+    })
+  }
   showModal = () => {
     this.setState({
       visible: true,
@@ -362,6 +419,57 @@ export default class Doctor extends Component {
                   </Button>
                 </Form.Item>
               </Form>
+            </Modal>
+            <Modal
+              title="编辑医生"
+              destroyOnClose={true}
+              visible={this.state.editVisible}
+              onCancel={this.hideEditModal}
+              onOk={this.updateDoctor}
+              okText="确认"
+              cancelText="取消"
+            >
+              <Input
+                defaultValue={this.state.doctorName}
+                style={{ width: 180 }}
+                onChange={e => this.setState({doctorName: e.target.value})}
+              />
+              <Input style={{ width: 180 }} onChange={e => this.setState({doctorDepartment: e.target.value})} />
+              <Select
+                defaultValue={this.state.doctorType.toString()}
+                style={{ width: 180 }}
+                onChange={value => this.setState({doctorType: value})}
+              >
+                <Option value="1">主任医师</Option>
+                <Option value="2">副主任医师</Option>
+                <Option value="3">主治医师</Option>
+                <Option value="4">住院医师</Option>
+              </Select>
+              <Input
+                defaultValue={this.state.doctorPrice}
+                style={{ width: 180 }}
+                onChange={e => this.setState({doctorPrice: e.target.value})}
+              />
+              <Select
+                defaultValue={this.state.doctorIsOrder.toString()}
+                style={{ width: 180 }}
+                onChange={value => this.setState({doctorIsOrder: value})}
+              >
+                <Option value="0">不可预约</Option>
+                <Option value="1">可预约</Option>
+              </Select>
+              <TextArea
+                defaultValue={this.state.doctorImg}
+                onChange={e => this.setState({doctorImg: e.target.value})}
+              />
+              <TextArea
+                defaultValue={this.state.doctorSpeciality}
+                onChange={e => this.setState({doctorSpeciality: e.target.value})}
+              />
+              <TextArea
+                defaultValue={this.state.doctorSynopsis}
+                onChange={e => this.setState({doctorSynopsis: e.target.value})}
+              />
             </Modal>
           </div>
         </Content>
