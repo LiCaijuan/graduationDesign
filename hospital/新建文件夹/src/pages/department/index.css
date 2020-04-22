@@ -1,0 +1,25 @@
+.ant-table thead > tr > th, .ant-table tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td{
+    padding: 12px
+}
+.ant-table-title{
+    padding: 12px 12px 0 12px;
+}
+.input_label{
+    width: 70px;
+    display: inline-block;
+    margin: 10px;
+}
+.ant-input-group .ant-input{
+    width: 80%;
+    display: inline-block;
+}
+.ant-form{
+    padding: 0%;
+}
+.ant-col-8{
+    max-width: 25%;
+}
+.ant-modal-content{
+    width: 120%;
+    margin: 0 auto;
+}
