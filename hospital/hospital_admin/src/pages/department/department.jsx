@@ -26,7 +26,9 @@ export default class Department extends Component {
     super(props)
     this.state = {
       visible: false,
+      editVisible: false,
       departmentList: [],
+      departmentId: 0,
       departmentName: '',
       departmentImg: '',
       departmentAddress: '',
@@ -39,13 +41,13 @@ export default class Department extends Component {
           key: 'departmentId',
           align:'center',
           fixed: 'left',
-          width: 70
+          width: 85
         },{
           title: '名称',
           dataIndex: 'departmentName',
           key: 'departmentName',
-          
           width: 80,
+          fixed: 'left',
           align: 'center'
         },{
           title: '地址',
@@ -57,29 +59,29 @@ export default class Department extends Component {
           title: '照片',
           dataIndex: 'departmentImg',
           key: 'departmentImg',
-          width: 130,
+          width: 250,
           align: 'center',
         },{
           title: '擅长',
           dataIndex: 'departmentSpeciality',
           key: 'departmentSpeciality',
-          width: 250,
+          width: 500,
           align: 'center',
         },{
           title: '简介', 
           dataIndex: 'departmentDesc',
           key: 'departmentDesc',
           align: 'center',
-          width: 250
+          width: 500
         },{
           title: '操作',
           key: 'action',
           fixed: 'right',
-          width: 80,
+          width: 120,
           align: 'center',
           render: (text, record) => (
             <span>
-              <a style={{ marginRight: 16 }}>编辑</a>
+              <a style={{ marginRight: 16 }} onClick={()=> this.showEditModal(record)}>编辑</a>
               <a onClick={() => this.showDeleteConfirm(record.departmentId)}>删除</a>
             </span>
           ),
@@ -165,6 +167,53 @@ export default class Department extends Component {
       this.error('请完善输入信息')
     }
   }
+  updateDepartment = () => {
+    if(this.state.departmentName !=='' && this.state.departmentImg !=='' && this.state.departmentAddress !=='' && this.state.departmentSpeciality !=='' && this.state.departmentDesc !=='') {
+      axios.post('/api/updateDepartment', {
+        departmentId: this.state.departmentId,
+        departmentName: this.state.departmentName,
+        departmentImg: this.state.departmentImg,
+        departmentAddress: this.state.departmentAddress,
+        departmentSpeciality: this.state.departmentSpeciality,
+        departmentDesc: this.state.departmentDesc
+      }).then((res) => {
+        if(res.code === 1){
+          this.success(res.msg)
+        }else{
+          this.error(res.msg)
+        }
+        this.getDepartmentList()
+      }).catch((err) => {
+        console.log(err)
+      })
+      this.hideEditModal()
+    } else {
+      this.error('请完善输入信息')
+    }
+  }
+
+  showEditModal = (record) => {
+    this.setState({
+      departmentId: record.departmentId,
+      departmentName: record.departmentName,
+      departmentImg: record.departmentImg,
+      departmentAddress: record.departmentAddress,
+      departmentSpeciality: record.departmentSpeciality,
+      departmentDesc: record.departmentDesc,
+      editVisible: true
+    })
+  }
+  hideEditModal = () => {
+    this.setState({
+      editVisible: false,
+      departmentId: 0,
+      departmentName: '',
+      departmentImg: '',
+      departmentAddress: '',
+      departmentSpeciality: '',
+      departmentDesc: '',
+    })
+  }
 
   showModal = () => {
     this.setState({
@@ -187,9 +236,10 @@ export default class Department extends Component {
               columns={this.state.columns}
               dataSource={this.state.departmentList}
               bordered
+              scroll={{ x: 1800}}
               rowKey={record => record.departmentId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加科室</Button> }
-              style={{margin: 20 }}/>
+              style={{margin: 15 }}/>
           </div>
           <div>
             {/* <Button type="primary" onClick={this.showModal}>
@@ -281,6 +331,53 @@ export default class Department extends Component {
                   </Button>
                 </Form.Item>
               </Form>
+            </Modal>
+            <Modal
+              title="更新科室"
+              visible={this.state.editVisible}
+              destroyOnClose={true}
+              onCancel={this.hideEditModal}
+              onOk={this.updateDepartment}
+              okText="确认"
+              cancelText="取消"
+            >
+              <label for="departmentName" >科室名称：</label>
+              <Input
+                id="departmentName"
+                style={{ width: 180 }}
+                defaultValue={this.state.departmentName}
+                onChange={e => this.setState({departmentName: e.target.value})}
+              /><br/><br/>
+              <label for="departmentAddress">科室地址：</label>
+              <Input
+                id="departmentAddress"
+                style={{ width: 480 }}
+                defaultValue={this.state.departmentAddress}
+                onChange={e => this.setState({departmentAddress: e.target.value})}
+              /><br/><br/>
+              <label for="departmentImg" >科室图片：</label>
+              <TextArea
+                id="departmentImg"
+                style={{ width: 480}}
+                row={2}
+                defaultValue={this.state.departmentImg}
+                onChange={e => this.setState({departmentImg: e.target.value})}
+              /><br/><br/>
+              <label for="departmentSpeciality" >擅长：</label>
+              <TextArea
+                id="departmentSpeciality"
+                style={{ width: 480, marginLeft: '28px' }}
+                defaultValue={this.state.departmentSpeciality}
+                onChange={e => this.setState({departmentSpeciality: e.target.value})}
+              /><br/><br/>
+              <label for="departmentDesc" >科室简介：</label>
+              <TextArea
+                id="departmentDesc"
+                style={{ width: 480 }}
+                row={3}
+                defaultValue={this.state.departmentDesc}
+                onChange={e => this.setState({departmentDesc: e.target.value})}
+              />
             </Modal>
           </div>
         </Content>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios'
-import moment from 'moment';
+import moment from 'moment'
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import { Layout, Table, Button, Modal, Input, message, DatePicker, Form } from 'antd';
 import './index.css'
@@ -23,20 +23,7 @@ const tailLayout = {
     span: 16,
   },
 };
-const { RangePicker } = DatePicker;
 
-function range(start, end) {
-  const result = [];
-  for (let i = start; i < end; i++) {
-    result.push(i);
-  }
-  return result;
-}
-
-function disabledDate(current) {
-  // Can not select days before today and today
-  return current && current < moment().endOf('day');
-}
 
 export default class Report extends Component {
   constructor(props) {
@@ -63,25 +50,25 @@ export default class Report extends Component {
           title: '患者姓名',
           dataIndex: 'username',
           key: 'username',
-          width: 100,
+          width: 80,
           align: 'center'
         },{
           title: '科室',
           dataIndex: 'department',
           key: 'department',
-          width: 180,
+          width: 100,
           align: 'center'
         },{
           title: '日期',
           dataIndex: 'date',
           key: 'date',
-          width: 150,
+          width: 120,
           align: 'center',
         },{
           title: '图片报告地址',
           dataIndex: 'reportUrl',
           key: 'reportUrl',
-          width: 200,
+          width: 500,
           align: 'center',
         },{
           title: '操作',
@@ -91,7 +78,7 @@ export default class Report extends Component {
           align: 'center',
           render: (text, record) => (
             <span>
-              <a style={{ marginRight: 16 }} onClick={()=>{this.showEditModal(record.reportId)}}>编辑</a>
+              <a style={{ marginRight: 16 }} onClick={()=>{this.showEditModal(record)}}>编辑</a>
               <a onClick={() => this.showDeleteConfirm(record.reportId)}>删除</a>
             </span>
           ),
@@ -217,23 +204,16 @@ export default class Report extends Component {
       reportUrl: ''
     })
   }
-  showEditModal = (reportId) => {
-    axios.post('/api/getReportById', {
-      reportId: reportId
-    }).then((res) => {
-      console.log(res)
-      this.setState({
-        reportId: res.result[0].reportId,
-        username: res.result[0].username,
-        department: res.result[0].department,
-        date: res.result[0].date,
-        reportUrl: res.result[0].reportUrl,
-        editVisible: true
-      })
+  showEditModal = (record) => {
+    this.setState({
+      reportId: record.reportId,
+      username: record.username,
+      department: record.department,
+      date: record.date,
+      reportUrl: record.reportUrl,
+      editVisible: true
     })
-    .catch((err) => {
-      console.log(err)
-    })
+    
   }
   hideEditModal = () => {
     this.setState({
@@ -324,7 +304,6 @@ export default class Report extends Component {
                   <DatePicker
                     locale={locale}
                     style={{width: '180px'}}
-                    disabledDate={disabledDate}
                     onChange={value => this.setState({date: value._d.getFullYear() + '-' + this.p((value._d.getMonth() + 1)) + '-' + this.p(value._d.getDate())})} />
                 </Form.Item>
                 <Form.Item
@@ -358,26 +337,34 @@ export default class Report extends Component {
               okText="确认"
               cancelText="取消"
             >
+              <label for="username">科室地址：</label>
               <Input
+                id="username"
                 defaultValue={this.state.username}
                 style={{width: '180px'}}
                 onChange={e => this.setState({username: e.target.value})}
-              />
+              /><br/><br/>
+              <label for="department">科室地址：</label>
               <Input
+                id="department"
                 defaultValue={this.state.department}
                 style={{width: '180px'}}
                 onChange={e => this.setState({department: e.target.value})}
-              />
+              /><br/><br/>
+              <label for="date">科室地址：</label>
               <DatePicker
+                id="date"
                 locale={locale}
-                disabledDate={disabledDate}
                 style={{width: '180px'}}
                 // defaultValue={this.state.date}
                 onChange={value => this.setState({date: value._d.getFullYear() + '-' + this.p((value._d.getMonth() + 1)) + '-' + this.p(value._d.getDate())})}
-              />
+              /><br/><br/>
+              <label for="reportUrl">科室地址：</label>
               <TextArea
+                id="reportUrl"
                 onChange={e => this.setState({reportUrl: e.target.value})}
                 defaultValue={this.state.reportUrl}
+                style={{ width: 480}}
               />
             </Modal>
           </div>

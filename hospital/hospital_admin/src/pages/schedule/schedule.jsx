@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios'
+import moment from 'moment'
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import { Layout, Table, Button, Modal, Input, DatePicker, message, Form } from 'antd';
 import './index.css'
@@ -20,6 +21,9 @@ const tailLayout = {
     span: 16,
   },
 };
+function disabledDate(current) {
+  return current && current < moment().endOf('day');
+}
 export default class Schedule extends Component {
   constructor(props) {
     super(props);
@@ -71,7 +75,7 @@ export default class Schedule extends Component {
           align: 'center',
           render: (text, record) => (
             <span>
-              <a style={{ marginRight: 16 }} onClick={()=>this.showEditModal(record.scheduleId)}>编辑</a>
+              <a style={{ marginRight: 16 }} onClick={()=>this.showEditModal(record)}>编辑</a>
               <a onClick = {() => this.showDeleteConfirm(record.scheduleId)}>删除</a>
             </span>
           ),
@@ -155,22 +159,42 @@ export default class Schedule extends Component {
     }
   }
   updateSchedule = () => {
-    console.log('update')
-  }
-  showEditModal = (scheduleId) => {
-    axios.post('getScheduleByScheduleId', {
-      scheduleId: scheduleId
-    }).then((res) => {
-      if(res.code === 1){
-        this.success(res.msg)
-        console.log(res)
-      }else{
-        this.error(res.msg)
-      }
-    }).catch((err) => {
-      console.log(err)
-    })
+    if (this.state.doctorId !== 0 && this.state.departmentId !== 0 &&this.state.scheduleDate !== '' &&this.state.interval !== '') {
+      axios.post('/updateSchedule',{
+        scheduleId: this.state.scheduleId,
+        doctorId: this.state.doctorId,
+        departmentId: this.state.departmentId,
+        scheduleDate: this.state.scheduleDate,
+        interval: this.state.interval
+      }).then((res) => {
+        if(res.code === 1){
+          this.success(res.msg)
+        }else{
+          this.error(res.msg)
+        }
+        this.getScheduleList()
+      }).catch((err) => {
+        console.log(err)
+      })
+      this.hideEditModal()
+    } else {
+      this.error('请完善输入信息')
+    }
     this.setState({
+      scheduleId: 0,
+      doctorId: 0,
+      departmentId: 0,
+      scheduleDate: '',
+      interval: ''
+    })
+  }
+  showEditModal = (record) => {
+    this.setState({
+      scheduleId: record.scheduleId,
+      doctorId: record.doctorId,
+      departmentId: record.departmentId,
+      scheduleDate: record.scheduleDate,
+      interval: record.interval,
       editVisible: true
     })
   }
@@ -276,7 +300,7 @@ export default class Schedule extends Component {
                   <Input style={{width:180}} onChange={e => this.setState({interval: e.target.value})} />
                 </Form.Item>
                 <Form.Item {...tailLayout}>
-                  <Button type="primary" htmlType="submit" style={{marginRight: '20px'}} onClick={this.addSchedule}>
+                  <Button type="primary" htmlType="submit" style={{marginLeft: '-60px', marginRight: '20px'}} onClick={this.addSchedule}>
                     确认
                   </Button>
                   <Button htmlType="button" style={{marginLeft: '20px'}} onClick={this.hideModal}>
@@ -287,83 +311,45 @@ export default class Schedule extends Component {
             </Modal>
           </div>
           <div>
-            <Modal
-              title="编辑排班"
-              visible={this.state.editVisible}
+          <Modal
+              title="更新排班"
               destroyOnClose={true}
-              footer={null}
+              visible={this.state.editVisible}
               onCancel={this.hideEditModal}
+              onOk={this.updateSchedule}
+              okText="确认"
+              cancelText="取消"
             >
-              <Form
-                {...layout}
-                name="basic"
-                initialValues={{
-                  remember: true,
-                }}
-                onFinish={this.onFinish}
-                onFinishFailed={this.onFinishFailed}
-              >
-                <Form.Item
-                  label="医生编号"
-                  name="doctorId"
-                  rules={[
-                    {
-                      required: true,
-                      message: '医生编号不能为空!',
-                    },
-                  ]}
-                >
-                  <Input style={{ width: 180 }} onChange={e => this.setState({doctorId: e.target.value})} />
-                </Form.Item>
-                <Form.Item
-                  label="科室编号"
-                  name="departmentId"
-                  rules={[
-                    {
-                      required: true,
-                      message: '科室编号不能为空!',
-                    },
-                  ]}
-                >
-                  <Input  style={{ width: 180 }} onChange={e => this.setState({departmentId: e.target.value})} />
-                </Form.Item>
-                <Form.Item
-                  label="日期"
-                  name="date"
-                  rules={[
-                    {
-                      required: true,
-                      message: '日期不能为空!',
-                    },
-                  ]}
-                >
-                  <DatePicker
-                    style={{ width: 180 }}
-                    locale={locale}
-                    onChange={value => this.setState({scheduleDate: value._d.getFullYear()+'-'+this.p((value._d.getMonth()+1))+'-'+this.p(value._d.getDate())})} 
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="时段"
-                  name="interval"
-                  rules={[
-                    {
-                      required: true,
-                      message: '时段不能为空!',
-                    },
-                  ]}
-                >
-                  <Input style={{width:180}} onChange={e => this.setState({interval: e.target.value})} />
-                </Form.Item>
-                <Form.Item {...tailLayout}>
-                  <Button type="primary" htmlType="submit" style={{marginRight: '20px'}} onClick={this.updateSchedule}>
-                    确认
-                  </Button>
-                  <Button htmlType="button" style={{marginLeft: '20px'}} onClick={this.hideEditModal}>
-                    取消
-                  </Button>
-                </Form.Item>
-              </Form>
+              <label for="doctorId" style={{marginLeft: '120px'}}>医生编号：</label>
+              <Input
+                defaultValue={this.state.doctorId}
+                style={{width: '180px'}}
+                id="doctorId"
+                onChange={e => this.setState({doctorId: e.target.value})}
+              /><br/><br/>
+              <label for="departmentId" style={{marginLeft: '120px'}}>科室编号：</label>
+              <Input
+                id="departmentId"
+                defaultValue={this.state.departmentId}
+                style={{width: '180px'}}
+                onChange={e => this.setState({departmentId: e.target.value})}
+              /><br/><br/>
+              <label for="scheduleDate" style={{marginLeft: '120px'}}>日期：</label>
+              <DatePicker
+                id="scheduleDate"
+                locale={locale}
+                disabledDate={disabledDate}
+                style={{width: '180px', marginLeft: '28px'}}
+                // defaultValue={this.state.date}
+                onChange={value => this.setState({scheduleDate: value._d.getFullYear() + '-' + this.p((value._d.getMonth() + 1)) + '-' + this.p(value._d.getDate())})}
+              /><br/><br/>
+              <label for="interval" style={{marginLeft: '120px'}}>时段：</label>
+              <Input
+                id="interval"
+                defaultValue={this.state.interval}
+                style={{width: '180px', marginLeft: '28px'}}
+                onChange={e => this.setState({interval: e.target.value})}
+              />
             </Modal>
           </div>
         </Content>

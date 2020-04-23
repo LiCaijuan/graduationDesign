@@ -47,12 +47,13 @@ export default class Doctor extends Component {
           key: 'doctorId',
           align: 'center',
           fixed: 'left',
-          width: 80
+          width: 70
         },{
           title: '姓名',
           dataIndex: 'doctorName',
           key: 'doctorName',
-          width: 100,
+          width: 70,
+          fixed: 'left',
           align: 'center'
         },{
           title: '科室',
@@ -90,14 +91,14 @@ export default class Doctor extends Component {
           title: '擅长',
           dataIndex: 'doctorSpeciality',
           key: 'doctorSpeciality',
-          width: 300,
+          width: 400,
           align: 'center',
         },{
           title: '简介', 
           dataIndex: 'doctorSynopsis',
           key: 'doctorSynopsis',
           align: 'center',
-          width: 300
+          width: 400
         },{
           title: '操作',
           key: 'action',
@@ -188,7 +189,11 @@ export default class Doctor extends Component {
       doctorId: doctorId
     })
     .then((res) => {
-      console.log(res)
+      if(res.code === 1){
+        this.success(res.msg)
+      }else{
+        this.error(res.msg)
+      }
       this.getDoctorList()
     })
     .catch((err) => {
@@ -197,7 +202,8 @@ export default class Doctor extends Component {
   }
   updateDoctor = () => {
     if (this.state.doctorName !=='' && this.state.doctorDepartment !=='' && this.state.doctorImg !=='' && this.state.doctorSpeciality !=='' && this.state.doctorSynopsis !=='') {
-      axios.post('/api/update', {
+      axios.post('/api/updateDoctor', {
+        doctorId: this.state.doctorId,
         doctorName: this.state.doctorName,
         doctorDepartment: this.state.doctorDepartment,
         doctorPrice: this.state.doctorPrice,
@@ -284,9 +290,10 @@ export default class Doctor extends Component {
               columns={this.state.columns}
               dataSource={this.state.doctorList}
               bordered
+              scroll={{ x: 1800}}
               rowKey={record => record.doctorId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加医生</Button> }
-              style={{margin: 20 }}/>
+              style={{margin: 15 }}/>
           </div>
           <div>
             <Modal
@@ -421,7 +428,7 @@ export default class Doctor extends Component {
               </Form>
             </Modal>
             <Modal
-              title="编辑医生"
+              title="更新医生"
               destroyOnClose={true}
               visible={this.state.editVisible}
               onCancel={this.hideEditModal}
@@ -429,46 +436,69 @@ export default class Doctor extends Component {
               okText="确认"
               cancelText="取消"
             >
+              <label for="doctorName">医生姓名：</label>
               <Input
+                id="doctorName"
                 defaultValue={this.state.doctorName}
-                style={{ width: 180 }}
+                style={{ width: 250}}
                 onChange={e => this.setState({doctorName: e.target.value})}
-              />
-              <Input style={{ width: 180 }} onChange={e => this.setState({doctorDepartment: e.target.value})} />
+              /><br/><br/>
+              <label for="doctorDepartment">所属科室：</label>
+              <Input
+                id="doctorDepartment"
+                style={{ width: 250 }}
+                defaultValue={this.state.doctorDepartment}
+                onChange={e => this.setState({doctorDepartment: e.target.value})}
+              /><br/><br/>
+              <label for="doctorType">医生职称：</label>
               <Select
+                id="doctorType"
                 defaultValue={this.state.doctorType.toString()}
-                style={{ width: 180 }}
+                style={{ width: 250 }}
                 onChange={value => this.setState({doctorType: value})}
               >
                 <Option value="1">主任医师</Option>
                 <Option value="2">副主任医师</Option>
                 <Option value="3">主治医师</Option>
                 <Option value="4">住院医师</Option>
-              </Select>
+              </Select><br/><br/>
+              <label for="doctorPrice">挂号价格：</label>
               <Input
+                id="doctorPrice"
                 defaultValue={this.state.doctorPrice}
-                style={{ width: 180 }}
+                style={{ width: 250 }}
                 onChange={e => this.setState({doctorPrice: e.target.value})}
-              />
+              /><br/><br/>
+              <label for="doctorIsOrder">预约情况：</label>
               <Select
+                id="doctorIsOrder"
                 defaultValue={this.state.doctorIsOrder.toString()}
-                style={{ width: 180 }}
+                style={{ width: 250 }}
                 onChange={value => this.setState({doctorIsOrder: value})}
               >
                 <Option value="0">不可预约</Option>
                 <Option value="1">可预约</Option>
-              </Select>
+              </Select><br/><br/>
+              <label for="doctorImg">医生照片：</label>
               <TextArea
+                id="doctorImg"
                 defaultValue={this.state.doctorImg}
                 onChange={e => this.setState({doctorImg: e.target.value})}
-              />
+                style={{ width: 480 }}
+              /><br/><br/>
+              <label for="doctorSpeciality">擅长：</label>
               <TextArea
+                id="doctorSpeciality"
                 defaultValue={this.state.doctorSpeciality}
                 onChange={e => this.setState({doctorSpeciality: e.target.value})}
-              />
+                style={{ width: 480, marginLeft:28}}
+              /><br/><br/>
+              <label for="doctorSynopsis">简介：</label>
               <TextArea
+                id="doctorSynopsis"
                 defaultValue={this.state.doctorSynopsis}
                 onChange={e => this.setState({doctorSynopsis: e.target.value})}
+                style={{width: 480, marginLeft: 28}}
               />
             </Modal>
           </div>
