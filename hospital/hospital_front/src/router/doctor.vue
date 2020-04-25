@@ -8,81 +8,75 @@
     </van-row>
     <van-tabs v-model="activeName" color="#3bb5b2" line-width="65px" swipeable title-active-color="#3bb5b2">
       <van-tab title="主任医师" name="a">
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          finished-text="没有更多了"
-        >
-          <van-cell @click="doctorOrder()">
+        <van-list>
+          <van-cell>
             <van-card
-              v-for="item in list"
-              :key="item.number"
-              :thumb="item.thumb"
+              v-for="item in chiefList"
+              :key="item.doctorId"
+              :thumb="item.doctorImg"
+              @click="doctorOrder(item.doctorId)"
             >
-              <div slot="desc" class="van-card__desc">{{item.desc}}</div>
-              <div slot="title" class="van-card__title">{{item.name}}</div>
+              <div slot="desc" class="van-card__desc">{{item.doctorSynopsis}}</div>
+              <div slot="title" class="van-card__title">{{item.doctorName}}</div>
               <div slot="tags" class="card_tag">
-                <van-tag plain type="success" size="large">{{item.isOrder}}</van-tag>
+                <van-tag plain type="success" size="large" v-if="item.doctorIsOrder">可预约</van-tag>
+                <van-tag plain type="success" size="large" v-if="!item.doctorIsOrder">不可预约</van-tag>
               </div>
               <div slot="bottom" class="van-card__bottom">
-                test
+                {{item.doctorSynopsis}}
               </div>
               <div slot="footer" class="van-card__footer">
-                挂号费：<span class="price">￥{{item.price}}</span>
+                挂号费：<span class="price">￥{{item.doctorPrice}}</span>
               </div>
             </van-card>
           </van-cell>
         </van-list>
       </van-tab>
       <van-tab title="副主任医师" name="b">
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          finished-text="没有更多了"
-        >
-          <van-cell @click="doctorOrder()">
+        <van-list>
+          <van-cell>
             <van-card
-              v-for="item in list"
-              :key="item.number"
-              :thumb="item.thumb"
+              v-for="item in deputyChiefList"
+              :key="item.doctorId"
+              :thumb="item.doctorImg"
+              @click="doctorOrder(item.doctorId)"
             >
-              <div slot="desc" class="van-card__desc">{{item.desc}}</div>
-              <div slot="title" class="van-card__title">{{item.name}}</div>
+              <div slot="desc" class="van-card__desc">{{item.doctorSynopsis}}</div>
+              <div slot="title" class="van-card__title">{{item.doctorName}}</div>
               <div slot="tags" class="card_tag">
-                <van-tag plain type="success" size="large">{{item.isOrder}}</van-tag>
+                <van-tag plain type="success" size="large" v-if="item.doctorIsOrder">可预约</van-tag>
+                <van-tag plain type="success" size="large" v-if="!item.doctorIsOrder">不可预约</van-tag>
               </div>
               <div slot="bottom" class="van-card__bottom">
-                test
+                {{item.doctorSynopsis}}
               </div>
               <div slot="footer" class="van-card__footer">
-                挂号费：<span class="price">￥{{item.price}}</span>
+                挂号费：<span class="price">￥{{item.doctorPrice}}</span>
               </div>
             </van-card>
           </van-cell>
         </van-list>
       </van-tab>
       <van-tab title="主治医师" name="c">
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          finished-text="没有更多了"
-        >
-          <van-cell @click="doctorOrder()">
+        <van-list>
+          <van-cell>
             <van-card
-              v-for="item in list"
+              v-for="item in attendingList"
               :key="item.number"
-              :thumb="item.thumb"
+              :thumb="item.doctorImg"
+              @click="doctorOrder(item.doctorId)"
             >
-              <div slot="desc" class="van-card__desc">{{item.desc}}</div>
-              <div slot="title" class="van-card__title">{{item.name}}</div>
+              <div slot="desc" class="van-card__desc">{{item.doctorSynopsis}}</div>
+              <div slot="title" class="van-card__title">{{item.doctorName}}</div>
               <div slot="tags" class="card_tag">
-                <van-tag plain type="success" size="large">{{item.isOrder}}</van-tag>
+                <van-tag plain type="success" size="large" v-if="item.doctorIsOrder">可预约</van-tag>
+                <van-tag plain type="success" size="large" v-if="!item.doctorIsOrder">不可预约</van-tag>
               </div>
               <div slot="bottom" class="van-card__bottom">
-                test
+                {{item.doctorSynopsis}}
               </div>
               <div slot="footer" class="van-card__footer">
-                挂号费：<span class="price">￥{{item.price}}</span>
+                挂号费：<span class="price">￥{{item.doctorPrice}}</span>
               </div>
             </van-card>
           </van-cell>
@@ -90,26 +84,25 @@
       </van-tab>
       <van-tab title="住院医师" name="d">
         <van-list
-          v-model="loading"
-          :finished="finished"
-          finished-text="没有更多了"
         >
-          <van-cell @click="doctorOrder()">
+          <van-cell >
             <van-card
-              v-for="item in list"
+              v-for="item in residentList"
               :key="item.number"
-              :thumb="item.thumb"
+              :thumb="item.doctorImg"
+              @click="doctorOrder(item.doctorId)"
             >
-              <div slot="desc" class="van-card__desc">{{item.desc}}</div>
-              <div slot="title" class="van-card__title">{{item.name}}</div>
+              <div slot="desc" class="van-card__desc">{{item.doctorSynopsis}}</div>
+              <div slot="title" class="van-card__title">{{item.doctorName}}</div>
               <div slot="tags" class="card_tag">
-                <van-tag plain type="success" size="large">{{item.isOrder}}</van-tag>
+                <van-tag plain type="success" size="large" v-if="item.doctorIsOrder">可预约</van-tag>
+                <van-tag plain type="success" size="large" v-if="!item.doctorIsOrder">不可预约</van-tag>
               </div>
               <div slot="bottom" class="van-card__bottom">
-                test
+                {{item.doctorSynopsis}}
               </div>
               <div slot="footer" class="van-card__footer">
-                挂号费：<span class="price">￥{{item.price}}</span>
+                挂号费：<span class="price">￥{{item.doctorPrice}}</span>
               </div>
             </van-card>
           </van-cell>
@@ -128,34 +121,19 @@ export default {
   data () {
     return {
       fullHeight: document.documentElement.clientHeight,
-      // day: 0,
-      // nday: 0,
       myDate: '',
       nowDate: '',
       value: '',
       scheduleList: [],
-      list: [
-        {
-          number: 1,
-          name: '王大锤',
-          desc: '主任医师',
-          image: '../assets/img/map.png',
-          isOrder: '可预约',
-          thumb: 'http://img1.imgtn.bdimg.com/it/u=561326960,1564995287&fm=11&gp=0.jpg',
-          price: 10
-        }, {
-          number: 2,
-          name: '肖恩',
-          desc: '住院医师',
-          image: '../assets/img/map.png',
-          isOrder: '可预约',
-          thumb: 'https://img.yzcdn.cn/vant/ipad.jpeg',
-          price: 0
-        }
-      ],
-      listA: [2],
-      listB: [3],
-      listC: [4],
+      doctorList: [],
+      // 主任医师列表
+      chiefList: [],
+      // 副主任医师列表
+      deputyChiefList: [],
+      // 主治医师
+      attendingList: [],
+      // 住院医师
+      residentList: [],
       loading: false,
       finished: false,
       activeName: 'a'
@@ -203,7 +181,10 @@ export default {
       console.log(this.myDate)
     },
     preDay () {
-      // this.day += 1
+      this.chiefList = []
+      this.deputyChiefList = []
+      this.attendingList = []
+      this.residentList = []
       this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
       var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
@@ -212,7 +193,10 @@ export default {
       this.getDoctorList()
     },
     nextDay () {
-      // this.nday += 1
+      this.chiefList = []
+      this.deputyChiefList = []
+      this.attendingList = []
+      this.residentList = []
       this.nowDate = this.nowDate + 24 * 60 * 60 * 1000
       var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
@@ -220,7 +204,14 @@ export default {
       console.log(this.myDate)
       this.getDoctorList()
     },
-    doctorOrder () {
+    doctorOrder (doctorId) {
+      this.emitId = doctorId
+      this.$store.commit('changeDoctorDate', {
+        doctorDate: this.myDate
+      })
+      this.$store.commit('changeDoctorId', {
+        doctorId: doctorId
+      })
       this.$router.push('./doctorOrder')
     },
     getDoctorList () {
@@ -228,21 +219,34 @@ export default {
         scheduleDate: this.myDate
       }).then((res) => {
         this.scheduleList = res.data.result.map(item => {
-          return item.doctorId;
+          return item.doctorId
         })
         console.log(this.scheduleList, 'scheduleList')
+        this.scheduleList.map(item => {
+          console.log('test')
+          this.axios.post('/api/getDoctorById', {
+            doctorId: item
+          }).then((res) => {
+            let doctor = res.data.result[0]
+            switch (doctor.doctorType) {
+              case 1:
+                this.chiefList.push(doctor)
+                break
+              case 2:
+                this.deputyChiefList.push(doctor)
+                break
+              case 3:
+                this.attendingList.push(doctor)
+                break
+              default:
+                this.residentList.push(doctor)
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+        })
       }).catch((err) => {
         console.log(err)
-      })
-      this.scheduleList.map(item => {
-        console.log('test')
-        this.axios.post('/api/getDoctorById', {
-          doctorId: item
-        }).then((res) => {
-          console.log(res, '医生列表')
-        }).catch((err) => {
-          console.log(err)
-        })
       })
     },
     // 动态获取浏览器高度

@@ -49,6 +49,7 @@
         <div class="content">
           <van-form>
             <van-field
+              style="marginLeft: 70px"
               v-model="userName"
               name="用户名"
               label="用户名"
@@ -56,6 +57,7 @@
               :rules="[{ required: true, message: '请填写用户名' }]"
             />
             <van-field
+              style="marginLeft: 70px"
               v-model="userPhone"
               name="电话号码"
               label="电话号码"
@@ -63,6 +65,7 @@
               :rules="[{ required: true, message: '请填写电话号码' }]"
             />
             <van-field
+              style="marginLeft: 70px"
               v-model="userCard"
               name="身份证号"
               label="身份证号"
