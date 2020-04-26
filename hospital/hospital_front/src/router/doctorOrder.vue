@@ -35,7 +35,7 @@
               v-for="item in intervalList"
               :key="item"
               :text="item"
-              @click="showDialog()"
+              @click="showDialog(item)"
             />
           </van-grid>
         </div>
@@ -48,11 +48,11 @@
       </div>
       <van-action-sheet v-model="showActionsheet" title="请输入预约者信息">
         <div class="content">
-          <van-form>
+          <van-form @submit="onSubmit">
             <van-field
               style="marginLeft: 70px"
               v-model="userName"
-              name="用户名"
+              name="userName"
               label="用户名"
               placeholder="用户名"
               :rules="[{ required: true, message: '请填写用户名' }]"
@@ -60,7 +60,7 @@
             <van-field
               style="marginLeft: 70px"
               v-model="userPhone"
-              name="电话号码"
+              name="userPhone"
               label="电话号码"
               placeholder="电话号码"
               :rules="[{ required: true, message: '请填写电话号码' }]"
@@ -68,12 +68,12 @@
             <van-field
               style="marginLeft: 70px"
               v-model="userCard"
-              name="身份证号"
+              name="userCard"
               label="身份证号"
               placeholder="身份证号"
               :rules="[{ required: true, message: '请填写身份证号' }]"
             />
-            <van-button class="user_btn" round block type="info" @click="order()">提交</van-button>
+            <van-button class="user_btn" round block type="info" native-type="submit">提交</van-button>
           </van-form>
         </div>
       </van-action-sheet>
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { Icon, Image, NavBar, Panel, Grid, GridItem, Dialog, ActionSheet, Form, Field, Button, Tag } from 'vant'
+import { Icon, Image, NavBar, Panel, Grid, GridItem, Dialog, ActionSheet, Form, Field, Button, Tag, Toast } from 'vant'
 import '@/assets/css/icon/iconfont.css'
 
 export default {
@@ -95,7 +95,6 @@ export default {
       userCard: '',
       doctorId: 0,
       date: '',
-      test: '',
       isDialog: false,
       showActionsheet: false,
       intervalList: [],
@@ -104,7 +103,10 @@ export default {
       doctorDepartment: '',
       doctorType: '',
       doctorSpeciality: '',
-      doctorSynopsis: ''
+      doctorSynopsis: '',
+      orderInterval: '',
+      address: '',
+      orderDoctorType: 0
     }
   },
 
@@ -123,6 +125,7 @@ export default {
   },
   components: {
     [Icon.name]: Icon,
+    [Toast.name]: Toast,
     [Image.name]: Image,
     [NavBar.name]: NavBar,
     [Panel.name]: Panel,
@@ -142,6 +145,16 @@ export default {
   },
 
   methods: {
+    getDepartmentByName () {
+      this.axios.post('/api/getDepartmentByName', {
+        departmentName: this.doctorDepartment
+      }).then((res) => {
+        this.address = res.data.result[0].departmentAddress
+        // console.log(this.address)
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
     getInterval () {
       this.date = this.$store.state.doctorDate
       this.doctorId = this.$store.state.doctorId
@@ -164,6 +177,8 @@ export default {
         let doctor = res.data.result[0]
         this.doctorName = doctor.doctorName
         this.doctorDepartment = doctor.doctorDepartment
+        this.orderDoctorType = doctor.doctorType // 用于预约
+        // 用于显示
         switch (doctor.doctorType) {
           case 1:
             this.doctorType = '主任医师'
@@ -181,8 +196,7 @@ export default {
         this.doctorImg = doctor.doctorImg
         this.doctorSpeciality = doctor.doctorSpeciality
         this.doctorSynopsis = doctor.doctorSynopsis
-        console.log(res)
-        console.log(this.doctorName, 'name')
+        console.log(this.doctorDepartment, 'name')
       }).catch((err) => {
         console.log(err)
       })
@@ -190,12 +204,34 @@ export default {
     onClickLeft () {
       this.$router.go(-1)
     },
-    order () {
+    onSubmit (values) {
+      this.getDepartmentByName()
       // 调用接口，如果预约成功使得showActionsheet=false
       this.showActionsheet = false
-      console.log('submit')
+      this.axios.post('/api/addOrder', {
+        doctorType: this.orderDoctorType,
+        doctorName: this.doctorName,
+        departmentName: this.doctorDepartment,
+        orderDate: this.date,
+        interval: this.orderInterval,
+        userName: values.userName,
+        userPhone: values.userPhone,
+        userCard: values.userCard,
+        address: this.address
+      }).then((res) => {
+        Toast.success(res.data.msg)
+        // 预约成功删掉改时段
+        // if (res.data.code === 1) {
+        //   this.intervalList = this.intervalList.filter((item) => {
+        //     return item !== this.orderInterval
+        //   })
+        // }
+      }).catch((err) => {
+        console.log(err)
+      })
     },
-    showDialog () {
+    showDialog (item) {
+      this.orderInterval = item
       // this.isDialog = true
       this.$dialog.confirm({
         // title: "hello",

@@ -1,14 +1,16 @@
 <template>
   <div id="department" :style="'height:'+fullHeight+'px;'">
-    <div class="searchDiv">
+    <!-- <div class="searchDiv">
       <van-icon class="back_name" name="arrow-left" color="#ffffff" @click="back()"/>
       <van-search class="search_name" v-model="value" background="#3bb5b2" shape="round" placeholder="搜索科室"/>
-    </div>
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-    >
+    </div> -->
+    <van-row type="flex" justify="center">
+      <van-icon class="back_icon" name="arrow-left" color="#3bb5b2" size="30" @click="back()"/>
+      <van-col span="6" class="left_col" @click="preDay()">前一天</van-col>
+      <van-col span="6" class="center_col">{{myDate}}</van-col>
+      <van-col span="6" class="right_col" @click="nextDay()">后一天</van-col>
+    </van-row>
+    <van-list>
       <van-cell>
         <van-card
           v-for="item in departmentList"
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-import {Search, Icon, List, Cell, Card, Tag} from 'vant'
+import {Search, Icon, List, Cell, Card, Tag, Col, Row} from 'vant'
 import '@/assets/css/icon/iconfont.css'
 
 export default {
@@ -38,6 +40,8 @@ export default {
     return {
       fullHeight: document.documentElement.clientHeight,
       value: '',
+      myDate: '',
+      nowDate: '',
       loading: false,
       finished: false,
       departmentList: [],
@@ -82,10 +86,13 @@ export default {
     [List.name]: List,
     [Cell.name]: Cell,
     [Card.name]: Card,
-    [Tag.name]: Tag
+    [Tag.name]: Tag,
+    [Col.name]: Col,
+    [Row.name]: Row
   },
 
   mounted () {
+    this.getDate()
     this.get_bodyHeight()
     this.getDepartmentList()
   },
@@ -101,6 +108,34 @@ export default {
         })()
       }
     },
+    getDate () {
+      this.nowDate = (new Date()).getTime()
+      var yesterday = new Date(this.nowDate)
+      this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
+          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+    },
+    preDay () {
+      this.chiefList = []
+      this.deputyChiefList = []
+      this.attendingList = []
+      this.residentList = []
+      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
+      var yesterday = new Date(this.nowDate)
+      this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
+          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+      this.getDoctorList()
+    },
+    nextDay () {
+      this.chiefList = []
+      this.deputyChiefList = []
+      this.attendingList = []
+      this.residentList = []
+      this.nowDate = this.nowDate + 24 * 60 * 60 * 1000
+      var yesterday = new Date(this.nowDate)
+      this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
+          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+      this.getDoctorList()
+    },
     back () {
       this.$router.push('./')
     },
@@ -113,8 +148,12 @@ export default {
       })
     },
     departmentOrder (departmentId) {
-      this.bus.$emit('departmentId', departmentId)
-      console.log(departmentId)
+      this.$store.commit('changeDepartmentId', {
+        departmentId: departmentId
+      })
+      this.$store.commit('changeDepartmentDate', {
+        departmentId: this.myDate
+      })
       this.$router.push('./departmentOrder')
     }
   }
@@ -128,29 +167,47 @@ export default {
     margin: 0;
     padding: 0;
   }
-
+  .center_col {
+    background-color: #3bb5b2;
+    color: #FFFFFF;
+  }
+  .left_col {
+    border-radius: 3px 0 0 3px;
+    color: #3bb5b2;
+  }
+  .right_col {
+    border-radius: 0 3px 3px 0;
+    color: #3bb5b2;
+  }
+  .van-col--6 {
+    margin: 5px 0;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #3bb5b2;
+    text-align: center;
+  }
+  .back_icon {
+    margin-top: 5px;
+    left: -30px;
+  }
   .searchDiv {
     height: 40px;
     background-color: #3bb5b2;
   }
-
   .back_name {
     float: left;
     font-size: 30px;
     margin-top: 5px;
   }
-
   .search_name {
     float: left;
     width: 80%;
     margin: 3px 15px;
   }
-
   .card_tag {
     margin: 10px;
     float: right;
   }
-
   .van-card__title {
     font-size: 20px;
     line-height: 50px;
@@ -172,5 +229,6 @@ export default {
 
   .van-card__bottom {
     font-size: 15px;
+    margin-top: -45px;
   }
 </style>

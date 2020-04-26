@@ -178,7 +178,6 @@ export default {
       var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-      console.log(this.myDate)
     },
     preDay () {
       this.chiefList = []
@@ -189,7 +188,6 @@ export default {
       var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-      console.log(this.myDate)
       this.getDoctorList()
     },
     nextDay () {
@@ -201,7 +199,6 @@ export default {
       var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-      console.log(this.myDate)
       this.getDoctorList()
     },
     doctorOrder (doctorId) {
@@ -221,9 +218,7 @@ export default {
         this.scheduleList = res.data.result.map(item => {
           return item.doctorId
         })
-        console.log(this.scheduleList, 'scheduleList')
         this.scheduleList.map(item => {
-          console.log('test')
           this.axios.post('/api/getDoctorById', {
             doctorId: item
           }).then((res) => {
@@ -231,15 +226,47 @@ export default {
             switch (doctor.doctorType) {
               case 1:
                 this.chiefList.push(doctor)
+                let obj = {}
+                this.chiefList = this.chiefList.reduce((item, next) => {
+                  if (!obj[next.doctorName]) {
+                    item.push(next)
+                    obj[next.doctorName] = true
+                  }
+                  return item
+                }, [])
                 break
               case 2:
                 this.deputyChiefList.push(doctor)
+                let obj1 = {}
+                this.deputyChiefList = this.deputyChiefList.reduce((item, next) => {
+                  if (!obj1[next.doctorName]) {
+                    item.push(next)
+                    obj1[next.doctorName] = true
+                  }
+                  return item
+                }, [])
                 break
               case 3:
                 this.attendingList.push(doctor)
+                let obj2 = {}
+                this.attendingList = this.attendingList.reduce((item, next) => {
+                  if (!obj2[next.doctorName]) {
+                    item.push(next)
+                    obj2[next.doctorName] = true
+                  }
+                  return item
+                }, [])
                 break
               default:
                 this.residentList.push(doctor)
+                let obj3 = {}
+                this.residentList = this.residentList.reduce((item, next) => {
+                  if (!obj3[next.doctorName]) {
+                    item.push(next)
+                    obj3[next.doctorName] = true
+                  }
+                  return item
+                }, [])
             }
           }).catch((err) => {
             console.log(err)
@@ -262,29 +289,9 @@ export default {
     back () {
       this.$router.push('./')
     }
-    // onLoad () {
-    //   // 异步更新数据
-    //   // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-    //   setTimeout(() => {
-    //     for (let i = 0; i < 10; i++) {
-    //       this.list.push(this.list.length + 1)
-    //     }
-
-    //     // 加载状态结束
-    //     this.loading = false
-
-    //     // 数据全部加载完成
-    //     if (this.list.length >= 40) {
-    //       this.finished = true
-    //     }
-    //   }, 1000)
-    // }
   }
-
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   * {
     margin: 0;
@@ -341,12 +348,10 @@ export default {
     border: 1px solid #3bb5b2;
     text-align: center;
   }
-
   .back_icon {
-    margin-top: 6px;
-    left: -37px;
+    margin-top: 5px;
+    left: -30px;
   }
-
   .van-card__thumb img {
     border-radius: 0 !important;
   }

@@ -16,18 +16,18 @@
       />
       <div class="doct_info">
         <van-panel
-          :title="list.name"
-          :desc="list.address"
-          :status="list.title"
+          :title="departmentName"
+          :desc="departmentAddress"
+          :status="departmentAddress"
         >
-          <div>{{list.hospital}}</div>
+          <div>浙江省中医院下沙院区</div>
         </van-panel>
       </div>
       <div class="time">
         <van-icon class="time_icon" color="#3bb5b2" size="30" name="notes-o"/>
         <div class="time_text">选择预约时间</div>
         <div class="time_choose">
-          <div class="time_date">{{list.date}}</div>
+          <div class="time_date">{{date}}</div>
           <van-grid>
             <van-grid-item
               class="time_grid"
@@ -42,8 +42,8 @@
       <div class="doctor">
         <van-icon class="doct_icon" name="manager-o" color="#3bb5b2" size="30"/>
         <div class="doct_text">科室简介</div>
-        <div class="doct_speciality">擅长：</div>
-        <div class="doct_synopsis">简介：</div>
+        <div class="doct_speciality">擅长：{{departmentSpeciality}}</div>
+        <div class="doct_synopsis">简介：{{departmentDesc}}</div>
       </div>
       <van-action-sheet v-model="showActionsheet" title="请输入预约者信息">
         <div class="content">
@@ -93,9 +93,16 @@ export default {
       userName: '',
       userPhone: '',
       userCard: '',
+      date: '',
       isDialog: false,
       showActionsheet: false,
       doctorImgUrl: 'http://img2.imgtn.bdimg.com/it/u=23084897,262291329&fm=11&gp=0.jpg',
+      departmentAddress: '',
+      departmentDesc: '',
+      departmentId: 0,
+      departmentImg: '',
+      departmentName: '',
+      departmentSpeciality: '',
       list: {
         number: 1,
         name: '内科',
@@ -150,25 +157,12 @@ export default {
 
   mounted () {
     this.get_bodyHeight()
-    this.getDate()
     this.getDepartmentById()
   },
 
   methods: {
     onClickLeft () {
       this.$router.go(-1)
-    },
-    getDepartmentById () {
-      this.bus.$on('departmentId', msg => {
-        this.departmentId = msg
-        console.log(msg, 'msg')
-        this.axios.post('/api/getDepartmentById', {departmentId: msg}).then((res) => {
-          console.log(res)
-        }).catch((err) => {
-          console.log(err)
-        })
-      })
-      console.log(this.departmentId)
     },
     order () {
       // 调用接口，如果预约成功使得showActionsheet=false
@@ -189,12 +183,6 @@ export default {
         // console.log("点击了取消按钮噢")
       })
     },
-    getDate () {
-      this.nowDate = (new Date()).getTime()
-      var yesterday = new Date(this.nowDate)
-      this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
-          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-    },
     // 动态获取浏览器高度
     get_bodyHeight () {
       const that = this
@@ -204,6 +192,23 @@ export default {
           that.fullHeight = window.fullHeight
         })()
       }
+    },
+    getDepartmentById () {
+      let departmentId = this.$store.state.departmentId
+      this.axios.post('/api/getDepartmentById', {
+        departmentId: departmentId
+      }).then((res) => {
+        let department = res.data.result[0]
+        this.departmentAddress = department.departmentAddress
+        this.departmentDesc = department.departmentDesc
+        this.departmentId = department.departmentId
+        this.departmentImg = department.departmentImg
+        this.departmentName = department.departmentName
+        this.departmentSpeciality = department.departmentSpeciality
+        console.log(res)
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   }
 
