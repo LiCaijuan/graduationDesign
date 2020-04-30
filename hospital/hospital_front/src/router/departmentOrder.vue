@@ -1,6 +1,7 @@
 <template>
   <div id="departmentOrder" :style="'height:'+fullHeight+'px;'">
     <van-nav-bar
+      style="color: #fff"
       title="科室详情"
       left-text="返回"
       left-arrow
@@ -31,11 +32,12 @@
           <van-grid>
             <van-grid-item
               class="time_grid"
-              v-for="item in list.interval"
-              :key="item"
-              :text="item"
-              @click="showDialog()"
+              v-for="item in intervalList"
+              :key="item.departmentId"
+              :text="item.interval"
+              @click="showDialog(item)"
             />
+            <van-empty v-if="intervalList.length<1" description="当前日期无可预约时段" />
           </van-grid>
         </div>
       </div>
@@ -47,11 +49,11 @@
       </div>
       <van-action-sheet v-model="showActionsheet" title="请输入预约者信息">
         <div class="content">
-          <van-form>
+          <van-form @submit="onSubmit">
             <van-field
               style="marginLeft: 70px"
               v-model="userName"
-              name="用户名"
+              name="userName"
               label="用户名"
               placeholder="用户名"
               :rules="[{ required: true, message: '请填写用户名' }]"
@@ -59,7 +61,7 @@
             <van-field
               style="marginLeft: 70px"
               v-model="userPhone"
-              name="电话号码"
+              name="userPhone"
               label="电话号码"
               placeholder="电话号码"
               :rules="[{ required: true, message: '请填写电话号码' }]"
@@ -67,12 +69,12 @@
             <van-field
               style="marginLeft: 70px"
               v-model="userCard"
-              name="身份证号"
+              name="userCard"
               label="身份证号"
               placeholder="身份证号"
               :rules="[{ required: true, message: '请填写身份证号' }]"
             />
-            <van-button class="user_btn" round block type="info" @click="order()">提交</van-button>
+            <van-button class="user_btn" round block type="info" native-type="submit">提交</van-button>
           </van-form>
         </div>
       </van-action-sheet>
@@ -81,7 +83,7 @@
 </template>
 
 <script>
-import { Icon, Image, NavBar, Panel, Grid, GridItem, Dialog, ActionSheet, Form, Field, Button } from 'vant'
+import { Icon, Image, NavBar, Panel, Grid, GridItem, Dialog, ActionSheet, Form, Field, Button, Toast, Empty } from 'vant'
 import '@/assets/css/icon/iconfont.css'
 
 export default {
@@ -103,28 +105,11 @@ export default {
       departmentImg: '',
       departmentName: '',
       departmentSpeciality: '',
-      list: {
-        number: 1,
-        name: '内科',
-        title: '主任医师',
-        address: 'A楼4层',
-        hospital: '浙江省中医院下沙院区',
-        date: '2020-03-15',
-        interval: [
-          '10:00-10:15',
-          '10:20-10:35',
-          '10:40-10:55',
-          '11:00-11:15',
-          '11:20-11:35',
-          '11:40-11:55',
-          '15:00-15:15',
-          '15:20-15:35',
-          '15:40-15:55',
-          '16:00-16:15',
-          '16:20-16:35',
-          '16:40-16:55'
-        ]
-      }
+      intervalList: [],
+      doctorType: 0,
+      doctorName: '',
+      orderInterval: '',
+      scheduleId: 0
     }
   },
 
@@ -152,25 +137,68 @@ export default {
     [Form.name]: Form,
     [Field.name]: Field,
     [Button.name]: Button,
+    [Toast.name]: Toast,
+    [Empty.name]: Empty,
     [Dialog.Component.name]: Dialog.Component
   },
 
   mounted () {
     this.get_bodyHeight()
     this.getDepartmentById()
+    this.getInterval()
   },
 
   methods: {
     onClickLeft () {
       this.$router.go(-1)
     },
-    order () {
+    onSubmit (values) {
+      console.log(values, 'sub')
       // 调用接口，如果预约成功使得showActionsheet=false
       this.showActionsheet = false
+      this.axios.post('/api/addOrder', {
+        doctorType: this.doctorType,
+        doctorName: this.doctorName,
+        departmentName: this.departmentName,
+        orderDate: this.date,
+        interval: this.orderInterval,
+        userName: values.userName,
+        userPhone: values.userPhone,
+        userCard: values.userCard,
+        address: this.departmentAddress
+      }).then((res) => {
+        Toast.success(res.data.msg)
+        // 预约成功删掉改时段
+        if (res.data.code === 1) {
+          this.axios.post('/api/deleteSchedule', {
+            scheduleId: this.scheduleId
+          }).then((res) => {
+            console.log(res)
+            if (res.data.code === 1) {
+              this.getInterval()
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
       console.log('submit')
     },
-    showDialog () {
-      // this.isDialog = true
+    showDialog (item) {
+      this.orderInterval = item.interval
+      this.scheduleId = item.scheduleId
+      console.log(item, 'item')
+      this.axios.post('/api/getDoctorById', {
+        doctorId: item.doctorId
+      }).then((res) => {
+        console.log(res)
+        this.doctorName = res.data.result[0].doctorName
+        this.doctorType = res.data.result[0].doctorType
+      }).catch((err) => {
+        console.log(err)
+      })
       this.$dialog.confirm({
         // title: "hello",
         message: '确认预约当前时段吗？',
@@ -209,6 +237,18 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+    getInterval () {
+      this.axios.post('/api/getScheduleByDepartmentCondition', {
+        departmentId: this.$store.state.departmentId,
+        scheduleDate: this.$store.state.departmentDate
+      }).then((res) => {
+        // let department = res.data.result[0]
+        this.intervalList = res.data.result
+        console.log(res)
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   }
 
@@ -224,14 +264,13 @@ export default {
 
   .van-nav-bar__title {
     max-width: 100%;
-    color: #ffffff;
+    color: #ffffff!important;
   }
   .van-nav-bar .van-icon {
     color: #ffffff;
   }
-
-  .van-nav-bar__text {
-    color: #ffffff;
+  .van-nav-bar__text{
+    color: #FFF;
   }
 
   .van-nav-bar__arrow {
@@ -290,7 +329,6 @@ export default {
     float: left;
     margin: 20px 15px;
     width: 325px;
-    height: 240px;
     border-radius: 2px;
     border: 1px solid #8b95a3;
   }
@@ -369,5 +407,8 @@ export default {
   }
   .van-panel__title{
     font-size: 20px;
+  }
+  .van-empty{
+    width: 325px;
   }
 </style>
