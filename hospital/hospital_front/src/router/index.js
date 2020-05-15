@@ -18,43 +18,73 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        isLogin: true
+      }
     }, {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        isLogin: false
+      }
     }, {
       path: '/register',
       name: 'register',
-      component: Register
+      component: Register,
+      meta: {
+        isLogin: false
+      }
     }, {
       path: '/order',
       name: 'order',
-      component: Order
+      component: Order,
+      meta: {
+        isLogin: true
+      }
     }, {
       path: '/doctor',
       name: 'doctor',
-      component: Doctor
+      component: Doctor,
+      meta: {
+        isLogin: true
+      }
     }, {
       path: '/department',
       name: 'department',
-      component: Department
+      meta: {
+        isLogin: true
+      }
+
     }, {
       path: '/doctorOrder',
       name: 'doctorOrder',
-      component: DoctorOrder
+      component: DoctorOrder,
+      meta: {
+        isLogin: true
+      }
     }, {
       path: '/departmentOrder',
       name: 'departmentOrder',
-      component: DepartmentOrder
+      component: DepartmentOrder,
+      meta: {
+        isLogin: true
+      }
     }, {
       path: '/record',
       name: 'record',
-      component: Record
+      component: Record,
+      meta: {
+        isLogin: true
+      }
     }, {
       path: '/report',
       name: 'report',
-      component: Report
+      component: Report,
+      meta: {
+        isLogin: true
+      }
     }
   ]
 })

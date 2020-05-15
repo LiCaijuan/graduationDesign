@@ -100,11 +100,17 @@
       </van-nav-bar>
       <div class="portrait">
         <div class="portrait_content">
-          <van-uploader>
-            <img class="por_img" src="../assets/img/timg.jpg" alt="">
+          <van-uploader :after-read="afterRead()" class="uploadImg">
+            <!-- <van-image
+              round
+              width="10rem"
+              height="10rem"
+              src="https://img.yzcdn.cn/vant/cat.jpeg"
+            /> -->
+            <!-- <van-img class="por_img" src="../assets/img/timg.jpg" alt="" /> -->
           </van-uploader>
           <div class="name_tip">
-            <div class="name">小白</div>
+            <div class="name">{{username}}</div>
             <div class="phone">19909478033</div>
           </div>
         </div>
@@ -149,9 +155,9 @@
           </van-cell-group>
         </div>
       </div>
-      <van-dialog v-model="isDialog" title="退出登录" show-cancel-button class="exit_dialog">
+      <!-- <van-dialog v-model="isDialog" title="退出登录" show-cancel-button class="exit_dialog">
         <div class="exit_text">确定退出当前账号吗？</div>
-      </van-dialog>
+      </van-dialog> -->
       <van-overlay :show="isChangePw" @click="isChangePw=false">
         <div class="wrapper" @click.stop>
           <div class="block">
@@ -223,7 +229,7 @@
 import {
   Field, Button, Icon, Search, Swipe, SwipeItem, Lazyload, Tabbar,
   TabbarItem, Grid, GridItem, NavBar, Cell, CellGroup, Uploader, DropdownMenu,
-  DropdownItem, Popup, Form, Dialog, Overlay, List, Card, Tag, SwipeCell
+  DropdownItem, Popup, Form, Dialog, Overlay, List, Card, Tag, SwipeCell, VanImage,
 } from 'vant'
 import '@/assets/css/icon/iconfont.css'
 import BMap from 'BMap'
@@ -250,19 +256,7 @@ export default {
       tabNum: 0,
       active: 0,
       value1: 0,
-      option1: [
-        {text: '内科', value: 0},
-        {text: '外科', value: 1},
-        {text: '儿科', value: 2},
-        {text: '妇科', value: 3},
-        {text: '眼科', value: 4},
-        {text: '耳鼻喉科', value: 5},
-        {text: '口腔科', value: 6},
-        {text: '皮肤科', value: 7},
-        {text: '中医科', value: 8},
-        {text: '针灸推拿科', value: 9},
-        {text: '心理咨询室', value: 10}
-      ],
+      username: '',
       infoList: {
         name: '',
         age: '',
@@ -290,6 +284,8 @@ export default {
     }
   },
   watch: {
+    
+
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
@@ -328,14 +324,23 @@ export default {
     [Card.name]: Card,
     [Tag.name]: Tag,
     [Lazyload.name]: Lazyload,
-    [SwipeCell.name]: SwipeCell
+    [SwipeCell.name]: SwipeCell,
+    // [VanImage.name]: VanImage
   },
 
   mounted () {
     this.get_bodyHeight()
+    this.getUserInfo()
   },
 
   methods: {
+    afterRead(file) {
+      // 此时可以自行将文件上传至服务器
+      console.log('test');
+    },
+    getUserInfo () {
+      this.username = JSON.parse(localStorage.userInfo).username
+    },
     // 动态获取浏览器高度
     get_bodyHeight () {
       const that = this
@@ -417,7 +422,17 @@ export default {
       this.isChangePw = false
     },
     showDialog () {
-      this.isDialog = true
+      Dialog.confirm({
+        title: '退出登录',
+        message: '确认退出当前账号？'
+      }).then(() => {
+        localStorage.removeItem("Flag")
+        localStorage.removeItem("userInfo")
+        this.$router.push('/login')
+        console.log('exit')
+      }).catch(() => {
+        this.isDialog = false
+      });
     },
     showChangepw () {
       this.isChangePw = true
@@ -565,15 +580,18 @@ export default {
 
   .van-nav-bar__title {
     max-width: 100%;
-    color: #ffffff;
+    color: #ffffff!important;
   }
 
   .van-nav-bar .van-icon {
     color: #ffffff;
   }
-
-  .van-nav-bar__text {
-    color: #ffffff;
+  .van-nav-bar .van-icon[data-v-7730d21c]{
+    font-size: 30px;
+    margin-bottom: 8px;
+  }
+  .van-nav-bar__title{
+    color: #fff;
   }
 
   .van-nav-bar__arrow {
@@ -758,11 +776,6 @@ export default {
   .van-nav-bar .van-icon {
     color: #ffffff;
   }
-
-  .van-nav-bar__text {
-    color: #ffffff;
-  }
-
   .van-nav-bar__arrow {
     font-size: 20px;
   }
@@ -797,7 +810,10 @@ export default {
   .van-tag--success.van-tag--plain {
     float: right;
   }
-
+  .van-uploader__input-wrapper{
+    width: 100px;
+    height: 100px;
+  }
   .van-footer {
     text-align: left;
   }

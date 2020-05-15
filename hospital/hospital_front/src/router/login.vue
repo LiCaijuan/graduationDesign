@@ -26,6 +26,10 @@ export default {
       fullHeight: document.documentElement.clientHeight,
       icon: {
         username: 'gerenzhongxin-xiugaimima'
+      },
+      user: {
+        username: this.username,
+        password: this.password
       }
     }
   },
@@ -71,12 +75,14 @@ export default {
 
     login () {
       this.axios.post('/api/login', {
-        
         username: this.username,
         password: this.password
       }).then((res) => {
         console.log(res)
         this.$router.push('/')
+        this.$store.dispatch("userLogin", true);
+        localStorage.setItem("Flag", "isLogin");
+        localStorage.setItem("userInfo", res.config.data);
       }).catch((err) => {
         console.log(err)
       })
