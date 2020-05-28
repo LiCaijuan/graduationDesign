@@ -13,4 +13,22 @@
     <select id="queryByUsername" resultMap="BaseResultMap">
         SELECT * FROM `user` WHERE username = #{username}
     </select>
+    <update id="updateUser" parameterType="com.example.demo.entity.User">
+        update `user`
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="null != user.username and '' != user.username">
+                username=#{user.username},
+            </if>
+            <if test="null != user.password and '' != user.password">
+                password=#{user.password},
+            </if>
+            <if test="null != user.phone and '' !=user.phone">
+                phone=#{user.phone},
+            </if>
+        </trim>
+        where user_id =#{user.userId}
+    </update>
+    <delete id="deleteUser">
+        DELETE FROM `user` WHERE user_id=#{userId}
+    </delete>
 </mapper>

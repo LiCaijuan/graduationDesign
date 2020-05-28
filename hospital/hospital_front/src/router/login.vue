@@ -37,9 +37,9 @@ export default {
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val
-        this.timer = true
-        let that = this
+        this.fullHeight = val;
+        this.timer = true;
+        let that = this;
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -60,10 +60,10 @@ export default {
   methods: {
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this
+      const that = this;
       window.onresize = () => {
         return (() => {
-          window.fullHeight = document.documentElement.clientHeight
+          window.fullHeight = document.documentElement.clientHeight;
           that.fullHeight = window.fullHeight
         })()
       }
@@ -78,8 +78,8 @@ export default {
         username: this.username,
         password: this.password
       }).then((res) => {
-        console.log(res)
-        this.$router.push('/')
+        console.log(res);
+        this.$router.push('/');
         this.$store.dispatch("userLogin", true);
         localStorage.setItem("Flag", "isLogin");
         localStorage.setItem("userInfo", res.config.data);

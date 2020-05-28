@@ -76,9 +76,9 @@ export default {
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val
-        this.timer = true
-        let that = this
+        this.fullHeight = val;
+        this.timer = true;
+        let that = this;
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -103,10 +103,10 @@ export default {
   methods: {
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this
+      const that = this;
       window.onresize = () => {
         return (() => {
-          window.fullHeight = document.documentElement.clientHeight
+          window.fullHeight = document.documentElement.clientHeight;
           that.fullHeight = window.fullHeight
         })()
       }
@@ -125,51 +125,40 @@ export default {
     margin: 0;
     padding: 0;
   }
-
   .van-nav-bar__title {
     max-width: 100%;
     color: #ffffff;
   }
-
   .van-nav-bar .van-icon {
     color: #ffffff;
   }
-
   .van-nav-bar__text {
     color: #ffffff;
   }
-
   .van-nav-bar__arrow {
     font-size: 20px;
   }
-
   .van-nav-bar {
     background-color: #128784;
   }
-
   .record_cell {
     padding: 15px;
   }
-
   .van-card__title {
     font-size: 20px;
     line-height: 25px;
   }
-
   .van-card__desc {
     float: left;
     font-size: 16px;
     line-height: 25px;
   }
-
   .van-card__bottom {
     font-size: 16px;
   }
-
   .van-card__footer {
     font-size: 16px;
   }
-
   .van-tag--success.van-tag--plain {
     float: right;
   }

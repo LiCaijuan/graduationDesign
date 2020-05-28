@@ -3,12 +3,11 @@ import Router from 'vue-router'
 import Login from './login'
 import Register from './register'
 import Home from './home'
-import Order from './order'
 import Doctor from './doctor'
 import Department from './department'
 import DoctorOrder from './doctorOrder'
 import DepartmentOrder from './DepartmentOrder'
-import Record from './record'
+// import Record from './record'
 import Report from './report'
 
 Vue.use(Router)
@@ -37,13 +36,6 @@ export default new Router({
         isLogin: false
       }
     }, {
-      path: '/order',
-      name: 'order',
-      component: Order,
-      meta: {
-        isLogin: true
-      }
-    }, {
       path: '/doctor',
       name: 'doctor',
       component: Doctor,
@@ -53,6 +45,7 @@ export default new Router({
     }, {
       path: '/department',
       name: 'department',
+      component: Department,
       meta: {
         isLogin: true
       }
@@ -68,13 +61,6 @@ export default new Router({
       path: '/departmentOrder',
       name: 'departmentOrder',
       component: DepartmentOrder,
-      meta: {
-        isLogin: true
-      }
-    }, {
-      path: '/record',
-      name: 'record',
-      component: Record,
       meta: {
         isLogin: true
       }

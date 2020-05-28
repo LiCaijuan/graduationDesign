@@ -144,9 +144,9 @@ export default {
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val
-        this.timer = true
-        let that = this
+        this.fullHeight = val;
+        this.timer = true;
+        let that = this;
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -167,102 +167,102 @@ export default {
   },
 
   mounted () {
-    this.get_bodyHeight()
-    this.getDate()
+    this.get_bodyHeight();
+    this.getDate();
     this.getDoctorList()
   },
 
   methods: {
     getDate () {
-      this.nowDate = (new Date()).getTime()
-      var yesterday = new Date(this.nowDate)
+      this.nowDate = (new Date()).getTime();
+      var yesterday = new Date(this.nowDate);
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
     },
     preDay () {
-      this.chiefList = []
-      this.deputyChiefList = []
-      this.attendingList = []
-      this.residentList = []
-      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
-      var yesterday = new Date(this.nowDate)
+      this.chiefList = [];
+      this.deputyChiefList = [];
+      this.attendingList = [];
+      this.residentList = [];
+      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000;
+      var yesterday = new Date(this.nowDate);
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
-          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()));
       this.getDoctorList()
     },
     nextDay () {
-      this.chiefList = []
-      this.deputyChiefList = []
-      this.attendingList = []
-      this.residentList = []
-      this.nowDate = this.nowDate + 24 * 60 * 60 * 1000
-      var yesterday = new Date(this.nowDate)
+      this.chiefList = [];
+      this.deputyChiefList = [];
+      this.attendingList = [];
+      this.residentList = [];
+      this.nowDate = this.nowDate + 24 * 60 * 60 * 1000;
+      var yesterday = new Date(this.nowDate);
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
-          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()));
       this.getDoctorList()
     },
     doctorOrder (doctorId) {
-      this.emitId = doctorId
+      this.emitId = doctorId;
       this.$store.commit('changeDoctorDate', {
         doctorDate: this.myDate
-      })
+      });
       this.$store.commit('changeDoctorId', {
         doctorId: doctorId
-      })
+      });
       this.$router.push('./doctorOrder')
     },
-    getDoctorList () {
+      getDoctorList () {
       this.axios.post('/api/getScheduleByDate', {
         scheduleDate: this.myDate
       }).then((res) => {
         this.scheduleList = res.data.result.map(item => {
           return item.doctorId
-        })
+        });
         this.scheduleList.map(item => {
           this.axios.post('/api/getDoctorById', {
             doctorId: item
           }).then((res) => {
-            let doctor = res.data.result[0]
+            let doctor = res.data.result[0];
             switch (doctor.doctorType) {
               case 1:
-                this.chiefList.push(doctor)
-                let obj = {}
+                this.chiefList.push(doctor);
+                let obj = {};
                 this.chiefList = this.chiefList.reduce((item, next) => {
                   if (!obj[next.doctorName]) {
-                    item.push(next)
+                    item.push(next);
                     obj[next.doctorName] = true
                   }
                   return item
-                }, [])
-                break
+                }, []);
+                break;
               case 2:
-                this.deputyChiefList.push(doctor)
-                let obj1 = {}
+                this.deputyChiefList.push(doctor);
+                let obj1 = {};
                 this.deputyChiefList = this.deputyChiefList.reduce((item, next) => {
                   if (!obj1[next.doctorName]) {
-                    item.push(next)
+                    item.push(next);
                     obj1[next.doctorName] = true
                   }
                   return item
-                }, [])
-                break
+                }, []);
+                break;
               case 3:
-                this.attendingList.push(doctor)
-                let obj2 = {}
+                this.attendingList.push(doctor);
+                let obj2 = {};
                 this.attendingList = this.attendingList.reduce((item, next) => {
                   if (!obj2[next.doctorName]) {
-                    item.push(next)
+                    item.push(next);
                     obj2[next.doctorName] = true
                   }
                   return item
-                }, [])
-                break
+                }, []);
+                break;
               default:
-                this.residentList.push(doctor)
-                let obj3 = {}
+                this.residentList.push(doctor);
+                let obj3 = {};
                 this.residentList = this.residentList.reduce((item, next) => {
                   if (!obj3[next.doctorName]) {
-                    item.push(next)
+                    item.push(next);
                     obj3[next.doctorName] = true
                   }
                   return item
@@ -278,10 +278,10 @@ export default {
     },
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this
+      const that = this;
       window.onresize = () => {
         return (() => {
-          window.fullHeight = document.documentElement.clientHeight
+          window.fullHeight = document.documentElement.clientHeight;
           that.fullHeight = window.fullHeight
         })()
       }

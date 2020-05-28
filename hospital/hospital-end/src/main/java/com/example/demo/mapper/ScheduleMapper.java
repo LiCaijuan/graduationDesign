@@ -20,4 +20,6 @@ public interface ScheduleMapper {
     List<Schedule> getScheduleByCondition(@Param("doctorId") int doctorId, @Param("departmentId") int departmentId, @Param("scheduleDate") String scheduleDate, @Param("interval") String interval);
     int updateSchedule(@Param("sch") Schedule schedule);
     int deleteSchedule(int scheduleId);
+
+    List<Schedule> getScheduleByTimeCondition(@Param("scheduleDate") String scheduleDate, @Param("interval") String interval);
 }

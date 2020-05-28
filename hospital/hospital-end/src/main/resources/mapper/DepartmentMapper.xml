@@ -10,7 +10,7 @@
         <result column="department_speciality" jdbcType="VARCHAR" property="departmentSpeciality" />
     </resultMap>
     <insert id="addDepartment" parameterType="com.example.demo.entity.Department">
-        INSERT INTO `department` (`department_img`,`department_name`,`department_address`,`department_desc`,`department_speciality`) VALUES(#{departmentImg},#{departmentName},#{departmentAddress},#{departmentAddress},#{departmentSpeciality})
+        INSERT INTO `department` (`department_img`,`department_name`,`department_address`,`department_desc`,`department_speciality`) VALUES(#{departmentImg},#{departmentName},#{departmentAddress},#{departmentDesc},#{departmentSpeciality})
     </insert>
     <select id="getDepartmentById" resultMap="BaseResultMap">
         SELECT * FROM `department` WHERE department_id = #{departmentId}
@@ -28,7 +28,7 @@
         update department
         <trim prefix="SET" suffixOverrides=",">
             <if test="null !=dep.departmentImg and '' != dep.departmentImg">
-                department_img=#{dep.departmentImg}
+                department_img=#{dep.departmentImg},
             </if>
             <if test="null != dep.departmentName and '' != dep.departmentName">
                 department_name=#{dep.departmentName},

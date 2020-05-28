@@ -11,6 +11,13 @@
       <van-col span="6" class="right_col" @click="nextDay()">后一天</van-col>
     </van-row>
     <van-list>
+      <van-empty
+        style="margin-top: 100px"
+        class="custom-image"
+        v-if="isEmpty"
+        image="https://img.yzcdn.cn/vant/custom-empty-image.png"
+        description="今日已无可预约号源"
+      />
       <van-cell>
         <van-card
           v-for="item in departmentList"
@@ -31,7 +38,7 @@
 </template>
 
 <script>
-import {Search, Icon, List, Cell, Card, Tag, Col, Row} from 'vant'
+import {Search, Icon, List, Cell, Card, Tag, Col, Row, Empty } from 'vant'
 import '@/assets/css/icon/iconfont.css'
 
 export default {
@@ -45,6 +52,8 @@ export default {
       loading: false,
       finished: false,
       departmentList: [],
+      scheduleList: [],
+      isEmpty: false,
       list: [
         {
           number: 1,
@@ -71,9 +80,9 @@ export default {
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val
-        this.timer = true
-        let that = this
+        this.fullHeight = val;
+        this.timer = true;
+        let that = this;
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -88,61 +97,77 @@ export default {
     [Card.name]: Card,
     [Tag.name]: Tag,
     [Col.name]: Col,
-    [Row.name]: Row
+    [Row.name]: Row,
+    [Empty.name]: Empty
   },
 
   mounted () {
-    this.getDate()
-    this.get_bodyHeight()
+    this.getDate();
+    this.get_bodyHeight();
     this.getDepartmentList()
   },
 
   methods: {
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this
+      const that = this;
       window.onresize = () => {
         return (() => {
-          window.fullHeight = document.documentElement.clientHeight
+          window.fullHeight = document.documentElement.clientHeight;
           that.fullHeight = window.fullHeight
         })()
       }
     },
     getDate () {
-      this.nowDate = (new Date()).getTime()
-      var yesterday = new Date(this.nowDate)
+      this.nowDate = (new Date()).getTime();
+      var yesterday = new Date(this.nowDate);
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
     },
     preDay () {
-      this.chiefList = []
-      this.deputyChiefList = []
-      this.attendingList = []
-      this.residentList = []
-      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
-      var yesterday = new Date(this.nowDate)
+      this.chiefList = [];
+      this.deputyChiefList = [];
+      this.attendingList = [];
+      this.residentList = [];
+      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000;
+      var yesterday = new Date(this.nowDate);
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
-          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-      this.getDoctorList()
+          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()));
+      this.getDepartmentList()
     },
     nextDay () {
-      this.chiefList = []
-      this.deputyChiefList = []
-      this.attendingList = []
-      this.residentList = []
-      this.nowDate = this.nowDate + 24 * 60 * 60 * 1000
-      var yesterday = new Date(this.nowDate)
+      this.chiefList = [];
+      this.deputyChiefList = [];
+      this.attendingList = [];
+      this.residentList = [];
+      this.nowDate = this.nowDate + 24 * 60 * 60 * 1000;
+      var yesterday = new Date(this.nowDate);
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-      this.getDoctorList()
+      this.getDepartmentList()
     },
     back () {
       this.$router.push('./')
     },
     getDepartmentList () {
-      this.axios.post('/api/getDepartmentList', {}).then((res) => {
-        this.departmentList = res.data.result
-        console.log(this.departmentList)
+      this.axios.post('/api/getScheduleByDate', {
+        scheduleDate: this.myDate
+      }).then((res) => {
+        console.log(res);
+        this.scheduleList = res.data.result.map(item => {
+          return item.departmentId
+        });
+        this.scheduleList.map(item => {
+          this.axios.post('/api/getDepartmentById', {
+            departmentId: item
+          }).then((res) => {
+            console.log(res, 'log')
+            this.departmentList = res.data.result
+            this.isEmpty = this.departmentList.length>0?false:true
+          }).catch((err) => {
+            console.log(err)
+          })
+        })
       }).catch((err) => {
         console.log(err)
       })
@@ -150,17 +175,16 @@ export default {
     departmentOrder (departmentId) {
       this.$store.commit('changeDepartmentId', {
         departmentId: departmentId
-      })
+      });
       this.$store.commit('changeDepartmentDate', {
         departmentId: this.myDate
-      })
+      });
       this.$router.push('./departmentOrder')
     }
   }
 
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   * {
@@ -213,7 +237,6 @@ export default {
     line-height: 50px;
     float: left;
   }
-
   .van-card__desc {
     font-size: 16px;
     line-height: 40px;
@@ -221,14 +244,21 @@ export default {
     margin: 7px 0 0 15px;
     color: #3bb5b2;
   }
-
   .van-card__footer {
     font-size: 17px;
     margin: 5px;
   }
-
   .van-card__bottom {
     font-size: 15px;
-    margin-top: -45px;
+    /*margin-top: -45px;*/
+    display: -webkit-box;/*作为弹性伸缩盒子模型显示*/
+    -webkit-line-clamp: 2; /*显示的行数；如果要设置2行加...则设置为2*/
+    overflow: hidden; /*超出的文本隐藏*/
+    text-overflow: ellipsis; /* 溢出用省略号*/
+    -webkit-box-orient: vertical;/*伸缩盒子的子元素排列：从上到下*/
+  }
+  .custom-image .van-empty__image {
+    width: 90px;
+    height: 90px;
   }
 </style>

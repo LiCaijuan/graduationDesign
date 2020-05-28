@@ -9,4 +9,6 @@ public interface UserService {
     int addUser(User user); //注册
 
     List<User> queryByUsername(String username, String password); //登录
+    int UpdateUser(User user);
+    int deleteUser(int userId);
 }

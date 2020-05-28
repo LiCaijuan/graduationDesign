@@ -24,4 +24,26 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userMapper.queryByUsername(username, password);
         return userList;
     }
+
+    @Override
+    public int UpdateUser(User user) {
+        int count = 0;
+        try{
+            count = userMapper.updateUser(user);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
+        return count;
+    }
+
+    @Override
+    public int deleteUser(int userId) {
+        int count = 0;
+        try {
+            count = userMapper.deleteUser(userId);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
+        return count;
+    }
 }

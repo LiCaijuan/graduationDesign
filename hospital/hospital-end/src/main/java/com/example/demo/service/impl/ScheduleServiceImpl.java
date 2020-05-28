@@ -81,4 +81,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         return count;
     }
+
+    @Override
+    public List<Schedule> getScheduleByTimeCondition(String scheduleDate, String interval) {
+        List<Schedule> scheduleList = scheduleMapper.getScheduleByTimeCondition(scheduleDate, interval);
+        return scheduleList;
+    }
 }

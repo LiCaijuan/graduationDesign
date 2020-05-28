@@ -1,6 +1,8 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.User;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,4 +13,6 @@ public interface UserMapper {
     int addUser(User user);
 
     List<User> queryByUsername(String username, String password);
+    int updateUser(@Param("user") User user);
+    int deleteUser(int userId);
 }

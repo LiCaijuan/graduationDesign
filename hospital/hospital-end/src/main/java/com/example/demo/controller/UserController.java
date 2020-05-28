@@ -60,5 +60,42 @@ public class UserController {
             return new Response(false, "登录失败，请检查用户名、密码是否为空", -1);
         }
     }
+    // 修改密码的接口
+    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+    public Response updateUser(@RequestBody User user) {
+        int userId = user.getUserId();
+        int count = userService.UpdateUser(user);
+        if (userId != 0) {
+            if (count > 0 ) {
+                Response response = new Response(true, "更改密码成功", 1);
+                return response;
+            } else {
+                Response response = new Response(false, "更改密码失败", -1);
+                return response;
+            }
+        } else {
+            Response response = new Response(false, "请传入用户Id", -1);
+            return response;
+        }
+    }
+
+    //注销账号
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+    public Response deleteUser(@RequestBody User user) {
+        int userId = user.getUserId();
+        if (userId != 0) {
+            int count = userService.deleteUser(userId);
+            if (count > 0) {
+                Response response = new Response(true, "已成功注销账号", 1);
+                return response;
+            } else {
+                Response response = new Response(false, "注销失败", -1);
+                return response;
+            }
+        } else {
+            Response response = new Response(false, "请传入用户Id", -1);
+            return response;
+        }
+    }
 }
 

@@ -15,6 +15,8 @@ public interface DepartmentMapper {
     List<Department> getDepartmentByName(String departmentName);
     List<Department> getDepartmentList();
     List<Department> getDepartmentByKey(String departmentName);
+
     int updateDepartment(@Param("dep") Department department);
+    
     int deleteDepartment(int departmentId);
 }

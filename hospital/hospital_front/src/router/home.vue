@@ -3,7 +3,13 @@
     <div class="home_content" v-show="active===0">
       <div class="mainUp">
         <div class="searchDiv">
-          <van-search shape="round" input-align="center" v-model="searchText" placeholder="搜索科室/医生"/>
+          <van-search
+            shape="round"
+            input-align="center"
+            v-model="searchText"
+            placeholder="搜索科室/医生"
+            @search="onSearch"
+          />
         </div>
       </div>
       <div class="swipePart">
@@ -100,14 +106,8 @@
       </van-nav-bar>
       <div class="portrait">
         <div class="portrait_content">
-          <van-uploader :after-read="afterRead()" class="uploadImg">
-            <!-- <van-image
-              round
-              width="10rem"
-              height="10rem"
-              src="https://img.yzcdn.cn/vant/cat.jpeg"
-            /> -->
-            <!-- <van-img class="por_img" src="../assets/img/timg.jpg" alt="" /> -->
+          <van-uploader>
+            <img class="por_img" src="../assets/img/timg.jpg" alt="" />
           </van-uploader>
           <div class="name_tip">
             <div class="name">{{username}}</div>
@@ -284,14 +284,14 @@ export default {
     }
   },
   watch: {
-    
+
 
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val
-        this.timer = true
-        let that = this
+        this.fullHeight = val;
+        this.timer = true;
+        let that = this;
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -329,7 +329,7 @@ export default {
   },
 
   mounted () {
-    this.get_bodyHeight()
+    this.get_bodyHeight();
     this.getUserInfo()
   },
 
@@ -343,48 +343,48 @@ export default {
     },
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this
+      const that = this;
       window.onresize = () => {
         return (() => {
-          window.fullHeight = document.documentElement.clientHeight
+          window.fullHeight = document.documentElement.clientHeight;
           that.fullHeight = window.fullHeight
         })()
       }
     },
     toMap () {
-      var map = new BMap.Map('allmap')
-      var point = new BMap.Point(120.1658210000, 30.2522100000)
-      map.centerAndZoom(point, 16)
-      map.enableScrollWheelZoom()
+      var map = new BMap.Map('allmap');
+      var point = new BMap.Point(120.1658210000, 30.2522100000);
+      map.centerAndZoom(point, 16);
+      map.enableScrollWheelZoom();
       var myIcon = new BMap.Icon('myicon.png', new BMap.Size(30, 30), {
         anchor: new BMap.Size(10, 10)
-      })
-      var marker = new BMap.Marker(point, {icon: myIcon})
-      map.addOverlay(marker)
-      var geolocation = new BMap.Geolocation()
+      });
+      var marker = new BMap.Marker(point, {icon: myIcon});
+      map.addOverlay(marker);
+      var geolocation = new BMap.Geolocation();
       geolocation.getCurrentPosition(function (r) {
         if (this.getStatus() === BMAP_STATUS_SUCCESS) {
-          var mk = new BMap.Marker(r.point)
-          map.addOverlay(mk)
+          var mk = new BMap.Marker(r.point);
+          map.addOverlay(mk);
           // map.panTo(r.point); // 地图中心点移到当前位置
-          var latCurrent = r.point.lat
-          var lngCurrent = r.point.lng
+          var latCurrent = r.point.lat;
+          var lngCurrent = r.point.lng;
           // alert('我的位置：'+ latCurrent + ',' + lngCurrent)
           location.href = 'http://api.map.baidu.com/direction?origin=' + latCurrent + ',' + lngCurrent + '&destination=30.2522100000,120.1658210000&mode=driving&region=北京&output=html'
         } else {
           alert('failed' + this.getStatus())
         }
-      }, {enableHighAccuracy: true})
-      map.addOverlay(marker)
-      var licontent = '<b>浙江省中医院</b><br>'
-      licontent += '<span><strong>地址：</strong>杭州经济技术开发区9号大街9号</span><br>'
-      licontent += '<span><strong>电话：</strong>(0571)86918600</span><br>'
+      }, {enableHighAccuracy: true});
+      map.addOverlay(marker);
+      var licontent = '<b>浙江省中医院</b><br>';
+      licontent += '<span><strong>地址：</strong>杭州经济技术开发区9号大街9号</span><br>';
+      licontent += '<span><strong>电话：</strong>(0571)86918600</span><br>';
       var opts = {
         width: 200,
         height: 80
       }
-      var infoWindow = new BMap.InfoWindow(licontent, opts)
-      marker.openInfoWindow(infoWindow)
+      var infoWindow = new BMap.InfoWindow(licontent, opts);
+      marker.openInfoWindow(infoWindow);
       marker.addEventListener('click', function () {
         marker.openInfoWindow(infoWindow)
       })
@@ -396,9 +396,9 @@ export default {
       this.$router.push('./department')
     },
     order () {
-      this.active = 1
+      this.active = 1;
       this.axios.post('/api/getOrderList', {}).then((res) => {
-        console.log(res)
+        console.log(res);
         this.orderList = res.data.result
       }).catch((err) => {
         console.log(err)
@@ -414,21 +414,21 @@ export default {
       this.isPopup = true
     },
     onSubmit (values) {
-      console.log('submit', values)
+      console.log('submit', values);
       this.isPopup = false
     },
     pwSubmit (values) {
-      console.log('submit', values)
-      this.isChangePw = false
+      console.log('submit', values);
+      this.isChangePw = false;
     },
     showDialog () {
       Dialog.confirm({
         title: '退出登录',
         message: '确认退出当前账号？'
       }).then(() => {
-        localStorage.removeItem("Flag")
-        localStorage.removeItem("userInfo")
-        this.$router.push('/login')
+        localStorage.removeItem("Flag");
+        localStorage.removeItem("userInfo");
+        this.$router.push('/login');
         console.log('exit')
       }).catch(() => {
         this.isDialog = false
@@ -445,24 +445,39 @@ export default {
     },
     record () {
       this.active = 1
-    }
+    },
+    onSearch(val) {
+      console.log('search', val)
+    },
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+  .van-nav-bar__title {
+    color: #ffffff;
+    font-size: 18px;
+  }
+  .van-nav-bar__text{
+    color: #fff;
+    font-size: 18px;
+  }
+  .van-nav-bar .van-icon{
+    color: #fff;
+    font-size: 18px;
+  }
+</style>
 <style scoped>
   * {
     margin: 0;
     padding: 0;
   }
-
   .searchDiv {
     width: 100%;
     margin: 0 auto;
     /* margin-top: 5px; */
   }
-
   /* .mainUp{
     background-color: #3BB5B2;
   } */
@@ -470,7 +485,6 @@ export default {
     padding-bottom: 10px;
     width: 100%;
   }
-
   .order {
     height: 70px;
     width: 70px;
@@ -478,23 +492,19 @@ export default {
     display: inline-block;
     margin: 5% 4% 0 8%;
   }
-
   .orderImg {
     margin: 11px;
   }
-
   p {
     color: #128784;
     text-align: center;
   }
-
   .navi {
     width: 90%;
     height: 140px;
     margin: 5% 5%;
     border-radius: 10px;
   }
-
   .map {
     width: 40%;
     height: 130px;
@@ -505,7 +515,6 @@ export default {
     background-color: #3BB5B2;
     opacity: 0.5;
   }
-
   .loca {
     width: 59%;
     height: 130px;
@@ -515,47 +524,38 @@ export default {
     margin-top: 5px;
     float: left;
   }
-
   .locaText {
     color: gray;
     margin: 20px 10px;
     line-height: 25px;
   }
-
   .naviTip {
     font-size: 18px;
     color: #636e72;
   }
-
   .navitip {
     font-size: 10px;
     color: #b2bec3;
   }
-
   .swip_img {
     width: 90%;
   }
-
   .van-swipe {
     border-radius: 10px;
     border: 1px solid #3bb5b2;
   }
-
   .swipePart {
     margin: 3%;
     width: 94%;
   }
-
   .iconfont {
     font-size: 25px;
   }
-
   #iconfont_per {
     font-size: 30px;
     margin: 25px 10px 0 10px;
     color: #128784;
   }
-
   #iconfont_home {
     /* margin: 30px 0 0 10px; */
     margin-left: 15px;
@@ -564,25 +564,17 @@ export default {
     color: #fff;
     line-height: 70px;
   }
-
   p {
     color: #4e5353;
     font-size: 20px;
     line-height: 40px;
   }
-
   .icon_div {
     width: 70px;
     height: 70px;
     border-radius: 50%;
     background-color: #3bb5b2;
   }
-
-  .van-nav-bar__title {
-    max-width: 100%;
-    color: #ffffff!important;
-  }
-
   .van-nav-bar .van-icon {
     color: #ffffff;
   }
@@ -816,5 +808,9 @@ export default {
   }
   .van-footer {
     text-align: left;
+  }
+  .van-nav-bar__title {
+    max-width: 100%;
+    color: #ffffff!important;
   }
 </style>

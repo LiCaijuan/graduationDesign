@@ -15,4 +15,6 @@ public interface ScheduleService {
     List<Schedule> getScheduleByCondition(int doctorId, int departmentId, String scheduleDate, String interval);
     int updateSchedule(Schedule schedule);
     int deleteSchedule(int scheduleId);
+
+    List<Schedule> getScheduleByTimeCondition(String scheduleDate, String interval);
 }

@@ -44,9 +44,15 @@
             <if test="departmentId != null and departmentId != -1">and department_id = #{departmentId}</if>
             <if test="scheduleDate != null and scheduleDate != '' ">and schedule_date = #{scheduleDate}</if>
             <if test="interval != null and interval != '' ">and `interval` =#{interval}</if>
-
         </where>
-    </select >
+    </select>
+    <select id="getScheduleByTimeCondition" resultMap="BaseResultMap">
+        SELECT * FROM `schedule`
+        <where>
+            <if test="scheduleDate != null and scheduleDate != ''">and schedule_date =#{scheduleDate}</if>
+            <if test="interval != null and interval != '' ">and `interval` = #{interval}</if>
+        </where>
+    </select>
     <update id="updateSchedule" parameterType="com.example.demo.entity.Schedule">
         update schedule
         <trim prefix="SET" suffixOverrides=",">
