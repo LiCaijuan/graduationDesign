@@ -25,7 +25,7 @@ class LeftNav extends Component {
   };
   render () {
     // 得到当前请求的路由路径
-    const path = this.props.location.pathname
+    const path = this.props.location.pathname;
     return(
       <div className="left-nav">
         <Sider

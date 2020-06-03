@@ -1,7 +1,7 @@
 import ajax from './ajax'
 const BASE = '/api'
 
-export const reqLogin = (username, password) => ajax('/api/adminLogin', {username, password}, 'POST')
+export const reqLogin = (username, password) => ajax('/api/queryByUsername', {username, password}, 'POST')
 
 // 添加用户
 export const reqRegister = (user) => ajax('register', user, 'POST')

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { reqLogin } from "../../api";
 import './index.css'
+import axios from 'axios'
 import memoryUtils from '../../utils/memoryUtils'
 import { Form, Input, Button, Checkbox } from 'antd';
 import { Redirect } from "react-router-dom";
@@ -23,16 +23,21 @@ const onFinish = async(values) => {
   console.log('Success:', values);
   
   // 解构赋值
-  const { username, password } = values
-  try{
-    const response = await reqLogin(username, password)
-    console.log(response.data)
-    const user = response.data
-    memoryUtils.user = user
-
+  const { username, password } = values;
+  axios.post('/queryByUsername', {
+    username: username,
+    password: password
+  }).then((res) => {
+    // 存到本地
+    console.log(res, 'res')
     this.PaymentResponse.history.replcae('/')
-  } catch (error) {
-  }
+  }).catch((err) => {
+    console.log(err, 'err')
+  })
+    // console.log(response.data)
+    // const user = response.data
+    // memoryUtils.user = user
+  // this.PaymentResponse.history.replcae('/')
 };
 
 const onFinishFailed = errorInfo => {
@@ -61,6 +66,8 @@ export default class Login extends Component {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
           >
+            <br/>
+            <br/>
             <Form.Item
               label="Username"
               name="username"
