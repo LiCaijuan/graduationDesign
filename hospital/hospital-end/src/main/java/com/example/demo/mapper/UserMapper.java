@@ -12,7 +12,7 @@ public interface UserMapper {
 
     int addUser(User user);
 
-    List<User> queryByUsername(String username, String password);
+    List<User> queryByUsername(String phone);
     int updateUser(@Param("user") User user);
     int deleteUser(int userId);
 }

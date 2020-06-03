@@ -5,8 +5,8 @@
         <result column="report_id" jdbcType="INTEGER" property="reportId"/>
         <result column="user_name" jdbcType="VARCHAR" property="username"/>
         <result column="department" jdbcType="VARCHAR" property="department"/>
-        <result column="date" jdbcType="VARCHAR" property="date"/>
         <result column="interval" jdbcType="VARCHAR" property="interval"/>
+        <result column="date" jdbcType="VARCHAR" property="date"/>
         <result column="report_url" jdbcType="VARCHAR" property="reportUrl"/>
 
     </resultMap>

@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
         return count;
     }
 
-    public List<User> queryByUsername(String username, String password) {
-        List<User> userList = userMapper.queryByUsername(username, password);
+    public List<User> queryByUsername(String phone) {
+        List<User> userList = userMapper.queryByUsername(phone);
         return userList;
     }
 
