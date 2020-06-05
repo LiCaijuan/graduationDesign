@@ -46,7 +46,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/getOrderByCondition", method = RequestMethod.POST)
-    public Response getOrderByCondition(Order order) {
+    public Response getOrderByCondition(@RequestBody Order order) {
         String userCard = order.getUserCard();
         String orderDate = order.getOrderDate();
         String interval = order.getInterval();
@@ -56,12 +56,31 @@ public class OrderController {
         return response;
     }
 
-    @RequestMapping(value = "/getOrderByPhone", method = RequestMethod.POST)
-    public Response getOrderByPhone(Order order) {
-        String userPhone = order.getUserPhone();
+    @RequestMapping(value = "/getOrderByUserId", method = RequestMethod.POST)
+    public Response getOrderByUserId(@RequestBody Order order) {
+        int userId = order.getUserId();
         Response response = new Response();
-        List<Order> orderList = orderService.getOrderByPhone(userPhone);
+        List<Order> orderList = orderService.getOrderByUserId(userId);
         response.setResponse(true, "查询成功", 1, orderList);
         return response;
+    }
+
+    // 取消预约
+    @RequestMapping(value = "/deleteOrder", method = RequestMethod.POST)
+    public Response deleteOrder(@RequestBody Order order) {
+        int orderId = order.getOrderId();
+        if (orderId != 0){
+            int count = orderService.deleteOrder(orderId);
+            if (count > 0) {
+                Response response = new Response(true, "删除成功",1);
+                return response;
+            } else {
+                Response response = new Response(false, "删除失败", -1);
+                return response;
+            }
+        } else {
+            Response response = new Response(false, "删除失败，请传入预约记录Id",-1);
+            return response;
+        }
     }
 }

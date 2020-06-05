@@ -31,8 +31,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrderByPhone(String userPhone) {
-        List<Order> orderList = orderMapper.getOrderByPhone(userPhone);
+    public List<Order> getOrderByUserId(int userId) {
+        List<Order> orderList = orderMapper.getOrderByUserId(userId);
         return orderList;
     }
+
+    @Override
+    public int deleteOrder(int orderId) {
+        int count = 0;
+        try {
+            count = orderMapper.deleteOrder(orderId);
+        } catch (Exception err) {
+            System.out.println(err);
+        }
+        return count;
+    }
+
 }

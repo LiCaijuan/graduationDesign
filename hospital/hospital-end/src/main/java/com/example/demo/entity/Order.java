@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 public class Order {
     int orderId;
+    int userId;
     int doctorType;
     String doctorName;
     String departmentName;
@@ -15,8 +16,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderId, int doctorType, String doctorName, String departmentName, String orderDate, String interval, String userName, String userPhone, String userCard, String address) {
+    public Order(int orderId, int userId, int doctorType, String doctorName, String departmentName, String orderDate, String interval, String userName, String userPhone, String userCard, String address) {
         this.orderId = orderId;
+        this.userId = userId;
         this.doctorType = doctorType;
         this.doctorName = doctorName;
         this.departmentName = departmentName;
@@ -26,6 +28,14 @@ public class Order {
         this.userPhone = userPhone;
         this.userCard = userCard;
         this.address = address;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getOrderId() {

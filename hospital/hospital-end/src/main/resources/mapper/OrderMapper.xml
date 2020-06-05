@@ -3,6 +3,7 @@
 <mapper namespace="com.example.demo.mapper.OrderMapper">
     <resultMap id="BaseResultMap" type="com.example.demo.entity.Order">
         <result column="order_id" jdbcType="INTEGER" property="orderId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
         <result column="doctor_type" jdbcType="INTEGER" property="doctorType"/>
         <result column="doctor_name" jdbcType="VARCHAR" property="doctorName"/>
         <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
@@ -14,19 +15,15 @@
         <result column="address" jdbcType="VARCHAR" property="address"/>
     </resultMap>
     <insert id="addOrder" parameterType="com.example.demo.entity.Order">
-        INSERT INTO `order` (`doctor_type`,`doctor_name`,`department_name`,`order_date`,`interval`,`user_name`,`user_phone`,`user_card`,`address`)
-                    VALUES(#{doctorType},#{doctorName},#{departmentName},#{orderDate},#{interval},#{userName},#{userPhone},#{userCard},#{address})
+        INSERT INTO `order` (`user_id`,`doctor_type`,`doctor_name`,`department_name`,`order_date`,`interval`,`user_name`,`user_phone`,`user_card`,`address`)
+                    VALUES(#{userId},#{doctorType},#{doctorName},#{departmentName},#{orderDate},#{interval},#{userName},#{userPhone},#{userCard},#{address})
     </insert>
     <select id="getOrderList" resultMap="BaseResultMap">
         SELECT * FROM `order`
     </select>
-    <select id="getOrderByPhone" resultMap="BaseResultMap">
-        select * from `order` where user_phone=#{userPhone}
+    <select id="getOrderByUserId" resultMap="BaseResultMap">
+        select * from `order` where user_id=#{userId}
     </select>
-<!--    <select id="getProductByKey" resultMap="BaseResultMap">-->
-<!--        SELECT * FROM `product` where product_name like concat('%',#{productName},'%') or product_des like-->
-<!--        concat('%',#{productName},'%')-->
-<!--    </select>-->
     <select id="getOrderByCondition" resultMap="BaseResultMap">
         SELECT * FROM `order`
         <where>
@@ -41,28 +38,7 @@
             </if>
         </where>
     </select>
-<!--    <update id="updateProduct" parameterType="com.example.demo.entity.Product">-->
-<!--        update product-->
-<!--        <trim prefix="SET" suffixOverrides=",">-->
-<!--            <if test="null != pro.productName and '' != pro.productName">-->
-<!--                product_name=#{pro.productName},-->
-<!--            </if>-->
-<!--            <if test="null != pro.productType and -1!= pro.productType">-->
-<!--                product_type=#{pro.productType},-->
-<!--            </if>-->
-<!--            <if test="null != pro.productPrice and -1!= pro.productPrice">-->
-<!--                product_price=#{pro.productPrice},-->
-<!--            </if>-->
-<!--            <if test="null != pro.productImg and '' != pro.productImg">-->
-<!--                product_img=#{pro.productImg},-->
-<!--            </if>-->
-<!--            <if test="null != pro.productDes and '' != pro.productDes">-->
-<!--                product_des=#{pro.productDes},-->
-<!--            </if>-->
-<!--        </trim>-->
-<!--        where product_id=#{pro.productId}-->
-<!--    </update>-->
-<!--    <delete id="deleteProduct">-->
-<!--        DELETE FROM product WHERE product_id = #{productId}-->
-<!--    </delete>-->
+    <delete id="deleteOrder">
+        DELETE FROM `order` WHERE order_id = #{orderId}
+    </delete>
 </mapper>

@@ -40,7 +40,7 @@
                 department_desc=#{dep.departmentDesc},
             </if>
             <if test="null != dep.departmentSpeciality and '' != dep.departmentSpeciality">
-                department_speciality=#{dep.departmentSpeciality},
+                department_speciality=#{dep.departmentSpeciality}
             </if>
         </trim>
         where department_id=#{dep.departmentId}

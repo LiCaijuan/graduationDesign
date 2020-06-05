@@ -13,5 +13,6 @@ public interface OrderMapper {
     int addOrder(Order order);
     List<Order> getOrderList();
     List<Order> getOrderByCondition(@Param("userCard") String orderCard, @Param("orderDate") String orderDate, @Param("interval") String interval);
-    List<Order> getOrderByPhone(@Param("userPhone") String userPhone);
+    List<Order> getOrderByUserId(int userId);
+    int deleteOrder(int orderId);
 }

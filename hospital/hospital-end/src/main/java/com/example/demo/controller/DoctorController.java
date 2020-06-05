@@ -110,7 +110,7 @@ public class DoctorController {
                 return response;
             }
         } else {
-            Response response = new Response(false, "删除失败，请传入商品id",-1);
+            Response response = new Response(false, "删除失败，请传入医生Id",-1);
             return response;
         }
     }
