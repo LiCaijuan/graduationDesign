@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
         return count;
     }
 
+    @Override
     public List<User> queryByUsername(String phone) {
         List<User> userList = userMapper.queryByUsername(phone);
         return userList;

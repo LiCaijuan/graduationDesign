@@ -15,7 +15,7 @@ import java.util.Map;
 @RestController
 public class UserController {
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Response register(@RequestBody User user) {
@@ -23,7 +23,7 @@ public class UserController {
         String phone = user.getPhone();
         String password = user.getPassword();
 
-        List<User> userList = userService.queryByUsername(phone, password);
+        List<User> userList = userService.queryByUsername(phone);
         if (userList != null && userList.size() > 0) {
             Response response = new Response(false, "用户已存在", -1);
             result = response;
@@ -50,7 +50,8 @@ public class UserController {
             if (users != null && users.size() > 0) {
                 User user = users.get(0);
                 if (password.equals(user.getPassword())) {
-                    return response.setResponse(true, "登陆成功", 1, user);
+                    response.setResponse(true, "登陆成功", 1, user);
+                    return response;
 //                    return new Response(true, "登录成功", 1);
                 } else {
                     return new Response(false, "登录失败，密码错误", -1);

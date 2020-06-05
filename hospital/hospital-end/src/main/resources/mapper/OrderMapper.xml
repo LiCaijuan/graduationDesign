@@ -20,6 +20,9 @@
     <select id="getOrderList" resultMap="BaseResultMap">
         SELECT * FROM `order`
     </select>
+    <select id="getOrderByPhone" resultMap="BaseResultMap">
+        select * from `order` where user_phone=#{userPhone}
+    </select>
 <!--    <select id="getProductByKey" resultMap="BaseResultMap">-->
 <!--        SELECT * FROM `product` where product_name like concat('%',#{productName},'%') or product_des like-->
 <!--        concat('%',#{productName},'%')-->

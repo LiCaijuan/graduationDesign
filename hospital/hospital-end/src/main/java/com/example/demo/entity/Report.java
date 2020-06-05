@@ -2,16 +2,18 @@ package com.example.demo.entity;
 
 public class Report {
     int reportId;
+    int userId;
     String username;
     String department;
     String date;
     String interval;
     String reportUrl;
 
-    public Report() {}
+    public Report() { }
 
-    public Report(int reportId, String username, String department, String date, String interval, String reportUrl) {
+    public Report(int reportId, int userId, String username, String department, String date, String interval, String reportUrl) {
         this.reportId = reportId;
+        this.userId = userId;
         this.username = username;
         this.department = department;
         this.date = date;
@@ -25,6 +27,14 @@ public class Report {
 
     public void setReportId(int reportId) {
         this.reportId = reportId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

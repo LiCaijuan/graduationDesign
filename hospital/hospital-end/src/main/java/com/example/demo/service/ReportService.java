@@ -9,6 +9,7 @@ public interface ReportService {
     List<Report> getReportByReportUrl(String reportUrl);
     List<Report> getReportList();
     List<Report> getReportById(int reportId);
+    List<Report> getReportByUserId(int userId);
     int updateReport(Report report);
     int deleteReport(int reportId);
 }

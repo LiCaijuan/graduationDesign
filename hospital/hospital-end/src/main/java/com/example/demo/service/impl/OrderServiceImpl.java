@@ -29,4 +29,10 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orderList = orderMapper.getOrderByCondition(userCard, orderDate, interval);
         return orderList;
     }
+
+    @Override
+    public List<Order> getOrderByPhone(String userPhone) {
+        List<Order> orderList = orderMapper.getOrderByPhone(userPhone);
+        return orderList;
+    }
 }

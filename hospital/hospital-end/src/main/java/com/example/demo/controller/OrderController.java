@@ -55,4 +55,13 @@ public class OrderController {
         response.setResponse(true, "查询成功", 1, orderList);
         return response;
     }
+
+    @RequestMapping(value = "/getOrderByPhone", method = RequestMethod.POST)
+    public Response getOrderByPhone(Order order) {
+        String userPhone = order.getUserPhone();
+        Response response = new Response();
+        List<Order> orderList = orderService.getOrderByPhone(userPhone);
+        response.setResponse(true, "查询成功", 1, orderList);
+        return response;
+    }
 }

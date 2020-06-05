@@ -38,6 +38,12 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    public List<Report> getReportByUserId(int userId) {
+        List<Report> reportList = reportMapper.getReportByUserId(userId);
+        return reportList;
+    }
+
+    @Override
     public int updateReport(Report report) {
         int count = 0;
         try {
@@ -58,6 +64,4 @@ public class ReportServiceImpl implements ReportService {
         }
         return count;
     }
-
-
 }

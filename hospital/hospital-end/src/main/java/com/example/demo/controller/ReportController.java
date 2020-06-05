@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 public class ReportController {
     @Autowired
-    ReportService reportService;
+    private ReportService reportService;
 
     @RequestMapping(value = "/addReport", method = RequestMethod.POST)
     public Response addReport(@RequestBody Report report) {
@@ -48,6 +48,15 @@ public class ReportController {
         int reportId = report.getReportId();
         Response response = new Response();
         List<Report> reportList = reportService.getReportById(reportId);
+        response.setResponse(true, "查询成功", 1, reportList);
+        return response;
+    }
+
+    @RequestMapping(value = "/getReportByUserId", method = RequestMethod.POST)
+    public Response getReportByUserId(@RequestBody Report report) {
+        int userId = report.getUserId();
+        Response response = new Response();
+        List<Report> reportList = reportService.getReportByUserId(userId);
         response.setResponse(true, "查询成功", 1, reportList);
         return response;
     }

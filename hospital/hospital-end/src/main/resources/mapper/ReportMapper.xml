@@ -3,6 +3,7 @@
 <mapper namespace="com.example.demo.mapper.ReportMapper">
     <resultMap id="BaseResultMap" type="com.example.demo.entity.Report">
         <result column="report_id" jdbcType="INTEGER" property="reportId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="user_name" jdbcType="VARCHAR" property="username"/>
         <result column="department" jdbcType="VARCHAR" property="department"/>
         <result column="interval" jdbcType="VARCHAR" property="interval"/>
@@ -11,7 +12,7 @@
 
     </resultMap>
     <insert id="addReport" parameterType="com.example.demo.entity.Report">
-        INSERT INTO `report` (`user_name`,`department`,`date`,`interval`,`report_url`) VALUES(#{username}, #{department},#{date}, #{interval}, #{reportUrl})
+        INSERT INTO `report` (`user_name`,`user_id`,`department`,`date`,`interval`,`report_url`) VALUES(#{username}, #{userId}, #{department},#{date}, #{interval}, #{reportUrl})
     </insert>
     <select id="getReportList" resultMap="BaseResultMap">
         SELECT * FROM `report`
@@ -22,9 +23,15 @@
     <select id="getReportById" resultMap="BaseResultMap">
         SELECT * FROM `report` WHERE report_id = #{reportId}
     </select>
+    <select id="getReportByUserId" resultMap="BaseResultMap">
+        SELECT * FROM `report` WHERE user_id = #{userId}
+    </select>
     <update id="updateReport" parameterType="com.example.demo.entity.Report">
         update report
         <trim prefix="SET" suffixOverrides=",">
+            <if test="null != rep.userId and '' != rep.userId">
+                user_id = #{rep.userId},
+            </if>
             <if test="null != rep.username and '' != rep.username">
                 user_name = #{rep.username},
             </if>
@@ -43,6 +50,7 @@
         </trim>
         where report_id=#{rep.reportId}
     </update>
+
     <delete id="deleteReport" >
         DELETE FROM `report` WHERE report_id = #{reportId}
     </delete>

@@ -1,4 +1,4 @@
-000000000package com.example.demo.controller;
+package com.example.demo.controller;
 
 import com.example.demo.entity.Response;
 import com.example.demo.entity.Schedule;
