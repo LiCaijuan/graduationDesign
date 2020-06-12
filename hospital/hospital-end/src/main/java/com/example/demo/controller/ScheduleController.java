@@ -139,4 +139,16 @@ public class ScheduleController {
             return response;
         }
     }
+
+    @RequestMapping(value = "/getScheduleByCondition", method = RequestMethod.POST)
+    public Response getScheduleByCondition(@RequestBody Schedule schedule) {
+        Response response = new Response();
+        int doctorId = schedule.getDoctorId();
+        int departmentId = schedule.getDepartmentId();
+        String scheduleDate = schedule.getScheduleDate();
+        String interval = schedule.getInterval();
+        List<Schedule> scheduleList = scheduleService.getScheduleByCondition(doctorId, departmentId, scheduleDate, interval);
+        response.setResponse(true, "查询成功", 1, scheduleList);
+        return response;
+    }
 }

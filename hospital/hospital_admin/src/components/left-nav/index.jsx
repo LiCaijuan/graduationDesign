@@ -47,6 +47,12 @@ class LeftNav extends Component {
                 <span>首页</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="/user">
+              <Link to='/user'>
+                <UserAddOutlined />
+                <span>用户管理</span>
+              </Link>
+            </Menu.Item>
             <Menu.Item key="/doctor">
               <Link to='/doctor'>
                 <UserAddOutlined />

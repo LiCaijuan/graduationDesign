@@ -51,22 +51,6 @@
           <van-form @submit="onSubmit">
             <van-field
               style="marginLeft: 70px"
-              v-model="userName"
-              name="userName"
-              label="用户名"
-              placeholder="用户名"
-              :rules="[{ required: true, message: '请填写用户名' }]"
-            />
-            <van-field
-              style="marginLeft: 70px"
-              v-model="userPhone"
-              name="userPhone"
-              label="电话号码"
-              placeholder="电话号码"
-              :rules="[{ required: true, message: '请填写电话号码' }]"
-            />
-            <van-field
-              style="marginLeft: 70px"
               v-model="userCard"
               name="userCard"
               label="身份证号"
@@ -114,9 +98,9 @@ export default {
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val;
-        this.timer = true;
-        let that = this;
+        this.fullHeight = val
+        this.timer = true
+        let that = this
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -139,8 +123,8 @@ export default {
     [Tag.name]: Tag
   },
   mounted () {
-    this.getInterval();
-    this.get_bodyHeight();
+    this.getInterval()
+    this.get_bodyHeight()
     this.getDoctorById()
   },
 
@@ -156,46 +140,47 @@ export default {
       })
     },
     getInterval () {
-      this.date = this.$store.state.doctorDate;
-      this.doctorId = this.$store.state.doctorId;
+      this.date = this.$store.state.doctorDate
+      this.doctorId = this.$store.state.doctorId
       this.axios.post('/api/getScheduleByDoctorCondition', {
         doctorId: this.doctorId,
         scheduleDate: this.date
       }).then((res) => {
         this.intervalList = res.data.result.map(item => {
           return item.interval
-        });
+        })
         console.log(res, 'interval')
       }).catch((err) => {
         console.log(err)
       })
     },
     getDoctorById () {
+      console.log(localStorage, 'local')
       this.axios.post('/api/getDoctorById', {
         doctorId: this.doctorId
       }).then((res) => {
-        let doctor = res.data.result[0];
-        this.doctorName = doctor.doctorName;
-        this.doctorDepartment = doctor.doctorDepartment;
-        this.orderDoctorType = doctor.doctorType; // 用于预约
+        let doctor = res.data.result[0]
+        this.doctorName = doctor.doctorName
+        this.doctorDepartment = doctor.doctorDepartment
+        this.orderDoctorType = doctor.doctorType // 用于预约
         // 用于显示
         switch (doctor.doctorType) {
           case 1:
-            this.doctorType = '主任医师';
-            break;
+            this.doctorType = '主任医师'
+            break
           case 2:
-            this.doctorType = '副主任医师';
-            break;
+            this.doctorType = '副主任医师'
+            break
           case 3:
-            this.doctorType = '主治医师';
-            break;
+            this.doctorType = '主治医师'
+            break
           default:
-            this.doctorType = '住院医师';
+            this.doctorType = '住院医师'
             break
         }
-        this.doctorImg = doctor.doctorImg;
-        this.doctorSpeciality = doctor.doctorSpeciality;
-        this.doctorSynopsis = doctor.doctorSynopsis;
+        this.doctorImg = doctor.doctorImg
+        this.doctorSpeciality = doctor.doctorSpeciality
+        this.doctorSynopsis = doctor.doctorSynopsis
         console.log(this.doctorDepartment, 'name')
       }).catch((err) => {
         console.log(err)
@@ -205,21 +190,25 @@ export default {
       this.$router.go(-1)
     },
     onSubmit (values) {
-      this.getDepartmentByName();
+      this.getDepartmentByName()
       // 调用接口，如果预约成功使得showActionsheet=false
-      this.showActionsheet = false;
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+      this.showActionsheet = false
       this.axios.post('/api/addOrder', {
         doctorType: this.orderDoctorType,
         doctorName: this.doctorName,
         departmentName: this.doctorDepartment,
         orderDate: this.date,
         interval: this.orderInterval,
-        userName: values.userName,
-        userPhone: values.userPhone,
+        userName: userInfo.username,
+        userId: userInfo.userId,
+        userPhone: userInfo.phone,
         userCard: values.userCard,
         address: this.address
       }).then((res) => {
         Toast.success(res.data.msg)
+        // this.axios.post('/api/getScheduleByCondition', {
+        // })
         // 预约成功删掉改时段
         // if (res.data.code === 1) {
         //   this.intervalList = this.intervalList.filter((item) => {
@@ -231,7 +220,7 @@ export default {
       })
     },
     showDialog (item) {
-      this.orderInterval = item;
+      this.orderInterval = item
       // this.isDialog = true
       this.$dialog.confirm({
         // title: "hello",
@@ -247,7 +236,7 @@ export default {
     },
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this;
+      const that = this
       window.onresize = () => {
         return (() => {
           window.fullHeight = document.documentElement.clientHeight

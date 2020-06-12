@@ -80,9 +80,9 @@ export default {
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val;
-        this.timer = true;
-        let that = this;
+        this.fullHeight = val
+        this.timer = true
+        let that = this
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -102,46 +102,46 @@ export default {
   },
 
   mounted () {
-    this.getDate();
-    this.get_bodyHeight();
+    this.getDate()
+    this.get_bodyHeight()
     this.getDepartmentList()
   },
 
   methods: {
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this;
+      const that = this
       window.onresize = () => {
         return (() => {
-          window.fullHeight = document.documentElement.clientHeight;
+          window.fullHeight = document.documentElement.clientHeight
           that.fullHeight = window.fullHeight
         })()
       }
     },
     getDate () {
-      this.nowDate = (new Date()).getTime();
-      var yesterday = new Date(this.nowDate);
+      this.nowDate = (new Date()).getTime()
+      var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
     },
     preDay () {
-      this.chiefList = [];
-      this.deputyChiefList = [];
-      this.attendingList = [];
-      this.residentList = [];
-      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000;
-      var yesterday = new Date(this.nowDate);
+      this.chiefList = []
+      this.deputyChiefList = []
+      this.attendingList = []
+      this.residentList = []
+      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
+      var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
-          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()));
+          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
       this.getDepartmentList()
     },
     nextDay () {
-      this.chiefList = [];
-      this.deputyChiefList = [];
-      this.attendingList = [];
-      this.residentList = [];
-      this.nowDate = this.nowDate + 24 * 60 * 60 * 1000;
-      var yesterday = new Date(this.nowDate);
+      this.chiefList = []
+      this.deputyChiefList = []
+      this.attendingList = []
+      this.residentList = []
+      this.nowDate = this.nowDate + 24 * 60 * 60 * 1000
+      var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
       this.getDepartmentList()
@@ -153,17 +153,17 @@ export default {
       this.axios.post('/api/getScheduleByDate', {
         scheduleDate: this.myDate
       }).then((res) => {
-        console.log(res);
+        console.log(res)
         this.scheduleList = res.data.result.map(item => {
           return item.departmentId
-        });
+        })
         this.scheduleList.map(item => {
           this.axios.post('/api/getDepartmentById', {
             departmentId: item
           }).then((res) => {
             console.log(res, 'log')
             this.departmentList = res.data.result
-            this.isEmpty = this.departmentList.length>0?false:true
+            this.isEmpty = this.departmentList.length > 0 ? false : true
           }).catch((err) => {
             console.log(err)
           })
@@ -175,10 +175,10 @@ export default {
     departmentOrder (departmentId) {
       this.$store.commit('changeDepartmentId', {
         departmentId: departmentId
-      });
+      })
       this.$store.commit('changeDepartmentDate', {
         departmentId: this.myDate
-      });
+      })
       this.$router.push('./departmentOrder')
     }
   }

@@ -2,7 +2,7 @@
   <div id="login" :style="'height:'+fullHeight+'px;'">
     <img class="logo" src="../assets/img/logo1.png"/>
     <div class="logtext">
-      <van-field class="user" left-icon="manager" color="#FFFFFF" v-model="username" placeholder="用户"/>
+      <van-field class="user" left-icon="manager" color="#FFFFFF" v-model="phone" placeholder="电话号码"/>
       <van-field class="pwd" left-icon="lock" v-model="password" placeholder="密码" type="password"/>
     </div>
     <div class="mainbtn">
@@ -21,14 +21,14 @@ export default {
   name: 'Login',
   data () {
     return {
-      username: '',
+      phone: '',
       password: '',
       fullHeight: document.documentElement.clientHeight,
       icon: {
         username: 'gerenzhongxin-xiugaimima'
       },
       user: {
-        username: this.username,
+        phone: this.phone,
         password: this.password
       }
     }
@@ -37,9 +37,9 @@ export default {
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val;
-        this.timer = true;
-        let that = this;
+        this.fullHeight = val
+        this.timer = true
+        let that = this
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -60,10 +60,10 @@ export default {
   methods: {
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this;
+      const that = this
       window.onresize = () => {
         return (() => {
-          window.fullHeight = document.documentElement.clientHeight;
+          window.fullHeight = document.documentElement.clientHeight
           that.fullHeight = window.fullHeight
         })()
       }
@@ -75,14 +75,14 @@ export default {
 
     login () {
       this.axios.post('/api/login', {
-        username: this.username,
+        phone: this.phone,
         password: this.password
       }).then((res) => {
-        console.log(res);
-        this.$router.push('/');
-        this.$store.dispatch("userLogin", true);
-        localStorage.setItem("Flag", "isLogin");
-        localStorage.setItem("userInfo", res.config.data);
+        console.log(res)
+        this.$router.push('/')
+        this.$store.dispatch('userLogin', true)
+        localStorage.setItem('Flag', 'isLogin')
+        localStorage.setItem('userInfo', JSON.stringify(res.data.result))
       }).catch((err) => {
         console.log(err)
       })

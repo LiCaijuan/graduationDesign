@@ -1,12 +1,39 @@
 import React, { Component } from "react";
 import axios from 'axios'
 import { Layout, Table, Button, Modal, Input, message, Form } from 'antd';
+// import { Resizable } from 'react-resizable';
 import './index.css'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 const { Content } = Layout;
 const { TextArea } = Input;
+// const ResizeableTitle = props => {
+//   const { onResize, width, ...restProps } = props;
+//
+//   if (!width) {
+//     return <th {...restProps} />;
+//   }
+//
+//   return (
+//     <Resizable
+//       width={width}
+//       height={0}
+//       handle={
+//         <span
+//           className="react-resizable-handle"
+//           onClick={e => {
+//             e.stopPropagation();
+//           }}
+//         />
+//       }
+//       onResize={onResize}
+//       draggableOpts={{ enableUserSelectHack: false }}
+//     >
+//       <th {...restProps} />
+//     </Resizable>
+//   );
+// };
 const layout = {
   labelCol: {
     span: 8,
@@ -61,18 +88,21 @@ export default class Department extends Component {
           key: 'departmentImg',
           width: 250,
           align: 'center',
+          ellipsis: true,
         },{
           title: '擅长',
           dataIndex: 'departmentSpeciality',
           key: 'departmentSpeciality',
           width: 500,
           align: 'center',
+          ellipsis: true,
         },{
           title: '简介', 
           dataIndex: 'departmentDesc',
           key: 'departmentDesc',
           align: 'center',
-          width: 500
+          width: 500,
+          ellipsis: true,
         },{
           title: '操作',
           key: 'action',
@@ -89,6 +119,11 @@ export default class Department extends Component {
       ]
     }
   }
+  // components = {
+  //   header: {
+  //     cell: ResizeableTitle,
+  //   },
+  // };
   componentDidMount () {
     this.getDepartmentList()
   }
@@ -226,14 +261,31 @@ export default class Department extends Component {
       visible: false,
     });
   };
-  
+  handleResize = index => (e, { size }) => {
+    this.setState(({ columns }) => {
+      const nextColumns = [...columns];
+      nextColumns[index] = {
+        ...nextColumns[index],
+        width: size.width,
+      };
+      return { columns: nextColumns };
+    });
+  };
   render () {
+    const columns = this.state.columns.map((col, index) => ({
+      ...col,
+      onHeaderCell: column => ({
+        width: column.width,
+        onResize: this.handleResize(index),
+      }),
+    }));
     return(
       <Layout>
         <Content style={{margin: 10, background: '#fff'}}>
           <div>
             <Table
               columns={this.state.columns}
+              // components={this.components}
               dataSource={this.state.departmentList}
               bordered
               scroll={{ x: 1800}}

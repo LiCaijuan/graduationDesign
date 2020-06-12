@@ -216,6 +216,10 @@ export default class Schedule extends Component {
   };
   p = (s) => {
     return s < 10 ? '0' + s : s
+  };
+  disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < moment().endOf('day');
   }
   render () {
     return(
@@ -284,6 +288,7 @@ export default class Schedule extends Component {
                   <DatePicker
                     style={{ width: 180 }}
                     locale={locale}
+                    disabledDate={this.disabledDate}
                     onChange={value => this.setState({scheduleDate: value._d.getFullYear()+'-'+this.p((value._d.getMonth()+1))+'-'+this.p(value._d.getDate())})} 
                   />
                 </Form.Item>

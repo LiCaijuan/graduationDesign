@@ -86,6 +86,7 @@
         finished-text="没有更多了"
       >
           <van-card
+            @click="showDeleteDialog()"
             class="record_cell"
             v-for="item in orderList"
             :key="item.orderId"
@@ -101,8 +102,8 @@
       </van-list>
     </div>
     <div class="personalcenter_content" v-show="active===2">
-      <van-nav-bar title="个人中心" left-text="返回" left-arrow @click-left="onClickLeft()">
-        <van-icon name="setting-o" slot="right"/>
+      <van-nav-bar title="个人中心" left-text="返回" right-text="注销" left-arrow @click-right="deleteUser()" @click-left="onClickLeft()">
+<!--        <van-icon name="setting-o" slot="right"/>-->
       </van-nav-bar>
       <div class="portrait">
         <div class="portrait_content">
@@ -110,8 +111,8 @@
             <img class="por_img" src="../assets/img/timg.jpg" alt="" />
           </van-uploader>
           <div class="name_tip">
-            <div class="name">{{username}}</div>
-            <div class="phone">19909478033</div>
+            <div class="name">{{userInfo.username}}</div>
+            <div class="phone">{{userInfo.phone}}</div>
           </div>
         </div>
         <div class="center_content">
@@ -165,16 +166,17 @@
             <van-form @submit="pwSubmit" class="pw_form">
               <van-field
                 class="pw_field"
-                v-model="oldPw"
-                name="原密码"
+                name="oldPw"
+                v-model ="oldPw"
                 label="原密码"
                 placeholder="原密码"
                 :rules="[{ required: true, message: '请填写原密码' }]"
               />
               <van-field
                 class="pw_field"
-                v-model="newPw"
-                name="新密码"
+                v-model ="newPw"
+                name="newPw"
+                type="password"
                 label="新密码"
                 placeholder="新密码"
                 :rules="[{ required: true, message: '请填写新密码' }]"
@@ -229,7 +231,7 @@
 import {
   Field, Button, Icon, Search, Swipe, SwipeItem, Lazyload, Tabbar,
   TabbarItem, Grid, GridItem, NavBar, Cell, CellGroup, Uploader, DropdownMenu,
-  DropdownItem, Popup, Form, Dialog, Overlay, List, Card, Tag, SwipeCell, VanImage,
+  DropdownItem, Popup, Form, Dialog, Overlay, List, Card, Tag, SwipeCell, Toast
 } from 'vant'
 import '@/assets/css/icon/iconfont.css'
 import BMap from 'BMap'
@@ -245,6 +247,7 @@ export default {
       isPopup: false,
       isDialog: false,
       isChangePw: false,
+      isDeleteRecord: false,
       oldPw: '',
       newPw: '',
       orderList: [],
@@ -256,14 +259,7 @@ export default {
       tabNum: 0,
       active: 0,
       value1: 0,
-      username: '',
-      infoList: {
-        name: '',
-        age: '',
-        sex: '',
-        phone: '',
-        IDcard: ''
-      },
+      userInfo: {},
       icon: {
         home_active: 'shouye1',
         home_normal: 'shouye2',
@@ -284,14 +280,12 @@ export default {
     }
   },
   watch: {
-
-
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val;
-        this.timer = true;
-        let that = this;
+        this.fullHeight = val
+        this.timer = true
+        let that = this
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -325,66 +319,69 @@ export default {
     [Tag.name]: Tag,
     [Lazyload.name]: Lazyload,
     [SwipeCell.name]: SwipeCell,
-    // [VanImage.name]: VanImage
+    [Toast.name]: Toast
   },
 
   mounted () {
-    this.get_bodyHeight();
+    this.get_bodyHeight()
     this.getUserInfo()
   },
 
   methods: {
-    afterRead(file) {
+    afterRead (file) {
       // 此时可以自行将文件上传至服务器
-      console.log('test');
+      console.log('test')
+    },
+    showDeleteDialog () {
+      this.isDeleteRecord = true
     },
     getUserInfo () {
-      this.username = JSON.parse(localStorage.userInfo).username
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     },
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this;
+      const that = this
       window.onresize = () => {
         return (() => {
-          window.fullHeight = document.documentElement.clientHeight;
+          window.fullHeight = document.documentElement.clientHeight
           that.fullHeight = window.fullHeight
         })()
       }
     },
     toMap () {
-      var map = new BMap.Map('allmap');
-      var point = new BMap.Point(120.1658210000, 30.2522100000);
-      map.centerAndZoom(point, 16);
-      map.enableScrollWheelZoom();
+      var map = new BMap.Map('allmap')
+      var point = new BMap.Point(120.1658210000, 30.2522100000)
+      map.centerAndZoom(point, 16)
+      map.enableScrollWheelZoom()
       var myIcon = new BMap.Icon('myicon.png', new BMap.Size(30, 30), {
         anchor: new BMap.Size(10, 10)
-      });
-      var marker = new BMap.Marker(point, {icon: myIcon});
-      map.addOverlay(marker);
-      var geolocation = new BMap.Geolocation();
+      })
+      var marker = new BMap.Marker(point, {icon: myIcon})
+      map.addOverlay(marker)
+      var geolocation = new BMap.Geolocation()
       geolocation.getCurrentPosition(function (r) {
         if (this.getStatus() === BMAP_STATUS_SUCCESS) {
-          var mk = new BMap.Marker(r.point);
-          map.addOverlay(mk);
+          var mk = new BMap.Marker(r.point)
+          map.addOverlay(mk)
           // map.panTo(r.point); // 地图中心点移到当前位置
-          var latCurrent = r.point.lat;
-          var lngCurrent = r.point.lng;
+          var latCurrent = r.point.lat
+          var lngCurrent = r.point.lng
           // alert('我的位置：'+ latCurrent + ',' + lngCurrent)
           location.href = 'http://api.map.baidu.com/direction?origin=' + latCurrent + ',' + lngCurrent + '&destination=30.2522100000,120.1658210000&mode=driving&region=北京&output=html'
         } else {
           alert('failed' + this.getStatus())
         }
-      }, {enableHighAccuracy: true});
-      map.addOverlay(marker);
-      var licontent = '<b>浙江省中医院</b><br>';
-      licontent += '<span><strong>地址：</strong>杭州经济技术开发区9号大街9号</span><br>';
-      licontent += '<span><strong>电话：</strong>(0571)86918600</span><br>';
+      }, {enableHighAccuracy: true})
+      map.addOverlay(marker)
+      var licontent = '<b>浙江省中医院</b><br>'
+      licontent += '<span><strong>地址：</strong>杭州经济技术开发区9号大街9号</span><br>'
+      licontent += '<span><strong>电话：</strong>(0571)86918600</span><br>'
       var opts = {
         width: 200,
         height: 80
       }
-      var infoWindow = new BMap.InfoWindow(licontent, opts);
-      marker.openInfoWindow(infoWindow);
+      var infoWindow = new BMap.InfoWindow(licontent, opts)
+      marker.openInfoWindow(infoWindow)
       marker.addEventListener('click', function () {
         marker.openInfoWindow(infoWindow)
       })
@@ -396,9 +393,13 @@ export default {
       this.$router.push('./department')
     },
     order () {
-      this.active = 1;
-      this.axios.post('/api/getOrderList', {}).then((res) => {
-        console.log(res);
+      this.active = 1
+      console.log(JSON.parse(localStorage.getItem('userInfo')))
+      const userId = JSON.parse(localStorage.getItem('userInfo')).userId
+      this.axios.post('/api/getOrderByUserId', {
+        userId: userId
+      }).then((res) => {
+        console.log(res)
         this.orderList = res.data.result
       }).catch((err) => {
         console.log(err)
@@ -407,32 +408,76 @@ export default {
     onClickLeft () {
       this.active = 0
     },
-    onClickRight () {
-      alert('设置')
+    deleteUser () {
+      Dialog.confirm({
+        title: '注销账号',
+        message: '确认注销当前账号？'
+      }).then(() => {
+        this.axios.post('/api/deleteUser', {
+          userId: this.userInfo.userId
+        }).then((res) => {
+          if (res.data.code === 1) {
+            Toast.success('已成功注销当前账号，前往注册界面')
+            localStorage.removeItem('Flag')
+            localStorage.removeItem('userInfo')
+            this.$router.push('/register')
+          } else {
+            Toast.fail(res.data.msg)
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
+      }).catch(() => {
+        this.isDialog = false
+      })
     },
     showPopup () {
       this.isPopup = true
     },
     onSubmit (values) {
-      console.log('submit', values);
+      console.log('submit', values)
       this.isPopup = false
     },
     pwSubmit (values) {
-      console.log('submit', values);
-      this.isChangePw = false;
+      console.log('submit', values)
+      if (values.newPw === values.oldPw) {
+        Toast.fail('新密码与原密码相同')
+      } else {
+        if (values.oldPw === this.userInfo.password) {
+          this.axios.post('/api/updateUser', {
+            userId: this.userInfo.userId,
+            username: this.userInfo.username,
+            password: values.newPw,
+            phone: this.userInfo.phone
+          }).then((res) => {
+            console.log(res)
+            Toast.success('修改密码成功，请使用新密码重新登录')
+            localStorage.removeItem('Flag')
+            localStorage.removeItem('userInfo')
+            this.$router.push('/login')
+          }).catch((err) => {
+            console.log(err)
+          })
+        } else {
+          Toast.fail('原密码输入有误，修改密码失败')
+        }
+      }
+      this.isChangePw = false
+      this.oldPw = ''
+      this.newPw = ''
     },
     showDialog () {
       Dialog.confirm({
         title: '退出登录',
         message: '确认退出当前账号？'
       }).then(() => {
-        localStorage.removeItem("Flag");
-        localStorage.removeItem("userInfo");
-        this.$router.push('/login');
+        localStorage.removeItem('Flag')
+        localStorage.removeItem('userInfo')
+        this.$router.push('/login')
         console.log('exit')
       }).catch(() => {
         this.isDialog = false
-      });
+      })
     },
     showChangepw () {
       this.isChangePw = true
@@ -446,9 +491,9 @@ export default {
     record () {
       this.active = 1
     },
-    onSearch(val) {
+    onSearch (val) {
       console.log('search', val)
-    },
+    }
   }
 }
 </script>

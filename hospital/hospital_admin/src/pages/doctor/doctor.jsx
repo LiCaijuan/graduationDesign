@@ -93,12 +93,14 @@ export default class Doctor extends Component {
           key: 'doctorSpeciality',
           width: 400,
           align: 'center',
+          ellipsis: true
         },{
           title: '简介', 
           dataIndex: 'doctorSynopsis',
           key: 'doctorSynopsis',
           align: 'center',
-          width: 400
+          width: 400,
+          ellipsis: true
         },{
           title: '操作',
           key: 'action',

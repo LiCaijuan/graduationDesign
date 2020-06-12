@@ -52,22 +52,6 @@
           <van-form @submit="onSubmit">
             <van-field
               style="marginLeft: 70px"
-              v-model="userName"
-              name="userName"
-              label="用户名"
-              placeholder="用户名"
-              :rules="[{ required: true, message: '请填写用户名' }]"
-            />
-            <van-field
-              style="marginLeft: 70px"
-              v-model="userPhone"
-              name="userPhone"
-              label="电话号码"
-              placeholder="电话号码"
-              :rules="[{ required: true, message: '请填写电话号码' }]"
-            />
-            <van-field
-              style="marginLeft: 70px"
               v-model="userCard"
               name="userCard"
               label="身份证号"
@@ -118,9 +102,9 @@ export default {
     // 监控浏览器高度变化
     fullHeight (val) {
       if (!this.timer) {
-        this.fullHeight = val;
-        this.timer = true;
-        let that = this;
+        this.fullHeight = val
+        this.timer = true
+        let that = this
         setTimeout(function () {
           that.timer = false
         }, 400)
@@ -154,9 +138,9 @@ export default {
       this.$router.go(-1)
     },
     onSubmit (values) {
-      console.log(values, 'sub');
+      console.log(values, 'sub')
       // 调用接口，如果预约成功使得showActionsheet=false
-      this.showActionsheet = false;
+      this.showActionsheet = false
       this.axios.post('/api/addOrder', {
         doctorType: this.doctorType,
         doctorName: this.doctorName,
@@ -168,13 +152,13 @@ export default {
         userCard: values.userCard,
         address: this.departmentAddress
       }).then((res) => {
-        Toast.success(res.data.msg);
+        Toast.success(res.data.msg)
         // 预约成功删掉改时段
         if (res.data.code === 1) {
           this.axios.post('/api/deleteSchedule', {
             scheduleId: this.scheduleId
           }).then((res) => {
-            console.log(res);
+            console.log(res)
             if (res.data.code === 1) {
               this.getInterval()
             }
@@ -184,22 +168,22 @@ export default {
         }
       }).catch((err) => {
         console.log(err)
-      });
+      })
       console.log('submit')
     },
     showDialog (item) {
-      this.orderInterval = item.interval;
-      this.scheduleId = item.scheduleId;
-      console.log(item, 'item');
+      this.orderInterval = item.interval
+      this.scheduleId = item.scheduleId
+      console.log(item, 'item')
       this.axios.post('/api/getDoctorById', {
         doctorId: item.doctorId
       }).then((res) => {
-        console.log(res);
-        this.doctorName = res.data.result[0].doctorName;
+        console.log(res)
+        this.doctorName = res.data.result[0].doctorName
         this.doctorType = res.data.result[0].doctorType
       }).catch((err) => {
         console.log(err)
-      });
+      })
       this.$dialog.confirm({
         // title: "hello",
         message: '确认预约当前时段吗？',
@@ -214,26 +198,26 @@ export default {
     },
     // 动态获取浏览器高度
     get_bodyHeight () {
-      const that = this;
+      const that = this
       window.onresize = () => {
         return (() => {
-          window.fullHeight = document.documentElement.clientHeight;
+          window.fullHeight = document.documentElement.clientHeight
           that.fullHeight = window.fullHeight
         })()
       }
     },
     getDepartmentById () {
-      let departmentId = this.$store.state.departmentId;
+      let departmentId = this.$store.state.departmentId
       this.axios.post('/api/getDepartmentById', {
         departmentId: departmentId
       }).then((res) => {
-        let department = res.data.result[0];
-        this.departmentAddress = department.departmentAddress;
-        this.departmentDesc = department.departmentDesc;
-        this.departmentId = department.departmentId;
-        this.departmentImg = department.departmentImg;
-        this.departmentName = department.departmentName;
-        this.departmentSpeciality = department.departmentSpeciality;
+        let department = res.data.result[0]
+        this.departmentAddress = department.departmentAddress
+        this.departmentDesc = department.departmentDesc
+        this.departmentId = department.departmentId
+        this.departmentImg = department.departmentImg
+        this.departmentName = department.departmentName
+        this.departmentSpeciality = department.departmentSpeciality
         console.log(res)
       }).catch((err) => {
         console.log(err)
@@ -245,13 +229,13 @@ export default {
         scheduleDate: this.$store.state.departmentDate
       }).then((res) => {
         // let department = res.data.result[0]
-        this.intervalList = res.data.result;
-        if (this.intervalList.length>0) {
-          this.isOrder = "可预约";
+        this.intervalList = res.data.result
+        if (this.intervalList.length > 0) {
+          this.isOrder = '可预约'
         } else {
-          this.isOrder = "不可预约";
+          this.isOrder = '不可预约'
         }
-        console.log(res);
+        console.log(res)
       }).catch((err) => {
         console.log(err)
       })

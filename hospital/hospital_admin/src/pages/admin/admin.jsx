@@ -5,6 +5,7 @@ import './style.css'
 import LeftNav from '../../components/left-nav'
 import HeaderNav from '../../components/header-nav'
 import Doctor from '../doctor/doctor'
+import User from '../user'
 import Department from '../department/department'
 import Home from '../home/home'
 import Record from '../record/record'
@@ -31,6 +32,7 @@ export default class Admin extends Component {
           
           <Content style={{ marginTop: 100 }}>
             <Switch>
+              <Route path='/user' component={User}/>
               <Route path='/home' component={Home} />
               <Route path='/doctor' component={Doctor} />
               <Route path='/department' component={Department} />

@@ -13,3 +13,13 @@
     width: 80%;
     display: inline-block;
 }
+.ant-form{
+    padding: 0%;
+}
+.ant-col-8{
+    max-width: 25%;
+}
+.ant-modal-content{
+    width: 120%;
+    margin: 0 auto;
+}

@@ -33,6 +33,7 @@ export default class Report extends Component {
       editVisible: false,
       reportList: [],
       reportId: 0,
+      userId: 0,
       username: '',
       department: '',
       date: '',
@@ -46,6 +47,12 @@ export default class Report extends Component {
           align: 'center',
           fixed: 'left',
           width: 80
+        },{
+          title: '患者编号',
+          dataIndex: 'userId',
+          key: 'userId',
+          width: 80,
+          align: 'center'
         },{
           title: '患者姓名',
           dataIndex: 'username',
@@ -70,6 +77,7 @@ export default class Report extends Component {
           key: 'reportUrl',
           width: 500,
           align: 'center',
+          ellipsis: true
         },{
           title: '操作',
           key: 'action',
@@ -138,8 +146,9 @@ export default class Report extends Component {
     })
   }
   addReport = () => {
-    if (this.state.username !== '' && this.state.department !== '' &&this.state.date !== '' &&this.state.reportUrl !== '') {
+    if (this.state.userId !== 0 && this.state.username !== '' && this.state.department !== '' &&this.state.date !== '' &&this.state.reportUrl !== '') {
       axios.post('/api/addReport', {
+        userId: this.state.userId,
         username: this.state.username,
         department: this.state.department,
         date: this.state.date,
@@ -175,9 +184,10 @@ export default class Report extends Component {
   }
   updateReport = () => {
     console.log('update')
-    if (this.state.username !== '' && this.state.department !== '' &&this.state.date !== '' &&this.state.reportUrl !== '') {
+    if (this.state.username !== '' && this.state.userId !== 0 && this.state.department !== '' &&this.state.date !== '' &&this.state.reportUrl !== '') {
       axios.post('/updateReport',{
         reportId: this.state.reportId,
+        userId: this.state.userId,
         username: this.state.username,
         department: this.state.department,
         date: this.state.date,
@@ -198,6 +208,7 @@ export default class Report extends Component {
     }
     this.setState({
       reportId: 0,
+      userId: 0,
       username: '',
       department: '',
       date: '',
@@ -207,6 +218,7 @@ export default class Report extends Component {
   showEditModal = (record) => {
     this.setState({
       reportId: record.reportId,
+      userId: record.userId,
       username: record.username,
       department: record.department,
       date: record.date,
@@ -230,6 +242,7 @@ export default class Report extends Component {
     this.setState({
       visible: false,
       reportId: 0,
+      userId: 0,
       username: '',
       department: '',
       date: '',
@@ -267,6 +280,18 @@ export default class Report extends Component {
                 onFinish={this.onFinish}
                 onFinishFailed={this.onFinishFailed}
               >
+                <Form.Item
+                  label="患者编号"
+                  name="userId"
+                  rules={[
+                    {
+                      required: true,
+                      message: '患者编号不能为空!',
+                    },
+                  ]}
+                >
+                  <Input value={this.state.userId} style={{width: '180px'}} onChange={e => this.setState({userId: e.target.value})} />
+                </Form.Item>
                 <Form.Item
                   label="患者姓名"
                   name="username"
@@ -337,7 +362,14 @@ export default class Report extends Component {
               okText="确认"
               cancelText="取消"
             >
-              <label for="username">科室地址：</label>
+              <label htmlFor="userId">患者编号：</label>
+              <Input
+                id="userId"
+                defaultValue={this.state.userId}
+                style={{width: '180px'}}
+                onChange={e => this.setState({userId: e.target.value})}
+              /><br/><br/>
+              <label htmlFor="username">患者姓名：</label>
               <Input
                 id="username"
                 defaultValue={this.state.username}
@@ -351,7 +383,7 @@ export default class Report extends Component {
                 style={{width: '180px'}}
                 onChange={e => this.setState({department: e.target.value})}
               /><br/><br/>
-              <label for="date">科室地址：</label>
+              <label for="date">报告日期：</label>
               <DatePicker
                 id="date"
                 locale={locale}
@@ -359,12 +391,12 @@ export default class Report extends Component {
                 // defaultValue={this.state.date}
                 onChange={value => this.setState({date: value._d.getFullYear() + '-' + this.p((value._d.getMonth() + 1)) + '-' + this.p(value._d.getDate())})}
               /><br/><br/>
-              <label for="reportUrl">科室地址：</label>
+              <label for="reportUrl">报告图片地址：</label>
               <TextArea
                 id="reportUrl"
+                style={{ width: 400}}
                 onChange={e => this.setState({reportUrl: e.target.value})}
                 defaultValue={this.state.reportUrl}
-                style={{ width: 480}}
               />
             </Modal>
           </div>
