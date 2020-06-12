@@ -1,9 +1,5 @@
 <template>
   <div id="department" :style="'height:'+fullHeight+'px;'">
-    <!-- <div class="searchDiv">
-      <van-icon class="back_name" name="arrow-left" color="#ffffff" @click="back()"/>
-      <van-search class="search_name" v-model="value" background="#3bb5b2" shape="round" placeholder="搜索科室"/>
-    </div> -->
     <van-row type="flex" justify="center">
       <van-icon class="back_icon" name="arrow-left" color="#3bb5b2" size="30" @click="back()"/>
       <van-col span="6" class="left_col" @click="preDay()">前一天</van-col>
@@ -22,7 +18,7 @@
         <van-card
           v-for="item in departmentList"
           :key="item.departmentId"
-          :thumb="`https://img.yzcdn.cn/vant/ipad.jpeg`"
+          :thumb="item.departmentImg"
           @click="departmentOrder(item.departmentId)"
         >
           <div slot="desc" class="van-card__desc">{{item.departmentAddress}}</div>
@@ -38,7 +34,7 @@
 </template>
 
 <script>
-import {Search, Icon, List, Cell, Card, Tag, Col, Row, Empty } from 'vant'
+import { Search, Icon, List, Cell, Card, Tag, Col, Row, Empty } from 'vant'
 import '@/assets/css/icon/iconfont.css'
 
 export default {
@@ -53,26 +49,7 @@ export default {
       finished: false,
       departmentList: [],
       scheduleList: [],
-      isEmpty: false,
-      list: [
-        {
-          number: 1,
-          name: '内科',
-          address: 'aa楼四楼',
-          image: '../assets/img/map.png',
-          isOrder: '可预约',
-          thumb: 'https://img.yzcdn.cn/vant/ipad.jpeg',
-          desc: '中医内科始建于1956年，是我院集医疗、教学、科研为一体的综合性临床科室，年门诊量达十余万人次，是我院门诊量最大的科室。'
-        }, {
-          number: 2,
-          name: '外科',
-          address: 'bb楼11楼',
-          image: '../assets/img/map.png',
-          isOrder: '可预约',
-          thumb: 'https://img.yzcdn.cn/vant/ipad.jpeg',
-          desc: '中医内科始建于1956年，是我院集医疗、教学、科研为一体的综合性'
-        }
-      ]
+      isEmpty: false
     }
   },
 
@@ -125,21 +102,22 @@ export default {
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
     },
     preDay () {
-      this.chiefList = []
-      this.deputyChiefList = []
-      this.attendingList = []
-      this.residentList = []
-      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
-      var yesterday = new Date(this.nowDate)
-      this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
-          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-      this.getDepartmentList()
+      this.departmentList = []
+      var today = new Date()
+      today = today.getFullYear() + '-' + (today.getMonth() > 9 ? (today.getMonth() + 1) : '0' +
+              (today.getMonth() + 1)) + '-' + (today.getDate() > 9 ? (today.getDate()) : '0' + (today.getDate()))
+      if (this.myDate === today) {
+        console.log('err')
+      } else {
+        this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
+        var yesterday = new Date(this.nowDate)
+        this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
+                (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+        this.getDepartmentList()
+      }
     },
     nextDay () {
-      this.chiefList = []
-      this.deputyChiefList = []
-      this.attendingList = []
-      this.residentList = []
+      this.departmentList = []
       this.nowDate = this.nowDate + 24 * 60 * 60 * 1000
       var yesterday = new Date(this.nowDate)
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
@@ -243,6 +221,9 @@ export default {
     float: left;
     margin: 7px 0 0 15px;
     color: #3bb5b2;
+  }
+  .van-card__thumb{
+    margin-right: 10px;
   }
   .van-card__footer {
     font-size: 17px;

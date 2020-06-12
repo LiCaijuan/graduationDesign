@@ -229,9 +229,7 @@ export default {
         cancelButtonText: '取消'
       }).then(() => {
         this.showActionsheet = true
-        // console.log("点击了确认按钮噢")
       }).catch(() => {
-        // console.log("点击了取消按钮噢")
       })
     },
     // 动态获取浏览器高度
@@ -245,74 +243,55 @@ export default {
       }
     }
   }
-
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   * {
     margin: 0;
     padding: 0;
   }
-
-  .van-nav-bar__title {
-    max-width: 100%;
-    color: #ffffff;
-  }
-
   .van-nav-bar .van-icon {
     color: #ffffff;
   }
-
   .van-nav-bar__text {
     color: #ffffff;
   }
-
   .van-nav-bar__arrow {
     font-size: 20px;
   }
-
   .van-nav-bar {
     background-color: #128784;
   }
-
   .doctor_content {
     margin: 2%;
     /* margin-left: 20px; */
   }
-
   .doct_img {
     float: left;
   }
-
   .doct_info {
     float: left;
     width: 60%;
     margin: 6% 5%;
   }
-
   .van-panel__header-value {
     color: #128784;
   }
-
   .time {
     float: left;
     margin-top: 5%;
   }
-
   .time_icon {
     float: left;
     margin-left: 15px;
   }
-
   .time_text {
     font-size: 20px;
     line-height: 30px;
     float: left;
     margin-left: 10px;
   }
-
   .doct_text {
     font-size: 20px;
     line-height: 30px;
@@ -320,7 +299,6 @@ export default {
     float: left;
     width: 300px;
   }
-
   .time_choose {
     float: left;
     margin: 20px 15px;
@@ -328,47 +306,38 @@ export default {
     border-radius: 2px;
     border: 1px solid #8b95a3;
   }
-
   .time_date {
     width: 135px;
     margin: 10px 100px;
     font-size: 20px;
   }
-
   .time_grid {
     flex-basis: 33% !important;
   }
-
   .exit_dialog {
     width: 75%;
   }
-
   .exit_text {
     margin: 15% 20%;
   }
-
   .doct_icon {
     margin-left: 15px;
     float: left;
   }
-
   .doct_synopsis {
     margin-left: 15px;
     font-size: 18px;
     line-height: 35px;
   }
-
   .doct_speciality {
     margin-left: 15px;
     font-size: 18px;
     line-height: 35px;
     color: rgb(83, 165, 241);
   }
-
   .van-grid-item__content {
     background-color: #128784 !important;
   }
-
   .van-grid-item__text {
     color: #ffffff;
   }

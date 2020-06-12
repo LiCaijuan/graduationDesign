@@ -16,7 +16,7 @@
               :thumb="item.doctorImg"
               @click="doctorOrder(item.doctorId)"
             >
-              <div slot="desc" class="van-card__desc">{{item.doctorSynopsis}}</div>
+              <div slot="desc" class="van-card__desc">{{item.doctorSpeciality}}</div>
               <div slot="title" class="van-card__title">{{item.doctorName}}</div>
               <div slot="tags" class="card_tag">
                 <van-tag plain type="success" size="large" v-if="item.doctorIsOrder">可预约</van-tag>
@@ -41,7 +41,7 @@
               :thumb="item.doctorImg"
               @click="doctorOrder(item.doctorId)"
             >
-              <div slot="desc" class="van-card__desc">{{item.doctorSynopsis}}</div>
+              <div slot="desc" class="van-card__desc">{{item.doctorSpeciality}}</div>
               <div slot="title" class="van-card__title">{{item.doctorName}}</div>
               <div slot="tags" class="card_tag">
                 <van-tag plain type="success" size="large" v-if="item.doctorIsOrder">可预约</van-tag>
@@ -51,7 +51,7 @@
                 {{item.doctorSynopsis}}
               </div>
               <div slot="footer" class="van-card__footer">
-                挂号费：<span class="price">￥{{item.doctorPrice}}</span>
+                挂号费:<span class="price">￥{{item.doctorPrice}}</span>
               </div>
             </van-card>
           </van-cell>
@@ -66,7 +66,7 @@
               :thumb="item.doctorImg"
               @click="doctorOrder(item.doctorId)"
             >
-              <div slot="desc" class="van-card__desc">{{item.doctorSynopsis}}</div>
+              <div slot="desc" class="van-card__desc">{{item.doctorSpeciality}}</div>
               <div slot="title" class="van-card__title">{{item.doctorName}}</div>
               <div slot="tags" class="card_tag">
                 <van-tag plain type="success" size="large" v-if="item.doctorIsOrder">可预约</van-tag>
@@ -92,7 +92,7 @@
               :thumb="item.doctorImg"
               @click="doctorOrder(item.doctorId)"
             >
-              <div slot="desc" class="van-card__desc">{{item.doctorSynopsis}}</div>
+              <div slot="desc" class="van-card__desc">{{item.doctorSpeciality}}</div>
               <div slot="title" class="van-card__title">{{item.doctorName}}</div>
               <div slot="tags" class="card_tag">
                 <van-tag plain type="success" size="large" v-if="item.doctorIsOrder">可预约</van-tag>
@@ -175,20 +175,30 @@ export default {
   methods: {
     getDate () {
       this.nowDate = (new Date()).getTime()
+      console.log(this.nowDate, 'date')
       var yesterday = new Date(this.nowDate)
+      console.log(yesterday, 'yes')
       this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
           (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+      console.log(this.myDate, this.nowDate, 'my')
     },
     preDay () {
       this.chiefList = []
       this.deputyChiefList = []
       this.attendingList = []
       this.residentList = []
-      this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
-      var yesterday = new Date(this.nowDate)
-      this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
-          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-      this.getDoctorList()
+      var today = new Date()
+      today = today.getFullYear() + '-' + (today.getMonth() > 9 ? (today.getMonth() + 1) : '0' +
+              (today.getMonth() + 1)) + '-' + (today.getDate() > 9 ? (today.getDate()) : '0' + (today.getDate()))
+      if (this.myDate === today) {
+        console.log('err')
+      } else {
+        this.nowDate = this.nowDate - 24 * 60 * 60 * 1000
+        var yesterday = new Date(this.nowDate)
+        this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
+                (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+        this.getDoctorList()
+      }
     },
     nextDay () {
       this.chiefList = []
@@ -293,54 +303,56 @@ export default {
 }
 </script>
 <style scoped>
-  * {
+  *{
     margin: 0;
     padding: 0;
   }
-
   .card_tag {
-    margin: 10px;
+    margin: -55px 10px 10px 10px;
     float: right;
   }
-
   .van-card__title {
     font-size: 20px;
     line-height: 50px;
     float: left;
   }
-
   .van-card__desc {
     font-size: 16px;
-    line-height: 40px;
     float: left;
-    margin: 7px 0 0 15px;
+    margin: 15px 0 5px 0;
     color: #3bb5b2;
+    overflow: hidden; /*自动隐藏文字*/
+    text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+    white-space: nowrap;/*强制不换行*/
+    width: 18em;/*不允许出现半汉字截断*/
   }
-
   .van-card__footer {
     font-size: 17px;
-    margin: -25px 5px 5px 0;
+    margin: 1px 5px 5px 0;
+    color: #0086b3;
   }
-
+  .van-card__bottom{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
   .price {
     color: rgb(111, 123, 134);
   }
-
   .center_col {
     background-color: #3bb5b2;
     color: #FFFFFF;
   }
-
   .left_col {
     border-radius: 3px 0 0 3px;
     color: #3bb5b2;
   }
-
   .right_col {
     border-radius: 0 3px 3px 0;
     color: #3bb5b2;
   }
-
   .van-col--6 {
     margin: 5px 0;
     height: 30px;
@@ -355,7 +367,6 @@ export default {
   .van-card__thumb img {
     border-radius: 0 !important;
   }
-
   .van-card__thumb {
     margin: 10px;
   }

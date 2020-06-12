@@ -98,13 +98,11 @@ export default {
     margin: 0;
     padding: 0;
   }
-
   #login {
     background-color: #3bb5b2;
     width: 100%;
     height: 667px;
   }
-
   .logtext {
     width: 60%;
     height: 60px;
@@ -115,10 +113,6 @@ export default {
     margin-top: 15%;
     margin-bottom: 15%;
   }
-
-  /* .user .pwd{
-    margin: 10%;
-  } */
   .logbtn {
     width: 70%;
     color: #3bb5b2;
@@ -126,7 +120,6 @@ export default {
     margin: 5% 15%;
     font-size: 18px;
   }
-
   .regbtn {
     width: 70%;
     color: #FFFFFF;
@@ -136,11 +129,9 @@ export default {
     font-size: 18px;
     background-color: #3bb5b2;
   }
-
   .logo {
     width: 100%;
   }
-
   .van-cell {
     font-size: 18px;
     line-height: 32px;

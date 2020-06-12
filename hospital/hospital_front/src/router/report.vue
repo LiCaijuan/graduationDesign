@@ -174,6 +174,7 @@ export default {
   .van-card__footer {
     font-size: 16px;
   }
+
   .van-tag--success.van-tag--plain {
     float: right;
   }
