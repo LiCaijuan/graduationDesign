@@ -1,17 +1,6 @@
 <template>
-  <div id="home" :style="'height:'+fullHeight+'px;'">
+  <div id="home" :style="'height:'+fullHeight-30+'px;'">
     <div class="home_content" v-show="active===0">
-      <div class="mainUp">
-        <div class="searchDiv">
-          <van-search
-            shape="round"
-            input-align="center"
-            v-model="searchText"
-            placeholder="搜索科室/医生"
-            @search="onSearch"
-          />
-        </div>
-      </div>
       <div class="swipePart">
         <van-swipe :autoplay="3000" class="swipe_img">
           <van-swipe-item v-for="(image, index) in swipeImages" :key="index">
@@ -55,7 +44,6 @@
               :name="icon.department"
             />
           </div>
-          <!-- <img class="orderImg" src="../assets/img/department.png" alt="科室"> -->
           <p>找科室</p>
         </div>
         <div class="order" @click="report()">
@@ -166,6 +154,7 @@
             <van-form @submit="pwSubmit" class="pw_form">
               <van-field
                 class="pw_field"
+                type="password"
                 name="oldPw"
                 v-model ="oldPw"
                 label="原密码"
@@ -350,7 +339,7 @@ export default {
     },
     toMap () {
       var map = new BMap.Map('allmap')
-      var point = new BMap.Point(120.1658210000, 30.2522100000)
+      var point = new BMap.Point(120.3540659, 30.3049286)
       map.centerAndZoom(point, 16)
       map.enableScrollWheelZoom()
       var myIcon = new BMap.Icon('myicon.png', new BMap.Size(30, 30), {
@@ -484,6 +473,8 @@ export default {
     },
     cancelOverlay () {
       this.isChangePw = false
+      this.oldPw = ''
+      this.newPw = ''
     },
     report () {
       this.$router.push('./report')
@@ -497,7 +488,6 @@ export default {
   }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
   .van-nav-bar__title {
@@ -523,9 +513,6 @@ export default {
     margin: 0 auto;
     /* margin-top: 5px; */
   }
-  /* .mainUp{
-    background-color: #3BB5B2;
-  } */
   .mainList {
     padding-bottom: 10px;
     width: 100%;
@@ -547,7 +534,7 @@ export default {
   .navi {
     width: 90%;
     height: 140px;
-    margin: 5% 5%;
+    margin: 8% 5%;
     border-radius: 10px;
   }
   .map {
@@ -590,7 +577,7 @@ export default {
     border: 1px solid #3bb5b2;
   }
   .swipePart {
-    margin: 3%;
+    margin: 5% 3%;
     width: 94%;
   }
   .iconfont {
@@ -630,19 +617,15 @@ export default {
   .van-nav-bar__title{
     color: #fff;
   }
-
   .van-nav-bar__arrow {
     font-size: 20px;
   }
-
   .van-nav-bar__right {
     font-size: 20px;
   }
-
   .van-nav-bar {
     background-color: #128784;
   }
-
   .por_img {
     width: 100px;
     height: 100px;
@@ -651,18 +634,15 @@ export default {
     position: absolute;
     z-index: 1;
   }
-
   .portrait_content {
     background-color: #128784;
   }
-
   .portrait {
     background-color: #128784;
     width: 275px;
     height: 470px;
     padding: 60px 50px 40px 50px;
   }
-
   .name {
     font-size: 22px;
     position: absolute;
@@ -670,7 +650,6 @@ export default {
     margin: 11% 0 0 30% !important;
     z-index: 1;
   }
-
   .phone {
     line-height: 25px;
     position: absolute;
@@ -678,7 +657,6 @@ export default {
     margin: 21% 0 0 30% !important;
     z-index: 1;
   }
-
   .cell_content {
     margin: 0 auto;
     padding: 55% 10% 0 10%;
@@ -688,40 +666,33 @@ export default {
     border-radius: 10px;
     margin-top: 40px;
   }
-
   .van-cell--large .van-cell__title {
     font-size: 24px;
     line-height: 70px;
   }
-
   .van-cell__left-icon, .van-cell__right-icon {
     font-size: 24px;
     line-height: 70px;
     margin: 0 10px;
     color: #128784;
   }
-
   .hospital_content {
     margin: 15px 0;
   }
-
   #hospital_icon {
     margin-left: 5%;
   }
-
   .add_1 {
     font-size: 22px;
     color: #fff;
     margin-top: 65px;
     margin-left: 10px;
   }
-
   .add_2 {
     color: #ffffff;
     margin-top: 5px;
     margin-left: 10px;
   }
-
   .hospital_img {
     width: 96%;
     height: 150px;
@@ -729,121 +700,98 @@ export default {
     border-radius: 10px;
     background-repeat: no-repeat;
   }
-
   .ks_tip {
     font-size: 20px;
     color: slategrey;
   }
-
   .van-dropdown-menu {
     width: 94%;
     margin: 3%;
     border: 2px solid #a1b1b0;
     border-radius: 5px;
   }
-
   .info_arrow {
     float: right;
   }
-
   .popup_con {
     width: 65%;
     padding: 30px;
     border-radius: 10px;
   }
-
   .info_field {
     height: 50px;
   }
-
   .time_content {
     margin-top: 15px;
   }
-
   .exit_dialog {
     width: 80%;
   }
-
   .exit_text {
     margin: 10% 23%;
     color: red;
   }
-
   .wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
   }
-
   .block {
     width: 80%;
     border-radius: 10px;
     background-color: #fff;
   }
-
   .pw_form {
     margin: 25% 13% 10% 13%;
   }
-
   .pw_field {
     height: 50px;
     font-size: 18px;
   }
-
   .pwBtn {
     height: 40px;
     border-radius: 5px;
     font-size: 18px;
     line-height: 40px;
   }
-
   .cancelpw_icon {
     float: right;
     font-size: 25px;
     margin: 10px;
     color: grey;
   }
-
   .van-nav-bar__title {
     max-width: 100%;
     color: #ffffff;
   }
-
   .van-nav-bar .van-icon {
     color: #ffffff;
   }
   .van-nav-bar__arrow {
     font-size: 20px;
   }
-
   .van-nav-bar {
     background-color: #128784;
   }
-
   .record_cell {
     padding: 15px;
   }
-
   .van-card__title {
     font-size: 20px;
     line-height: 25px;
   }
-
   .van-card__desc {
     float: left;
     font-size: 16px;
     line-height: 25px;
   }
-
   .van-card__bottom {
     font-size: 16px;
   }
-
   .van-card__footer {
     font-size: 16px;
   }
-
   .van-tag--success.van-tag--plain {
     float: right;
   }

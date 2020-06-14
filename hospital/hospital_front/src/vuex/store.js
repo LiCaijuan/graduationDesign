@@ -8,12 +8,13 @@ const state = {
   doctorId: 0,
   departmentId: 0,
   isLogin: false,
+  backDate: ''
 }
 const getters = {
-  isLogin: state => state.isLogin,
+  isLogin: state => state.isLogin
 }
 const mutations = {
-  userStatus(state, flag) {
+  userStatus (state, flag) {
     state.isLogin = flag
   },
   changeDoctorDate (state, payload) {
@@ -27,13 +28,16 @@ const mutations = {
   },
   changeDepartmentId (state, payload) {
     state.departmentId = payload.departmentId
+  },
+  changeBackDate (state, payload) {
+    state.backDate = payload.backDate
   }
 }
 const actions = {
-  //获取登录状态
-  userLogin({commit}, flag) {
-    commit("userStatus", flag)
-  },
+  // 获取登录状态
+  userLogin ({commit}, flag) {
+    commit('userStatus', flag)
+  }
 }
 export default new Vuex.Store({
   state,
