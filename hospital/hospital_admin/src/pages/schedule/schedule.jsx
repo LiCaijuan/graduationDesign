@@ -21,6 +21,9 @@ const tailLayout = {
     span: 16,
   },
 };
+const pagination = {
+  pageSize: 8
+};
 function disabledDate(current) {
   return current && current < moment().endOf('day');
 }
@@ -232,7 +235,9 @@ export default class Schedule extends Component {
               bordered
               rowKey={record => record.scheduleId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加排班</Button> }
-              style={{margin: 20 }}/>
+              style={{margin: 20 }}
+              pagination={pagination}
+            />
           </div>
           <div>
             <Modal

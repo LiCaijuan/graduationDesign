@@ -8,32 +8,6 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 const { Content } = Layout;
 const { TextArea } = Input;
-// const ResizeableTitle = props => {
-//   const { onResize, width, ...restProps } = props;
-//
-//   if (!width) {
-//     return <th {...restProps} />;
-//   }
-//
-//   return (
-//     <Resizable
-//       width={width}
-//       height={0}
-//       handle={
-//         <span
-//           className="react-resizable-handle"
-//           onClick={e => {
-//             e.stopPropagation();
-//           }}
-//         />
-//       }
-//       onResize={onResize}
-//       draggableOpts={{ enableUserSelectHack: false }}
-//     >
-//       <th {...restProps} />
-//     </Resizable>
-//   );
-// };
 const layout = {
   labelCol: {
     span: 8,
@@ -47,6 +21,9 @@ const tailLayout = {
     offset: 8,
     span: 16,
   },
+};
+const pagination = {
+  pageSize: 8
 };
 export default class Department extends Component {
   constructor(props) {
@@ -73,7 +50,7 @@ export default class Department extends Component {
           title: '名称',
           dataIndex: 'departmentName',
           key: 'departmentName',
-          width: 80,
+          width: 90,
           fixed: 'left',
           align: 'center'
         },{
@@ -119,14 +96,14 @@ export default class Department extends Component {
       ]
     }
   }
-  // components = {
-  //   header: {
-  //     cell: ResizeableTitle,
-  //   },
-  // };
   componentDidMount () {
     this.getDepartmentList()
+    this.getTitle()
   }
+  getTitle = () => {
+    const path = this.props.location.pathname
+    console.log(path, 'path')
+  };
 
   success = (msg) => {
     message.success(msg);
@@ -291,7 +268,9 @@ export default class Department extends Component {
               scroll={{ x: 1800}}
               rowKey={record => record.departmentId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加科室</Button> }
-              style={{margin: 15 }}/>
+              style={{margin: 15 }}
+              pagination={pagination}
+            />
           </div>
           <div>
             {/* <Button type="primary" onClick={this.showModal}>

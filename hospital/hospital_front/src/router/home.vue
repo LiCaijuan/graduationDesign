@@ -352,10 +352,8 @@ export default {
         if (this.getStatus() === BMAP_STATUS_SUCCESS) {
           var mk = new BMap.Marker(r.point)
           map.addOverlay(mk)
-          // map.panTo(r.point); // 地图中心点移到当前位置
           var latCurrent = r.point.lat
           var lngCurrent = r.point.lng
-          // alert('我的位置：'+ latCurrent + ',' + lngCurrent)
           location.href = 'http://api.map.baidu.com/direction?origin=' + latCurrent + ',' + lngCurrent + '&destination=30.2522100000,120.1658210000&mode=driving&region=北京&output=html'
         } else {
           alert('failed' + this.getStatus())
