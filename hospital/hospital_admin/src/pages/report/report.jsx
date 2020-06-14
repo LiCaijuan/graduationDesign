@@ -23,7 +23,9 @@ const tailLayout = {
     span: 16,
   },
 };
-
+const paginationProps = {
+  pageSize: 8
+};
 
 export default class Report extends Component {
   constructor(props) {
@@ -261,7 +263,9 @@ export default class Report extends Component {
               bordered
               rowKey={record => record.reportId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加报告</Button> }
-              style={{margin: 20 }}/>
+              style={{margin: 20 }}
+              pagination={ paginationProps }
+            />
           </div>
           <div>
             <Modal
@@ -376,7 +380,7 @@ export default class Report extends Component {
                 style={{width: '180px'}}
                 onChange={e => this.setState({username: e.target.value})}
               /><br/><br/>
-              <label for="department">科室地址：</label>
+              <label for="department">科室：</label>
               <Input
                 id="department"
                 defaultValue={this.state.department}

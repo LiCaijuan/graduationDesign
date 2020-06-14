@@ -22,6 +22,9 @@ const tailLayout = {
     span: 16,
   },
 };
+const paginationProps = {
+  pageSize: 8
+};
 
 export default class Doctor extends Component {
   constructor (props) {
@@ -295,7 +298,9 @@ export default class Doctor extends Component {
               scroll={{ x: 1800}}
               rowKey={record => record.doctorId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加医生</Button> }
-              style={{margin: 15 }}/>
+              style={{margin: 15 }}
+              pagination={ paginationProps }
+            />
           </div>
           <div>
             <Modal

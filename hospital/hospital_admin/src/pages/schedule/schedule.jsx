@@ -21,6 +21,9 @@ const tailLayout = {
     span: 16,
   },
 };
+const paginationProps = {
+  pageSize: 8
+};
 function disabledDate(current) {
   return current && current < moment().endOf('day');
 }
@@ -140,7 +143,7 @@ export default class Schedule extends Component {
     if (this.state.doctorId !== 0 && this.state.departmentId !== 0 && this.state.scheduleDate !== '' && this.state.interval !== ''){
       axios.post('/api/addSchedule', {
         doctorId: this.state.doctorId,
-        departmentId: this.state.depertmentId,
+        departmentId: this.state.departmentId,
         scheduleDate: this.state.scheduleDate,
         interval: this.state.interval
       }).then((res) => {
@@ -232,7 +235,9 @@ export default class Schedule extends Component {
               bordered
               rowKey={record => record.scheduleId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加排班</Button> }
-              style={{margin: 20 }}/>
+              style={{margin: 20 }}
+              pagination = { paginationProps }
+            />
           </div>
           <div>
             <Modal

@@ -95,7 +95,8 @@ export default class Record extends Component {
               dataSource={this.state.recordList}
               bordered
               rowKey={record => record.recordId}
-              style={{margin: 20 }}/>
+              style={{margin: 20}}
+            />
           </div>
         </Content>
       </Layout>

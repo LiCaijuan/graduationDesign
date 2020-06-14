@@ -6,6 +6,9 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 const { Content } = Layout;
+const paginationProps = {
+  pageSize: 8
+};
 const columns = [
   {
     title: '编号',
@@ -59,7 +62,7 @@ const columns = [
   },{
     title: '科室地址',
     dataIndex: 'address',
-    width: 300,
+    width: 260,
     key: 'address',
     align: 'center'
   },{
@@ -67,13 +70,13 @@ const columns = [
     dataIndex: 'orderDate',
     key: 'orderDate',
     align: 'center',
-    width: 100
+    width: 120
   },{
     title: '时段', 
     dataIndex: 'interval',
     key: 'interval',
     align: 'center',
-    width: 100
+    width: 120
   },{
     title: '操作',
     key: 'action',
@@ -153,7 +156,9 @@ export default class Record extends Component {
               dataSource={this.state.recordList}
               bordered
               rowKey={record => record.recordId}
-              style={{margin: 20 }}/>
+              style={{margin: 20 }}
+              pagination={ paginationProps }
+            />
           </div>
         </Content>
       </Layout>

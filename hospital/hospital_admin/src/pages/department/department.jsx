@@ -8,32 +8,10 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 const { Content } = Layout;
 const { TextArea } = Input;
-// const ResizeableTitle = props => {
-//   const { onResize, width, ...restProps } = props;
-//
-//   if (!width) {
-//     return <th {...restProps} />;
-//   }
-//
-//   return (
-//     <Resizable
-//       width={width}
-//       height={0}
-//       handle={
-//         <span
-//           className="react-resizable-handle"
-//           onClick={e => {
-//             e.stopPropagation();
-//           }}
-//         />
-//       }
-//       onResize={onResize}
-//       draggableOpts={{ enableUserSelectHack: false }}
-//     >
-//       <th {...restProps} />
-//     </Resizable>
-//   );
-// };
+const paginationProps = {
+  pageSize: 8
+};
+
 const layout = {
   labelCol: {
     span: 8,
@@ -73,7 +51,7 @@ export default class Department extends Component {
           title: '名称',
           dataIndex: 'departmentName',
           key: 'departmentName',
-          width: 80,
+          width: 95,
           fixed: 'left',
           align: 'center'
         },{
@@ -93,7 +71,7 @@ export default class Department extends Component {
           title: '擅长',
           dataIndex: 'departmentSpeciality',
           key: 'departmentSpeciality',
-          width: 500,
+          width: 480,
           align: 'center',
           ellipsis: true,
         },{
@@ -119,11 +97,6 @@ export default class Department extends Component {
       ]
     }
   }
-  // components = {
-  //   header: {
-  //     cell: ResizeableTitle,
-  //   },
-  // };
   componentDidMount () {
     this.getDepartmentList()
   }
@@ -291,7 +264,9 @@ export default class Department extends Component {
               scroll={{ x: 1800}}
               rowKey={record => record.departmentId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加科室</Button> }
-              style={{margin: 15 }}/>
+              style={{margin: 15 }}
+              pagination={ paginationProps }
+            />
           </div>
           <div>
             {/* <Button type="primary" onClick={this.showModal}>
