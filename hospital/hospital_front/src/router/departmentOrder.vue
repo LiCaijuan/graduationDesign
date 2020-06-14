@@ -138,17 +138,19 @@ export default {
       this.$router.go(-1)
     },
     onSubmit (values) {
-      console.log(values, 'sub')
+      // console.log(values, 'sub')
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'))
       // 调用接口，如果预约成功使得showActionsheet=false
       this.showActionsheet = false
       this.axios.post('/api/addOrder', {
         doctorType: this.doctorType,
         doctorName: this.doctorName,
         departmentName: this.departmentName,
-        orderDate: this.date,
+        orderDate: this.$store.state.departmentDate,
         interval: this.orderInterval,
-        userName: values.userName,
-        userPhone: values.userPhone,
+        userId: userInfo.userId,
+        userName: userInfo.username,
+        userPhone: userInfo.phone,
         userCard: values.userCard,
         address: this.departmentAddress
       }).then((res) => {

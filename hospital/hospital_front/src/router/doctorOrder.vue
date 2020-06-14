@@ -134,7 +134,6 @@ export default {
         departmentName: this.doctorDepartment
       }).then((res) => {
         this.address = res.data.result[0].departmentAddress
-        // console.log(this.address)
       }).catch((err) => {
         console.log(err)
       })
@@ -187,6 +186,9 @@ export default {
       })
     },
     onClickLeft () {
+      this.$store.commit('changeBackDate', {
+        backDate: this.date
+      })
       this.$router.go(-1)
     },
     onSubmit (values) {
@@ -207,14 +209,20 @@ export default {
         address: this.address
       }).then((res) => {
         Toast.success(res.data.msg)
-        // this.axios.post('/api/getScheduleByCondition', {
-        // })
-        // 预约成功删掉改时段
-        // if (res.data.code === 1) {
-        //   this.intervalList = this.intervalList.filter((item) => {
-        //     return item !== this.orderInterval
-        //   })
-        // }
+        if (res.data.code === 1) {
+          this.axios.post('/api/getScheduleByCondition', {
+            doctorId: this.doctorId,
+            departmentId: this.doctorDepartment,
+            scheduleDate: this.date,
+            interval: this.orderInterval
+          }).then((res) => {
+            console.log(res)
+          }).catch((err) => {
+            console.log(err)
+          })
+        } else {
+          console.log('test')
+        }
       }).catch((err) => {
         console.log(err)
       })

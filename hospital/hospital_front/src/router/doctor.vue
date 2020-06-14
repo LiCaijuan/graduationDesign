@@ -168,19 +168,19 @@ export default {
 
   mounted () {
     this.get_bodyHeight()
-    this.getDate()
+    this.getItemDate()
     this.getDoctorList()
   },
 
   methods: {
-    getDate () {
-      this.nowDate = (new Date()).getTime()
-      console.log(this.nowDate, 'date')
-      var yesterday = new Date(this.nowDate)
-      console.log(yesterday, 'yes')
-      this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' +
-          (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
-      console.log(this.myDate, this.nowDate, 'my')
+    getItemDate () {
+      if (this.$store.state.backDate) {
+        this.myDate = this.$store.state.backDate
+      } else {
+        this.nowDate = (new Date()).getTime()
+        var yesterday = new Date(this.nowDate)
+        this.myDate = yesterday.getFullYear() + '-' + (yesterday.getMonth() > 9 ? (yesterday.getMonth() + 1) : '0' + (yesterday.getMonth() + 1)) + '-' + (yesterday.getDate() > 9 ? (yesterday.getDate()) : '0' + (yesterday.getDate()))
+      }
     },
     preDay () {
       this.chiefList = []
@@ -324,7 +324,7 @@ export default {
     overflow: hidden; /*自动隐藏文字*/
     text-overflow: ellipsis;/*文字隐藏后添加省略号*/
     white-space: nowrap;/*强制不换行*/
-    width: 18em;/*不允许出现半汉字截断*/
+    width: 17em;/*不允许出现半汉字截断*/
   }
   .van-card__footer {
     font-size: 17px;

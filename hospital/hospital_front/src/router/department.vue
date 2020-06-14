@@ -139,13 +139,22 @@ export default {
           this.axios.post('/api/getDepartmentById', {
             departmentId: item
           }).then((res) => {
-            console.log(res, 'log')
-            this.departmentList = res.data.result
+            let department = res.data.result[0]
+            this.departmentList.push(department)
+            let obj = {}
+            this.departmentList = this.departmentList.reduce((item, next) => {
+              if (!obj[next.departmentName]) {
+                item.push(next)
+                obj[next.departmentName] = true
+              }
+              return item
+            }, [])
             this.isEmpty = this.departmentList.length > 0 ? false : true
           }).catch((err) => {
             console.log(err)
           })
         })
+        console.log(this.departmentList, 'list')
       }).catch((err) => {
         console.log(err)
       })
@@ -155,7 +164,7 @@ export default {
         departmentId: departmentId
       })
       this.$store.commit('changeDepartmentDate', {
-        departmentId: this.myDate
+        departmentDate: this.myDate
       })
       this.$router.push('./departmentOrder')
     }

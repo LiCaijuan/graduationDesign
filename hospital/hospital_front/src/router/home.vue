@@ -1,17 +1,6 @@
 <template>
   <div id="home" :style="'height:'+fullHeight-30+'px;'">
     <div class="home_content" v-show="active===0">
-      <div class="mainUp">
-<!--        <div class="searchDiv">-->
-<!--          <van-search-->
-<!--            shape="round"-->
-<!--            input-align="center"-->
-<!--            v-model="searchText"-->
-<!--            placeholder="搜索科室/医生"-->
-<!--            @search="onSearch"-->
-<!--          />-->
-<!--        </div>-->
-      </div>
       <div class="swipePart">
         <van-swipe :autoplay="3000" class="swipe_img">
           <van-swipe-item v-for="(image, index) in swipeImages" :key="index">
@@ -55,7 +44,6 @@
               :name="icon.department"
             />
           </div>
-          <!-- <img class="orderImg" src="../assets/img/department.png" alt="科室"> -->
           <p>找科室</p>
         </div>
         <div class="order" @click="report()">

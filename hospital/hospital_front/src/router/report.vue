@@ -10,16 +10,16 @@
       <van-swipe-cell>
         <van-card
           class="record_cell"
-          v-for="item in list"
+          v-for="item in reportList"
           :key="item.number"
         >
-          <div slot="bottom" class="van-card__bottom">就诊人： {{item.user}}</div>
-          <div slot="title" class="van-card__title">{{item.hospital}}</div>
-          <div slot="tags" class="card_tag">
-            <van-tag plain type="success" size="large">{{item.type}}</van-tag>
-          </div>
-          <div slot="desc" class="van-card__desc">{{item.doctor}} | {{item.department}}</div>
-            <div slot="footer" class="van-footer">就诊时间： {{item.time}}</div>
+          <div slot="bottom" class="van-card__bottom">就诊人： {{item.username}}</div>
+          <div slot="title" class="van-card__title">浙江省中医院下沙院区</div>
+<!--          <div slot="tags" class="card_tag">-->
+<!--            <van-tag plain type="success" size="large">{{item.type}}</van-tag>-->
+<!--          </div>-->
+          <div slot="desc" class="van-card__desc">{{item.department}}</div>
+            <div slot="footer" class="van-footer">报告日期： {{item.date}} | {{item.interval}}</div>
           </van-card>
         <van-button
           slot="right"
@@ -45,25 +45,7 @@ export default {
       icon: {
         username: 'gerenzhongxin-xiugaimima'
       },
-      list: [
-        {
-          number: 1,
-          hospital: '浙江省中医院',
-          doctor: '王大锤',
-          department: '内科',
-          user: '李哆啦',
-          time: '2020-03-15',
-          type: '专家号'
-        }, {
-          number: 2,
-          hospital: '浙江省中医院',
-          doctor: '肖恩',
-          department: '外科',
-          user: '李哆啦',
-          time: '2020-03-15 11:00-11:15',
-          type: '普通号'
-        }
-      ]
+      reportList: []
     }
   },
   watch: {
@@ -110,6 +92,7 @@ export default {
     },
     getReportList () {
       this.axios.post('/api/getReportList').then((res) => {
+        this.reportList = res.data.result
         console.log(res)
       }).catch((err) => {
         console.log(err)
@@ -173,6 +156,7 @@ export default {
   }
   .van-card__footer {
     font-size: 16px;
+    text-align: left;
   }
 
   .van-tag--success.van-tag--plain {
