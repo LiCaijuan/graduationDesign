@@ -22,11 +22,7 @@ const tailLayout = {
     span: 16,
   },
 };
-<<<<<<< HEAD
 const paginationProps = {
-=======
-const pagination = {
->>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
   pageSize: 8
 };
 
@@ -303,11 +299,7 @@ export default class Doctor extends Component {
               rowKey={record => record.doctorId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加医生</Button> }
               style={{margin: 15 }}
-<<<<<<< HEAD
               pagination={ paginationProps }
-=======
-              pagination={pagination}
->>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
             />
           </div>
           <div>

@@ -13,4 +13,7 @@
     <select id="queryByUsername" resultMap="BaseResultMap">
         SELECT * FROM `admin` WHERE username = #{username}
     </select>
+    <select id="getAdminList" resultMap="BaseResultMap">
+        SELECT * FROM `admin`
+    </select>
 </mapper>

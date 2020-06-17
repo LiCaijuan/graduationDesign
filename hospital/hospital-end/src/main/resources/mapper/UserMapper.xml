@@ -10,6 +10,9 @@
     <insert id="addUser" parameterType="com.example.demo.entity.User">
         INSERT INTO `user` (`username`,`password`,`phone`) VALUES(#{username},#{password},#{phone})
     </insert>
+    <select id="getUserList" resultMap="BaseResultMap">
+        SELECT * from `user`
+    </select>
     <select id="queryByUsername" resultMap="BaseResultMap">
         SELECT * FROM `user` WHERE phone = #{phone}
     </select>

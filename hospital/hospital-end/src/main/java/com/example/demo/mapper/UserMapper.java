@@ -14,4 +14,5 @@ public interface UserMapper {
     List<User> queryByUsername(String phone);
     int updateUser(@Param("user") User user);
     int deleteUser(int userId);
+    List<User> getUserList();
 }

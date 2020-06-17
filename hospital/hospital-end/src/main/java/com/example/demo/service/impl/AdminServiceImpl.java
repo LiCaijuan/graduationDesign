@@ -25,4 +25,10 @@ public class AdminServiceImpl implements AdminService {
         List<Admin> adminList = adminMapper.queryByUsername(username, password);
         return adminList;
     }
+
+    @Override
+    public List<Admin> getAdminList() {
+        List<Admin> adminList = adminMapper.getAdminList();
+        return adminList;
+    }
 }

@@ -100,5 +100,12 @@ public class UserController {
             return response;
         }
     }
+    @RequestMapping(value = "/getUserList", method = RequestMethod.POST)
+    public Response getUserList(@RequestBody User user) {
+        List<User> userList = userService.getUserList();
+        Response response = new Response();
+        response.setResponse(true, "查询成功", 1, userList);
+        return response;
+    }
 }
 

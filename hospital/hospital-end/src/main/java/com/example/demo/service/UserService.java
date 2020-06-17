@@ -11,4 +11,5 @@ public interface UserService {
     List<User> queryByUsername(String phone); //登录
     int UpdateUser(User user);
     int deleteUser(int userId);
+    List<User> getUserList();
 }

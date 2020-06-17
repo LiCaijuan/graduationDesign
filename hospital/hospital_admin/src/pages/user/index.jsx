@@ -60,12 +60,12 @@ export default class Record extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      recordList: []
+      userList: []
     }
   }
 
   componentDidMount() {
-    this.getRecordList()
+    this.getUserList()
   }
 
   success = (msg) => {
@@ -75,13 +75,13 @@ export default class Record extends Component {
     message.error(msg);
   };
 
-  getRecordList = () => {
-    axios.post('/getOrderList')
+  getUserList = () => {
+    axios.post('/getUserList')
       .then((res) => {
         this.setState({
-          recordList: res.result
+          userList: res.result
         })
-        console.log(this.state.recordList)
+        console.log(this.state.userList)
       })
       .catch((err) => {
         console.log(err)
@@ -95,15 +95,11 @@ export default class Record extends Component {
           <div>
             <Table
               columns={columns}
-              dataSource={this.state.recordList}
+              dataSource={this.state.userList}
               bordered
-              rowKey={record => record.recordId}
-<<<<<<< HEAD
-              style={{margin: 20}}
-=======
+              rowKey={user => user.userId}
               style={{margin: 20 }}
               pagination={pagination}
->>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
             />
           </div>
         </Content>

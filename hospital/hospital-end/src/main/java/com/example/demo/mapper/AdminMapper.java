@@ -10,6 +10,6 @@ import java.util.List;
 @Mapper
 public interface AdminMapper {
     int addAdmin(Admin admin);
-
+    List<Admin> getAdminList();
     List<Admin> queryByUsername(String username, String password);
 }

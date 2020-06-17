@@ -18,9 +18,9 @@ const { Sider, Content } = Layout;
 
 export default class Admin extends Component {
   render () {
-    const user = memoryUtils.user
-    if( !user || user._id ) {
-      return <Redirect to='/login' />
+    const user = JSON.parse(sessionStorage.getItem('adminInfo'))
+    if(!user || !user.username) {
+      return <Redirect to="/login" />
     }
     return(
       <Layout style={{height: '100%' }}>

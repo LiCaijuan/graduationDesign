@@ -19,37 +19,35 @@ const tailLayout = {
     span: 16,
   },
 };
-const onFinish = async(values) => {
-  console.log('Success:', values);
-  
-  // 解构赋值
-  const { username, password } = values;
-  axios.post('/queryByUsername', {
-    username: username,
-    password: password
-  }).then((res) => {
-    // 存到本地
-    console.log(res, 'res')
-    this.PaymentResponse.history.replcae('/')
-  }).catch((err) => {
-    console.log(err, 'err')
-  })
-    // console.log(response.data)
-    // const user = response.data
-    // memoryUtils.user = user
-  // this.PaymentResponse.history.replcae('/')
-};
+
 
 const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
 };
 
 export default class Login extends Component {
-  
+  onFinish = async(values) => {
+    console.log('Success:', values);
+
+    // 解构赋值
+    const { username, password } = values;
+    axios.post('/queryByUsername', {
+      username: username,
+      password: password
+    }).then((res) => {
+      console.log(res)
+      if (res.code === 1) {
+        sessionStorage.setItem('adminInfo', JSON.stringify({username: username, password: password}))
+        this.props.history.push('/')
+      }
+    }).catch((err) => {
+      console.log(err, 'err')
+    })
+  };
   render () {
     // 如果用户已经登陆，自动跳转到admin
-    const user = memoryUtils.user
-    if(user && user._id) {
+    const user = JSON.parse(sessionStorage.getItem('adminInfo'))
+    if(user && user.username) {
       return <Redirect to="/" />
     }
 
@@ -63,7 +61,7 @@ export default class Login extends Component {
             initialValues={{
               remember: true,
             }}
-            onFinish={onFinish}
+            onFinish={this.onFinish}
             onFinishFailed={onFinishFailed}
           >
             <br/>
@@ -123,19 +121,3 @@ export default class Login extends Component {
     )
   }
 }
-// 调用接口
-// const {username, password} = values
-// reqLogin(username,password).then(response => {
-
-// }).catch(error =>{
-
-// })
-
-// async加在这层函数外面
-// const {username, password} = values
-    // try{
-    //     const response = await reqLogin(username,password)
-    //     console.log(response.data)
-    // } catch (error) {
-
-    // }

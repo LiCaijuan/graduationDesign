@@ -8,13 +8,10 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 const { Content } = Layout;
 const { TextArea } = Input;
-<<<<<<< HEAD
 const paginationProps = {
   pageSize: 8
 };
 
-=======
->>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
 const layout = {
   labelCol: {
     span: 8,
@@ -57,11 +54,7 @@ export default class Department extends Component {
           title: '名称',
           dataIndex: 'departmentName',
           key: 'departmentName',
-<<<<<<< HEAD
-          width: 95,
-=======
           width: 90,
->>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
           fixed: 'left',
           align: 'center'
         },{
@@ -280,17 +273,11 @@ export default class Department extends Component {
               rowKey={record => record.departmentId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加科室</Button> }
               style={{margin: 15 }}
-<<<<<<< HEAD
               pagination={ paginationProps }
-=======
               pagination={pagination}
->>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
             />
           </div>
           <div>
-            {/* <Button type="primary" onClick={this.showModal}>
-              Modal
-            </Button> */}
             <Modal
               title="添加科室"
               visible={this.state.visible}
