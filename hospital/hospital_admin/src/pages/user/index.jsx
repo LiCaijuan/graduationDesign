@@ -32,30 +32,6 @@ const columns = [
 const pagination = {
   pageSize: 8
 };
-
-function showDeleteConfirm(orderId) {
-  confirm({
-    title: '确定删除此条预约记录吗？',
-    icon: <ExclamationCircleOutlined />,
-    content: '该操作无法撤回',
-    okText: '删除',
-    okType: 'danger',
-    cancelText: '取消',
-    onOk() {
-      axios.post('/api/deleteOrder', {
-        orderId: orderId
-      }).then((res) => {
-        alert(res.msg)
-      }).catch((err)=>{
-        console.log(err)
-      })
-      console.log('OK');
-    },
-    onCancel() {
-      console.log('Cancel');
-    },
-  });
-}
 export default class Record extends Component {
   constructor(props) {
     super(props)
