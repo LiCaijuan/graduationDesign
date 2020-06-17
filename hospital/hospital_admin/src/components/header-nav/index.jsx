@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import './index.less';
 import jsonp from 'jsonp'
+import menuList from '../../config/menuConfig'
 import { withRouter } from 'react-router-dom'
-// import {
-//   MenuUnfoldOutlined,
-//   MenuFoldOutlined,
-// } from '@ant-design/icons';
-// const { Header } = Layout;
-
 
 class HeaderNav extends Component {
   constructor(props) {
@@ -19,7 +14,6 @@ class HeaderNav extends Component {
     }
   }
   componentDidMount() {
-
     const url = `http://api.map.baidu.com/telematics/v3/weather?location=杭州&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`;
     jsonp(url, {}, (err, data) => {
       console.log('jsonp', err, data)
@@ -37,12 +31,20 @@ class HeaderNav extends Component {
 
     this.getTitle()
   }
+
   getTitle = () => {
-    const path = this.props.location.pathname
-    console.log(path, 'path')
+    const path = this.props.location.pathname;
+    let title
+    menuList.find(item => {
+      if (item.key === path) {
+        title = item.title
+      }
+    })
+    return title
   }
 
   render () {
+    const title = this.getTitle()
     return(
       <div className="HeaderNav" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
         <div className="header-top">
@@ -50,7 +52,7 @@ class HeaderNav extends Component {
           <a href="javascript:">退出</a>
         </div>
         <div className="header-bottom">
-          <div className="header-bottom-left">首页</div>
+          <div className="header-bottom-left">{title}</div>
           <div className="header-bottom-right">
             <span>{this.state.date}</span>
             <img src={this.state.dayPictureUrl} />

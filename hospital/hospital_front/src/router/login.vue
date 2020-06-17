@@ -78,7 +78,6 @@ export default {
         phone: this.phone,
         password: this.password
       }).then((res) => {
-        console.log(res)
         this.$router.push('/')
         this.$store.dispatch('userLogin', true)
         localStorage.setItem('Flag', 'isLogin')

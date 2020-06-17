@@ -21,7 +21,11 @@ const tailLayout = {
     span: 16,
   },
 };
+<<<<<<< HEAD
 const paginationProps = {
+=======
+const pagination = {
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
   pageSize: 8
 };
 function disabledDate(current) {
@@ -236,7 +240,11 @@ export default class Schedule extends Component {
               rowKey={record => record.scheduleId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加排班</Button> }
               style={{margin: 20 }}
+<<<<<<< HEAD
               pagination = { paginationProps }
+=======
+              pagination={pagination}
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
             />
           </div>
           <div>

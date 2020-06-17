@@ -6,7 +6,11 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 const { Content } = Layout;
+<<<<<<< HEAD
 const paginationProps = {
+=======
+const pagination = {
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
   pageSize: 8
 };
 const columns = [
@@ -48,7 +52,7 @@ const columns = [
     dataIndex: 'doctorType',
     key: 'doctorType',
     fixed: 'left',
-    width: 100,
+    width: 130,
     align: 'center',
     render: (text, record) => (
       <span>{record.doctorType===1?'主任医师':record.doctorType===2?'副主任医师':record.doctorType===3?'主治医师':'住院医师'}</span>
@@ -62,7 +66,11 @@ const columns = [
   },{
     title: '科室地址',
     dataIndex: 'address',
+<<<<<<< HEAD
     width: 260,
+=======
+    width: 200,
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
     key: 'address',
     align: 'center'
   },{
@@ -70,13 +78,21 @@ const columns = [
     dataIndex: 'orderDate',
     key: 'orderDate',
     align: 'center',
+<<<<<<< HEAD
     width: 120
+=======
+    width: 130
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
   },{
     title: '时段', 
     dataIndex: 'interval',
     key: 'interval',
     align: 'center',
+<<<<<<< HEAD
     width: 120
+=======
+    width: 130
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
   },{
     title: '操作',
     key: 'action',
@@ -157,7 +173,11 @@ export default class Record extends Component {
               bordered
               rowKey={record => record.recordId}
               style={{margin: 20 }}
+<<<<<<< HEAD
               pagination={ paginationProps }
+=======
+              pagination={pagination}
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
             />
           </div>
         </Content>

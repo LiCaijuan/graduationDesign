@@ -23,7 +23,11 @@ const tailLayout = {
     span: 16,
   },
 };
+<<<<<<< HEAD
 const paginationProps = {
+=======
+const pagination = {
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
   pageSize: 8
 };
 
@@ -264,7 +268,11 @@ export default class Report extends Component {
               rowKey={record => record.reportId}
               title={() => <Button type="primary" size='large' onClick={this.showModal}>添加报告</Button> }
               style={{margin: 20 }}
+<<<<<<< HEAD
               pagination={ paginationProps }
+=======
+              pagination={pagination}
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
             />
           </div>
           <div>

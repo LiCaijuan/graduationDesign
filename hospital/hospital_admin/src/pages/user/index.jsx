@@ -29,6 +29,9 @@ const columns = [
     align: 'center'
   }
 ];
+const pagination = {
+  pageSize: 8
+};
 
 function showDeleteConfirm(orderId) {
   confirm({
@@ -95,7 +98,12 @@ export default class Record extends Component {
               dataSource={this.state.recordList}
               bordered
               rowKey={record => record.recordId}
+<<<<<<< HEAD
               style={{margin: 20}}
+=======
+              style={{margin: 20 }}
+              pagination={pagination}
+>>>>>>> d357e25f4edc516a76c47cd4a568558f737c724d
             />
           </div>
         </Content>

@@ -19,34 +19,91 @@ export default class Home extends Component {
     super(props);
     this.state = {
       orderList: [],
-      orderCount: []
+      orderCount: [],
+      reportList: [],
+      reportCount: [],
+      scheduleList: [],
+      scheduleCount: []
     }
   }
   componentDidMount() {
     this.getScheduleList()
+    this.getReportList()
+    this.getOrderList()
   }
 
+  getReportList = () => {
+    axios.post('/getReportList')
+        .then((res) => {
+          console.log(res)
+          const countedReport = res.result.reduce((allReport, report) =>{
+            if (report.date in allReport) {
+              allReport[report.date]++;
+            } else {
+              allReport[report.date] = 1;
+            }
+            return allReport;
+          }, {});
+          let reportList = [];
+          let reportCount = [];
+          for(let key in countedReport){
+            reportList.push(key);
+            reportCount.push(countedReport[key])
+          }
+          this.setState({
+            reportList: reportList,
+            reportCount: reportCount
+          })
+        }).catch((err) => {
+          console.log(err)
+    })
+  };
+  getOrderList = () => {
+    axios.post('/getOrderList')
+        .then((res) => {
+          const countedOrder = res.result.reduce((allOrder, order) =>{
+            if (order.orderDate in allOrder) {
+              allOrder[order.orderDate]++;
+            } else {
+              allOrder[order.orderDate] = 1;
+            }
+            return allOrder;
+          }, {});
+          let orderList = [];
+          let orderCount = [];
+          for(let key in countedOrder){
+            orderList.push(key);
+            orderCount.push(countedOrder[key])
+          }
+          this.setState({
+            orderList: orderList,
+            orderCount: orderCount
+          })
+          console.log(res)
+        }).catch((err) => {
+          console.log(err)
+    })
+  };
   getScheduleList = () => {
     axios.post('/getScheduleList')
     .then((res) => {
-      console.log(res, 'res')
-      var countedOrder = res.result.reduce((allOrder, order) =>{
-        if (order.scheduleDate in allOrder) {
-          allOrder[order.scheduleDate]++;
+      const countedSchedule = res.result.reduce((allSchedule, schedule) =>{
+        if (schedule.scheduleDate in allSchedule) {
+          allSchedule[schedule.scheduleDate]++;
         } else {
-          allOrder[order.scheduleDate] = 1;
+          allSchedule[schedule.scheduleDate] = 1;
         }
-        return allOrder;
+        return allSchedule;
       }, {});
-      let orderList = [];
-      let orderCount = [];
-      for(let key in countedOrder){
-        orderList.push(key);
-        orderCount.push(countedOrder[key])
+      let scheduleList = [];
+      let scheduleCount = [];
+      for(let key in countedSchedule){
+        scheduleList.push(key);
+        scheduleCount.push(countedSchedule[key])
       }
       this.setState({
-        orderList: orderList,
-        orderCount: orderCount
+        scheduleList: scheduleList,
+        scheduleCount: scheduleCount
       })
     })
   }
@@ -54,7 +111,7 @@ export default class Home extends Component {
   getOption = ()=>{
     let option = {
       title: {
-        text: '折线图二',
+        text: '预约热门科室',
         x: 'center'
       },
       tooltip:{
@@ -79,7 +136,7 @@ export default class Home extends Component {
   getMonthOrder = () => {
     let mongthOption = {
       title: {
-        text: '当月预约情况',
+        text: '预约分析',
         x: 'center'
       },
       tooltip: {
@@ -100,7 +157,7 @@ export default class Home extends Component {
         }
       },
       series: [{
-        name: '预约总人次',
+        name: '排班总数',
         type: 'line',
         data: this.state.orderCount,
         markPoint: {
@@ -121,7 +178,7 @@ export default class Home extends Component {
   getMonthSchedule = () => {
     let mongthOption = {
       title: {
-        text: '当月预约情况',
+        text: '排班分析',
         x: 'center'
       },
       tooltip: {
@@ -133,7 +190,7 @@ export default class Home extends Component {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: this.state.orderList
+        data: this.state.scheduleList
       },
       yAxis: {
         type: 'value',
@@ -144,7 +201,7 @@ export default class Home extends Component {
       series: [{
         name: '预约总人次',
         type: 'line',
-        data: this.state.orderCount,
+        data: this.state.scheduleCount,
         markPoint: {
           data: [
             {type: 'max', name: '最大值'},
@@ -159,11 +216,53 @@ export default class Home extends Component {
       },
     ]};
     return mongthOption;
+  };
+  getReport = () => {
+    let reportOption = {
+      title: {
+        text: '报告分析',
+        x: 'center'
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      legend: {
+        data: ['最高气温', '最低气温']
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: this.state.reportList
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          formatter: '{value}人次'
+        }
+      },
+      series: [{
+        name: '预约总人次',
+        type: 'line',
+        data: this.state.reportCount,
+        markPoint: {
+          data: [
+            {type: 'max', name: '最大值'},
+            {type: 'min', name: '最小值'}
+          ]
+        },
+        markLine: {
+          data: [
+            {type: 'average', name: '平均值'}
+          ]
+        }
+      },
+      ]};
+    return reportOption;
   }
   render () {
     return(
-      <Layout style={{height: '100%',padding: 10 }}>
-        <Content style={{margin: 10, background: '#fff'}}>
+      <Layout style={{height: '100%'}}>
+        <Content style={{ background: '#fff'}}>
             <Card.Grid className="line_b">
                 <ReactEcharts option={this.getMonthOrder()}/>
             </Card.Grid>
@@ -171,7 +270,7 @@ export default class Home extends Component {
                 <ReactEcharts option={this.getMonthSchedule()}/>
             </Card.Grid>
             <Card.Grid className="line_b">
-                <ReactEcharts option={this.getOption()}/>
+                <ReactEcharts option={this.getReport()}/>
             </Card.Grid>
             <Card.Grid className="line_b">
                 <ReactEcharts option={this.getOption()}/>

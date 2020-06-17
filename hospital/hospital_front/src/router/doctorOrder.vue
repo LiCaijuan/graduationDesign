@@ -180,7 +180,6 @@ export default {
         this.doctorImg = doctor.doctorImg
         this.doctorSpeciality = doctor.doctorSpeciality
         this.doctorSynopsis = doctor.doctorSynopsis
-        console.log(this.doctorDepartment, 'name')
       }).catch((err) => {
         console.log(err)
       })

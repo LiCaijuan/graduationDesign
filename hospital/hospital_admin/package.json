@@ -13,6 +13,7 @@
     "echarts": "^4.2.1",
     "echarts-for-react": "^2.0.15-beta.0",
     "http-proxy-middleware": "^1.0.3",
+    "jsonp": "^0.2.1",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "react": "^16.13.1",
